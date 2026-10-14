@@ -298,7 +298,7 @@ The ★ patterns are first choice **only for their content shape**. The Dominant
 |---|---|---|---|---|
 | `01_cover` | yes | `#012281` field cut by a diagonal edge (820→660), `#01185A` right panel | thin sky stripe along the diagonal; eyebrow uppercase sky, tracking 7; title display white; second line sky; right panel is the photo slot (grayscale photo + navy wash when available); logo top-left when supplied | white / sky / `#B3BDD9` |
 | `02_chapter` | partial | white page + square navy block x=0–440 full height | sky number square (128px) with white light number; English uppercase section title 56/900 black (`{{CHAPTER_LABEL}}`, e.g. "ABOUT COMPANY"); Korean title in navy beneath (`{{CHAPTER_TITLE}}`); short 5px navy rule; summary in body | black / navy / `#595959` |
-| `03_content` | no (light) | `#FFFFFF` | slide label 22/300 top-left (`{{PAGE_EYEBROW}}`, e.g. "회사 소개"); title rule = 133×5 navy segment + 2px navy line to x=1224 at y≈64–69; headline 30/800 centered at y=126; free content region x=56 y=160 w=1168 h=480; GM line centered y=680; page number bottom-right | black / `#595959` / `#666666` |
+| `03_content` | no (light) | `#FFFFFF` | slide label 22/300 top-left at y=60 (`{{PAGE_EYEBROW}}`, e.g. "회사 소개"); title rule = 133×5 navy segment + 2px navy line to x=1224 at y≈72–77; headline 30/800 centered at y=130; free content region x=56 y=160 w=1168 h=480; GM line centered y=680; page number bottom-right | black / `#595959` / `#666666` |
 | `04_ending` | yes | full `#012281` | everything centered; sky tracked eyebrow + 80px sky rule; display headline white; sky highlight line; contact line; logo centered above the eyebrow when supplied | white / sky / `#B3BDD9` |
 
 ### 6.1 Page anatomy (1280×720)
@@ -306,9 +306,9 @@ The ★ patterns are first choice **only for their content shape**. The Dominant
 ```
 Content slide (03_content)
 ┌──────────────────────────────────────────────────────────┐
-│ 회사 소개                         ← slide label (y≈50)    │
-│ ▬▬▬▬━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ← navy rule (y 64–69)  │
-│        고객의 니즈를 Business Impact로 전환합니다          │ ← headline centered (baseline 126)
+│ 회사 소개                         ← slide label (y≈60)    │
+│ ▬▬▬▬━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ← navy rule (y 72–77)  │
+│        고객의 니즈를 Business Impact로 전환합니다          │ ← headline centered (baseline 130)
 │                                                          │
 │  Body / content area  (x 56–1224, y 160–640, h 480)      │
 │                                                          │
