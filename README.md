@@ -142,3 +142,21 @@ cafe_alert/
   app.py      1회 점검 흐름
 .github/workflows/cafe-alert.yml   10분 주기 실행
 ```
+
+---
+
+## 부록: slide-svg 슬라이드 생성기
+
+이 저장소에는 [byungjunjang/slide-svg](https://github.com/byungjunjang/slide-svg)(커밋 `ae46738`)가 함께 들어 있습니다.
+Claude Code에서 `/slide`, `/slide-plan`, `/theme-init` 스킬로 편집 가능한 16:9 네이티브 PPTX를 만듭니다.
+자세한 사용법은 [README-slide-svg.md](README-slide-svg.md), 작업 규칙은 [CLAUDE.md](CLAUDE.md)를 참고하세요.
+
+최초 1회 의존성 설치 (카페 알림용 `requirements.txt`와 분리되어 있음):
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -r requirements-slide.txt
+.claude/skills/slide/scripts/_py.sh .claude/skills/slide/scripts/preflight.py   # "[preflight] PASS" 확인
+```
+
+그다음 Claude Code에서 `/slide AI 도입 효과 발표 8장 만들어줘`처럼 요청하면 `output/<주제>/`에 PPTX가 생성됩니다(`output/`은 git에서 제외).

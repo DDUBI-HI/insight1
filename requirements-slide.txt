@@ -1,0 +1,3 @@
+# slide-svg 슬라이드 생성기 의존성 (카페 알림용 requirements.txt와 분리)
+# 설치: pip install -r requirements-slide.txt
+-r .claude/skills/slide/requirements.txt
