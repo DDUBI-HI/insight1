@@ -1,0 +1,98 @@
+{
+  "name": "Insightlearning",
+  "version": 1,
+  "meta": { "source": "2026 인싸이트러닝 회사소개서 (PDF, 26 slides) — colors sampled from the rendered slides" },
+  "color": {
+    "themes": [{ "id": "light", "name": "Light" }],
+    "tokens": [
+      { "name": "navy", "value": "#012281", "usage": "Insight Navy — the brand color. Section blocks, cover fields, process chevrons, table headers, chart bars, title rules, emphasized Korean subtitles. Text on `surface`, `surface-card`, `surface-tile` (13.6:1)." },
+      { "name": "sky", "value": "#58ccff", "usage": "Accent on navy only: eyebrows (COMPANY PROFILE 2026), highlighted words in headlines, labels inside `NavyPanel`, the short rule under panel titles, the 02 section block, diagnostic chevrons. 7.4:1 on `navy`. Never text on white (1.8:1)." },
+      { "name": "chart-blue", "value": "#58a6f6", "usage": "Second chart series (분야별 비중, 과정별 실적) beside `navy` bars, and the year labels on light cards (2023-2024). Source value is 2.6:1 on white — use only at 20px+ or for bars, keep body text in ink tokens." },
+      { "name": "steel", "value": "#486fb0", "usage": "Row-header column of level tables (임원 / 부장 / 팀장…) under a `navy` top row. White text on it is 5.0:1." },
+      { "name": "ink-navy", "value": "#1f375d", "usage": "English card titles on light cards (Enterprise Experience, Performance Management, IT Technical & Application). 11.9:1 on `surface`." },
+      { "name": "ink", "value": "#000000", "usage": "Slide headlines and display titles (ABOUT COMPANY) on `surface`." },
+      { "name": "ink-strong", "value": "#333333", "usage": "Stat numbers (2014, 10+), card titles in Korean, text on `sky` chevrons. 11:1 on `surface-tile`." },
+      { "name": "ink-body", "value": "#595959", "usage": "Body copy and bullet lists on `surface` (7:1) and `surface-tile` (6.1:1)." },
+      { "name": "ink-muted", "value": "#666666", "usage": "Secondary values in key–value lists (회사명 → 인싸이트러닝(주)) and captions on `surface-card` (5.4:1)." },
+      { "name": "ink-subtle", "value": "#a5a5a5", "usage": "Chart axis ticks and English subtitles under Korean titles (Strength). Source value is 2.5:1 on white — decorative or 24px+ only, never body copy." },
+      { "name": "surface", "value": "#ffffff", "usage": "Slide and page background." },
+      { "name": "surface-card", "value": "#f8f8f8", "usage": "Rounded content cards (기획·전략, 고객사 비전/전략 확인), stat cards, the contact card." },
+      { "name": "surface-tile", "value": "#efefef", "usage": "Timeline cards, client-industry rows and the small competency tags." },
+      { "name": "surface-alt", "value": "#f2f2f2", "usage": "Header bands of strength cards and the table-of-contents captions." },
+      { "name": "tint-sky", "value": "#e0edf3", "usage": "The one highlighted card in a row (2026~ 프로젝트 확대) and highlighted phrases. `navy` text on it is 11.4:1." },
+      { "name": "line", "value": "#dfdfdf", "usage": "Hairline dividers between list sections, table cell borders, chart gridlines." },
+      { "name": "on-navy", "value": "#ffffff", "usage": "Text and logo on `navy` and `steel`." }
+    ]
+  },
+  "type": {
+    "fonts": [
+      { "family": "Pretendard", "file": "fonts/PretendardVariable.woff2", "weight": "45 920" }
+    ],
+    "families": {
+      "sans": "Pretendard, \"Apple SD Gothic Neo\", \"Malgun Gothic\", system-ui, sans-serif",
+      "display": "\"Noto Sans KR\", Pretendard, \"Malgun Gothic\", sans-serif"
+    },
+    "groups": [
+      {
+        "name": "Display",
+        "family": "display",
+        "styles": [
+          { "name": "display-xl", "fontSize": "72px", "lineHeight": 1.0, "fontWeight": 900, "letterSpacing": "-0.01em", "sample": "ABOUT COMPANY", "usage": "Section openers (ABOUT COMPANY, OUR SERVICE, OUR EXPERIENCE). Uppercase English, `ink` on white or `on-navy` on navy." },
+          { "name": "hero", "fontSize": "58px", "lineHeight": 1.2, "fontWeight": 700, "letterSpacing": "-0.03em", "family": "sans", "sample": "Customized HRD for Business Performance", "usage": "Cover headline, white on `navy`." }
+        ]
+      },
+      {
+        "name": "Slide",
+        "family": "sans",
+        "styles": [
+          { "name": "eyebrow", "fontSize": "20px", "lineHeight": 1.2, "fontWeight": 400, "letterSpacing": "0.4em", "sample": "COMPANY PROFILE 2026", "usage": "Uppercase, widely tracked, in `sky` on `navy`." },
+          { "name": "section-number", "fontSize": "40px", "lineHeight": 1.0, "fontWeight": 300, "sample": "01", "usage": "Two-digit number inside the section block." },
+          { "name": "headline", "fontSize": "33px", "lineHeight": 1.3, "fontWeight": 800, "letterSpacing": "-0.03em", "sample": "고객이 인싸이트러닝을 선택하는 5가지 이유", "usage": "The one centered message per slide, `ink`." },
+          { "name": "slide-label", "fontSize": "28px", "lineHeight": 1.2, "fontWeight": 300, "letterSpacing": "-0.02em", "sample": "회사 소개", "usage": "Top-left slide label above the double rule." },
+          { "name": "lead", "fontSize": "16px", "lineHeight": 1.6, "fontWeight": 400, "letterSpacing": "-0.02em", "sample": "니즈 진단부터 성과 평가까지, 교육의 전 과정을 하나의 프로젝트로 관리합니다.", "usage": "One sentence under the headline, `ink-strong`." }
+        ]
+      },
+      {
+        "name": "Content",
+        "family": "sans",
+        "styles": [
+          { "name": "stat", "fontSize": "46px", "lineHeight": 1.1, "fontWeight": 800, "sample": "665", "usage": "Large figures in stat cards and navy panels." },
+          { "name": "card-title-en", "fontSize": "28px", "lineHeight": 1.25, "fontWeight": 600, "sample": "Enterprise Experience", "usage": "English card titles, `ink-navy`." },
+          { "name": "card-title", "fontSize": "19px", "lineHeight": 1.4, "fontWeight": 700, "sample": "기획·전략", "usage": "Korean card and panel titles." },
+          { "name": "body", "fontSize": "17px", "lineHeight": 1.65, "fontWeight": 400, "sample": "조직·직무·대상·이슈별 고객사 전용 과정 설계", "usage": "Card text and bullets, `ink-body`." },
+          { "name": "small", "fontSize": "14px", "lineHeight": 1.6, "fontWeight": 400, "sample": "사업비전·전략과제 · FGI · 문헌조사", "usage": "Tags, table cells, chart labels." },
+          { "name": "label", "fontSize": "14px", "lineHeight": 1.3, "fontWeight": 600, "letterSpacing": "0.02em", "sample": "OUTPUT", "usage": "Uppercase category labels (OUTPUT, PARTNERS, TECH / MANUFACTURING)." }
+        ]
+      }
+    ]
+  },
+  "spacing": {
+    "tokens": [
+      { "name": "space-1", "value": "4px", "usage": "Icon-to-text nudge, gap inside a tag." },
+      { "name": "space-2", "value": "8px", "usage": "Between a title and its subtitle; between bullets." },
+      { "name": "space-3", "value": "12px", "usage": "Gap between tags; chevron overlap." },
+      { "name": "space-4", "value": "16px", "usage": "Gap between cards in a grid." },
+      { "name": "space-5", "value": "20px", "usage": "Card padding." },
+      { "name": "space-6", "value": "32px", "usage": "Navy panel padding; headline to subtitle block." },
+      { "name": "space-8", "value": "48px", "usage": "Headline block to slide content." },
+      { "name": "space-10", "value": "80px", "usage": "Slide side margin on a 1440px canvas." }
+    ]
+  },
+  "radius": {
+    "tokens": [
+      { "name": "radius-none", "value": "0px", "usage": "Section blocks, navy feature panels, chevrons, tables — the brand's square shapes." },
+      { "name": "radius-sm", "value": "6px", "usage": "Competency tags and certification chips." },
+      { "name": "radius-md", "value": "14px", "usage": "Light content cards and stat cards." },
+      { "name": "radius-lg", "value": "28px", "usage": "Large navy summary panels (TOTAL PROGRAM, PARTNERS)." },
+      { "name": "radius-full", "value": "9999px", "usage": "Icon discs and program-category circles." }
+    ]
+  },
+  "stroke": {
+    "note": "Line weights for rules and dividers.",
+    "tokens": [
+      { "name": "stroke-hairline", "value": "1px", "usage": "Dividers, table borders, chart gridlines in `line`." },
+      { "name": "stroke-rule", "value": "2px", "usage": "The long thin part of the slide-title rule and column dividers, in `navy`." },
+      { "name": "stroke-rule-bold", "value": "6px", "usage": "The short thick segment that starts every slide-title rule (150px wide), and the bar atop job-competency columns." }
+    ]
+  }
+}

@@ -1,12 +1,12 @@
-# Role: Executor (Jangpm)
+# Role: Executor (Insightlearning)
 
-> The single executor role for the `slide` skill; Jangpm is a single visual language. Technical SVG constraints are in `shared-standards.md`. Design tokens are in `design-system.md`; structural anti-patterns in `anti-slop-core.md`; theme-literal enforcement in `anti-slop-theme.md`.
+> The single executor role for the `slide` skill; Insightlearning is a single visual language. Technical SVG constraints are in `shared-standards.md`. Design tokens are in `design-system.md`; structural anti-patterns in `anti-slop-core.md`; theme-literal enforcement in `anti-slop-theme.md`.
 
 ---
 
 ## Core Mission
 
-Take the Strategist's Design Spec + Content Outline and generate SVG pages page-by-page into `<project_path>/svg_output/`, then write speaker notes to `<project_path>/notes/total.md`. Every page follows the active-theme (Jangpm) visual language: monochrome + single `#4633E3` accent, font chain `Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif`, 1280×720, editorial, analytical, declarative tone.
+Take the Strategist's Design Spec + Content Outline and generate SVG pages page-by-page into `<project_path>/svg_output/`, then write speaker notes to `<project_path>/notes/total.md`. Every page follows the active-theme (Insightlearning) visual language: monochrome + single `#012281` accent, font chain `Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif`, 1280×720, consultative, confident, polite declarative (~합니다 / ~하겠습니다), contrast-framed tone.
 
 ---
 
@@ -25,7 +25,7 @@ Two upstream sources may feed this Executor. Identify which one is active before
 
 The plan is a **content rationale + family + chart_strategy** contract — NOT a visual recipe. The Executor RETAINS full authority over:
 
-- **Pattern within family** — pick from `templates/layouts/jangpm/DESIGN.md` §5.1 hybrid catalog by **content shape** (DESIGN.md §5.1 has the content-shape → first-choice-primitive table). Hybrid patterns to consider: `ruled-list-with-eyebrow`, `columns-with-vertical-rules`, `chart-led-with-takeaway-stack`, `table-with-adjacent-cards`, `definition-with-side-data`, `paired-concept-asymmetric`, `breakdown-with-anchor-stat`, `process-with-callout-band`, `mapping-grid`, `icon-explainer-with-metric-inline`, `quote-with-attribution-data`. Whichever ★ patterns the preset marks as its signature are first-choice for **list-of-items / parallel-components** content only — NOT a universal default. For data-led content use `chart-led-with-takeaway-stack`; for comparison use `table-with-adjacent-cards`; for sequence use `process-with-callout-band`; for stat-anchored use `breakdown-with-anchor-stat`. The Dominant Primitive Cap (§0.1 #4 below) prevents 3+ consecutive slides from sharing any single primitive.
+- **Pattern within family** — pick from `templates/layouts/insightlearning/DESIGN.md` §5.1 hybrid catalog by **content shape** (DESIGN.md §5.1 has the content-shape → first-choice-primitive table). Hybrid patterns to consider: `ruled-list-with-eyebrow`, `columns-with-vertical-rules`, `chart-led-with-takeaway-stack`, `table-with-adjacent-cards`, `definition-with-side-data`, `paired-concept-asymmetric`, `breakdown-with-anchor-stat`, `process-with-callout-band`, `mapping-grid`, `icon-explainer-with-metric-inline`, `quote-with-attribution-data`. Whichever ★ patterns the preset marks as its signature are first-choice for **list-of-items / parallel-components** content only — NOT a universal default. For data-led content use `chart-led-with-takeaway-stack`; for comparison use `table-with-adjacent-cards`; for sequence use `process-with-callout-band`; for stat-anchored use `breakdown-with-anchor-stat`. The Dominant Primitive Cap (§0.1 #4 below) prevents 3+ consecutive slides from sharing any single primitive.
 - **Variation within pattern** — once the pattern is chosen, pick ONE variation from `DESIGN.md §5.2 Variation Inspirations` (or mark `표준` when the unembellished anchor is genuinely correct). Record the chosen variation in the per-page audit (§2). Target ≥ 70% of body slides on a non-`표준` variation across the deck. Same variation MUST NOT repeat 3+ times even if the underlying pattern repeats.
 - **Multi-element composition** — even when plan's `content_blocks[]` lists a single block_type, body slides MUST add ≥1 supporting visual block. Single block_type slides are reserved for `page_family: title | chapter | end`.
 - **Per-page geometry** — column count, card width, internal padding, vertical rhythm.
@@ -52,7 +52,7 @@ The plan is a **content rationale + family + chart_strategy** contract — NOT a
 
    **Why a hard cap**: 3+ consecutive `boxed-cards` produces "every slide looks the same" decks. 3+ consecutive `hairline-list` produces "monolithic editorial gray" decks. Forced primitive rotation is what actually creates visual rhythm.
 
-When in doubt, look at how the canonical Jangpm reference deck composes a body slide: typically 1 primary visual (chart/table/diagram) + 1–2 supporting cards + 1 verdict/takeaway band. A page that reduces to "headline + cards" is the failure mode this skill exists to prevent.
+When in doubt, look at how the canonical Insightlearning reference deck composes a body slide: typically 1 primary visual (chart/table/diagram) + 1–2 supporting cards + 1 verdict/takeaway band. A page that reduces to "headline + cards" is the failure mode this skill exists to prevent.
 
 In **Standalone** mode the Executor selects both family and pattern — the autonomy contract above already matches Standalone defaults.
 
@@ -70,7 +70,7 @@ The Strategist's Design Spec (and, when present, `slide_plan.json`) may carry a 
 
 ## 1. Template Adherence
 
-The **Jangpm** template pack at `templates/layouts/jangpm/` is the only layout pack this skill uses. These shells are the composed deck skeleton (see DESIGN.md §6.0) — inherit their geometry, decoration, and band exactly; only replace the named content placeholders:
+The **Insightlearning** template pack at `templates/layouts/insightlearning/` is the only layout pack this skill uses. These shells are the composed deck skeleton (see DESIGN.md §6.0) — inherit their geometry, decoration, and band exactly; only replace the named content placeholders:
 
 | Page Type | Template | Adherence |
 |-----------|----------|-----------|
@@ -79,11 +79,13 @@ The **Jangpm** template pack at `templates/layouts/jangpm/` is the only layout p
 | Content | `03_content.svg` | Inherit headline bar + GM + page-number row. **Content area** (x=56, y=160, w=1168, h=480) is freely composed by Executor within the active-theme rules |
 | Ending | `04_ending.svg` | Inherit layout/band; replace `{{CLOSING_LABEL}}`, `{{CLOSING_HEADLINE}}`, `{{CLOSING_ACCENT}}`, `{{CONTACT_LINE}}`, `{{PRESENTER}}`, `{{DATE}}` |
 
+> **Narrative band (this theme).** The narrative shells (cover / chapter / ending) render full-bleed on the band fill `#012281`; their text already uses `shell-text` / `shell-accent` and any `shell-spectrum` decoration is baked into the shell. Do NOT recolor those text elements to the light-mode `text`/`accent` — inherit them verbatim. The **content shell (`03_content.svg`) stays light** and is the only canvas you compose freely: never paint the band fill or a spectrum hue onto a content slide (anti-slop Rule T9).
+
 
 ### Page-Template Mapping Declaration (Required Before Each Page)
 
 ```
-📝 **Template mapping**: `templates/layouts/jangpm/03_content.svg`
+📝 **Template mapping**: `templates/layouts/insightlearning/03_content.svg`
 🎯 **Adherence rules / layout strategy**: [brief note — e.g., "Headline + three-card grid + GM"]
 ```
 
@@ -97,11 +99,11 @@ Before generating page 1, output a confirmation block reading the Design Spec's 
 
 ```
 ✅ Canvas: 1280×720 (ppt169)
-✅ Color: monochrome + #4633E3 accent (max 1–2 accent events per slide)
-✅ Typography: active-theme weights 400/500/600/700/800
-✅ Body baseline: 15.2px (active-theme standard) — or 18.4px for relaxed density
+✅ Color: monochrome + #012281 accent (max 1–2 accent events per slide)
+✅ Typography: active-theme weights 400/400/700/800/700
+✅ Body baseline: 15.2px (active-theme standard) — or 17px for relaxed density
 ✅ Font family chain: Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif
-✅ GM line: present on every content slide, y=680, 15.2px / 700 / #6B7280 / centered
+✅ GM line: present on every content slide, y=680, 15.2px / 700 / #595959 / centered
 ```
 
 If any value conflicts with the Design Spec, stop — the Strategist's spec has drifted from the active-theme lock. Do NOT proceed.
@@ -122,14 +124,14 @@ Then run the mechanical gate on the page and fix every safe-area / text-overlap 
 ${SKILL_DIR}/scripts/_py.sh ${SKILL_DIR}/scripts/svg_quality_checker.py <project_path>/svg_output/<page>.svg
 ```
 
-The checker measures real glyph advances, so its bounds and overlap numbers are the SSOT — don't hand-compute them. The composition rules it does not count still hold on every page: ≤ 2 accent events (#4633E3/#E8E5FC; a chart opacity ladder counts as 1), ≥ 3 distinct type-scale steps (display 56 / headline 32 / title 18.4 / body 15.2 / caption 12.8), and text left-edges on the §4 column grid.
+The checker measures real glyph advances, so its bounds and overlap numbers are the SSOT — don't hand-compute them. The composition rules it does not count still hold on every page: ≤ 2 accent events (#012281/#E0EDF3; a chart opacity ladder counts as 1), ≥ 3 distinct type-scale steps (display 52 / headline 30 / title 17 / body 15.2 / caption 12.8), and text left-edges on the §4 column grid.
 
 > **Variation applied — purpose**: Body slides default to the anchor pattern unless the executor consciously selects one of the variation inspirations from `DESIGN.md §5.2`. Recording the chosen variation per slide breaks the "anchor copy" failure mode and forces intentional differentiation across the deck. **Target: ≥ 70% of body slides apply a non-`표준` variation across the full deck.** `표준` is allowed when the content genuinely needs the unembellished anchor (rare).
 
 **Remediation rules (apply in this order):**
 
 - **Variation = `표준` on a body slide AND ≥ 2 of the previous 3 body slides also `표준`**: pick one variation from this pattern's §5.2 Variation Inspirations and apply it (move 1 row to accent-soft, swap to mega-number lead, drop a divider band, asymmetric column split, etc.). Never apply more than one variation per slide — the cap of 2 accent events still holds.
-- **Accent > 2** (excluding chart ladders): downgrade the least semantically loaded accent use to `#1A1A1A` (text) or `#E5E7EB` (border).
+- **Accent > 2** (excluding chart ladders): downgrade the least semantically loaded accent use to `#000000` (text) or `#DFDFDF` (border).
 - **Focal point unclear**: promote one element (enlarge, bolden, accent) until it reaches ≥2× weight of the next-largest.
 - **GM restates title**: rewrite as an editorial insight.
 - **Type levels < 3**: add or re-weight a label/caption line to create a missing tier (uppercase eyebrow, promote a metric to title size).
@@ -167,8 +169,8 @@ This audit applies to **content slides only**. Cover / chapter / ending pages ar
   2. **Logic Construction Phase** — after all SVGs are finalized, batch-write speaker notes for narrative coherence
 - **Proximity principle** — related elements close together; unrelated groups separated by increased space or a rule line
 - **Absolute spec adherence** — Canvas size, color palette, typography scale, and layout grid come from the Design Spec. No improvisation.
-- **Jangpm anti-slop** — Read `anti-slop-core.md` (structural rules) and `anti-slop-theme.md` (active-theme literal enforcement) once at session start; apply both (see §6 below for executor-relevant summary)
-- **Visual depth via hierarchy, not effects** — Jangpm rejects filter shadows, glow, gradient overlays, same-hue gradient title bars, numbered circles with theme-fill backgrounds. Create depth through typographic contrast, rule lines, card containment (sparingly), and whitespace — NOT through visual effects.
+- **Insightlearning anti-slop** — Read `anti-slop-core.md` (structural rules) and `anti-slop-theme.md` (active-theme literal enforcement) once at session start; apply both (see §6 below for executor-relevant summary)
+- **Visual depth via hierarchy, not effects** — Insightlearning rejects filter shadows, glow, gradient overlays, same-hue gradient title bars, numbered circles with theme-fill backgrounds. Create depth through typographic contrast, rule lines, card containment (sparingly), and whitespace — NOT through visual effects.
 
 ### SVG File Naming Convention
 
@@ -185,7 +187,7 @@ Use underscores, not spaces. File names with special characters are allowed if t
 
 ---
 
-## 4. Layout Techniques (Jangpm-Compatible)
+## 4. Layout Techniques (Insightlearning-Compatible)
 
 Flexible compositions within the content area (x=56, y=160, w=1168, h=480):
 
@@ -197,14 +199,14 @@ Flexible compositions within the content area (x=56, y=160, w=1168, h=480):
 | Four-column cards | 4-point overview, matrix | x=56, 352, 648, 944 each w=272, gap 24 |
 | Top-bottom split | Chart + commentary, title + grid | Top y=160 h=200 / gap 24 / Bottom y=384 h=256 |
 | Single hero + grid | Primary stat + secondary points | Hero y=160 h=240 / Grid y=424 h=216 |
-| Report list with rule lines | Text-primary slides (anti Rule 15) | Stack items with `<line stroke="#E5E7EB" stroke-width="1"/>` between |
+| Report list with rule lines | Text-primary slides (anti Rule 15) | Stack items with `<line stroke="#DFDFDF" stroke-width="1"/>` between |
 
 Every layout MUST preserve:
 - Headline bar at top (y=56–140)
-- GM line at y=680 (centered, `#6B7280`, 15.2px, 700)
-- Page number at top-right or bottom-right (caption size, `#9CA3AF`)
+- GM line at y=680 (centered, `#595959`, 15.2px, 700)
+- Page number at top-right or bottom-right (caption size, `#666666`)
 
-### Column-Count Sizing (Jangpm: Breath Over Symmetry)
+### Column-Count Sizing (Insightlearning: Breath Over Symmetry)
 
 Before picking a layout from the table above, **measure the longest body sentence** that will go on the slide. The chosen layout's inner column width must hold that sentence on ONE line with ≥10% headroom at 15.2px / 18.4px body size. Rule of thumb:
 
@@ -217,25 +219,25 @@ Before picking a layout from the table above, **measure the longest body sentenc
 
 Korean char width ≈ `fs × 0.95`. Latin char width ≈ `fs × 0.52`. If the longest sentence would require breaking on the visually "balanced" layout, **drop a column instead of breaking the sentence** — visual breath (one sentence, one line) is worth more than column symmetry. Never equalize columns at the cost of legibility. The two deadly sins: (a) four cards with bodies that all run 2-3 lines because the cards are 272px wide, (b) a 2-column split where every bullet wraps because the copy needed 1-col width.
 
-### Card Differentiation Rule (Jangpm)
+### Card Differentiation Rule (Insightlearning)
 
-In any card grid, **at least one** card should be visually distinct: background `#E8E5FC` (accent-soft) OR a highlighted metric with `#4633E3` fill. Equal-weight all-white cards are a design smell.
+In any card grid, **at least one** card should be visually distinct: background `#E0EDF3` (accent-soft) OR a highlighted metric with `#012281` fill. Equal-weight all-white cards are a design smell.
 
 Max accent events per slide: **1–2**. Never color every card with accent-soft.
 
-**Card treatment (active theme):** hairline — a card `<rect>` uses a `#FFFFFF` fill + `1px #E5E7EB` stroke, radius 12.
+**Card treatment (active theme):** filled — a card `<rect>` uses a `#F2F2F2` fill, **no** stroke, radius 12.
 
-### Chart Colors (Jangpm Lock)
+### Chart Colors (Insightlearning Lock)
 
-When using a template from `templates/charts/`, **override every fill and stroke**. Charts under Jangpm use:
+When using a template from `templates/charts/`, **override every fill and stroke**. Charts under Insightlearning use:
 
-- Primary series: `#4633E3` at full opacity
-- Secondary series: `#4633E3` at opacity 0.6
+- Primary series: `#012281` at full opacity
+- Secondary series: `#012281` at opacity 0.6
 - Tertiary: 0.4
 - Quaternary: 0.25
-- Grid / axis: `#E5E7EB`
-- Axis labels: `#6B7280` 12.8px
-- Chart title (if separate from headline): `#1A1A1A` 18.4px 600
+- Grid / axis: `#DFDFDF`
+- Axis labels: `#595959` 12.8px
+- Chart title (if separate from headline): `#000000` 17px 600
 
 Never use the chart template's original palette (mckinsey blues, rainbow, etc.). Never introduce a second hue.
 
@@ -320,8 +322,8 @@ Concept → tabler-outline icon (common picks):
 Full lists in `anti-slop-core.md` (structural rules) and `anti-slop-theme.md` (theme-literal rules). The executor must respect every rule in both files; the structural rules that bite hardest during SVG generation:
 
 1. **No gradient orbs** — no radial gradients as background decoration
-2. **No rainbow / gradient borders** — all borders are `1px solid #E5E7EB`
-3. **No gradient text** — fills are solid `#1A1A1A` or `#4633E3` only
+2. **No rainbow / gradient borders** — all borders are `1px solid #DFDFDF`
+3. **No gradient text** — fills are solid `#000000` or `#012281` only
 4. **No hover scale / translateY** — static SVGs anyway; never add transitions
 5. **No glow effects** — no `filter: drop-shadow(... rgba(…,0.5))` with colored glow
 6. **No decorative animations** — no `<animate>`, no `<animateTransform>`
@@ -342,7 +344,7 @@ Full lists in `anti-slop-core.md` (structural rules) and `anti-slop-theme.md` (t
 
 Every **content** slide (page type `content`) MUST render a `.gm` line at the bottom:
 - Position: y=680, `text-anchor="middle"`, x=640
-- Style: `font-family` = full active-theme font chain, `font-size="15.2"`, `font-weight="700"`, `fill="#6B7280"`
+- Style: `font-family` = full active-theme font chain, `font-size="15.2"`, `font-weight="700"`, `fill="#595959"`
 - Content: one-sentence Korean (or deck language) takeaway — the "so-what"
 - NOT a restatement of the title; the editorial lesson
 
@@ -370,7 +372,7 @@ For chart types outside the 21 (sankey, gantt, SWOT, …) or when browsing compo
 Read templates/charts/<chart_name>.svg
 ```
 
-Extract layout coordinates, card structure, spacing rhythm as creative reference — then redraw in the Jangpm palette (accent + opacity ladder). Do NOT copy the template's colors verbatim. Re-reading is needed only when the chart type changes.
+Extract layout coordinates, card structure, spacing rhythm as creative reference — then redraw in the Insightlearning palette (accent + opacity ladder). Do NOT copy the template's colors verbatim. Re-reading is needed only when the chart type changes.
 
 Full index: `templates/charts/charts_index.json` (52 templates).
 
@@ -405,19 +407,19 @@ Placeholder:
 
 ```xml
 <rect x="56" y="180" width="560" height="315"
-      fill="#F5F5F4" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="8,4"/>
+      fill="#F2F2F2" stroke="#DFDFDF" stroke-width="1" stroke-dasharray="8,4"/>
 <text x="336" y="340" text-anchor="middle"
-      font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif" font-size="15.2" fill="#9CA3AF">
+      font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif" font-size="15.2" fill="#666666">
   [Pending: market_overview.png]
 </text>
 ```
 
-### Jangpm Illustration Style
+### Insightlearning Illustration Style
 
-When AI-generated illustrations are used (via Image_Generator), they MUST match the Jangpm visual-assets recipe:
-- **minimal flat illustration**, **muted / pastel tones**, **clean solid #FAFAF9 background**, **line-art style**, **no gradients, no glow, no 3D renders**
-- Match the page background `#FAFAF9`; tones that harmonize with the active palette (see `image-generator.md` §🔒 for the full active-theme style lock)
-- Brand character: `.claude/skills/slide/templates/layouts/jangpm/assets/brand/jangpm-character.png`. When provided, it can be used on slides that benefit from an instructor persona; when not provided, omit persona slides entirely.
+When AI-generated illustrations are used (via Image_Generator), they MUST match the Insightlearning visual-assets recipe:
+- **minimal flat illustration**, **muted / pastel tones**, **clean solid #FFFFFF background**, **line-art style**, **no gradients, no glow, no 3D renders**
+- Match the page background `#FFFFFF`; tones that harmonize with the active palette (see `image-generator.md` §🔒 for the full active-theme style lock)
+- Brand character: `_(not provided)_`. When provided, it can be used on slides that benefit from an instructor persona; when not provided, omit persona slides entirely.
 
 ---
 
@@ -430,30 +432,30 @@ Every `<text>` element MUST include the full font-family chain:
       font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
       font-size="32" font-weight="700"
       letter-spacing="-0.64"
-      fill="#1A1A1A">
+      fill="#000000">
   페이지 제목
 </text>
 ```
 
 | Role | Size (px) | Weight | Letter-spacing |
 |------|-----------|--------|----------------|
-| Display | 56 | 800 | -1.68 |
-| Display-sm | 40 | 800 | -0.8 |
-| Headline | 32 | 700 | -0.64 |
-| Title | 18.4 | 600 | 0.0 |
-| Body | 15.2 | 400 | 0.0 |
-| Caption | 12.8 | 500 | 0.0 |
-| Label (uppercase) | 12.8 | 600 | 0.64 (with `text-transform: uppercase` equivalent — SVG: write content in actual uppercase) |
+| Display | 52 | 700 | -1.56 |
+| Display-sm | 41 | 800 | -0.8 |
+| Headline | 30 | 800 | -0.9 |
+| Title | 17 | 700 | -0.34 |
+| Body | 15.2 | 400 | -0.3 |
+| Caption | 12.8 | 400 | 0.0 |
+| Label (uppercase) | 12.8 | 600 | 0.26 (with `text-transform: uppercase` equivalent — SVG: write content in actual uppercase) |
 
 Color:
-- Primary text: `#1A1A1A`
-- Secondary: `#6B7280`
-- Tertiary: `#9CA3AF`
-- Accent: `#4633E3` — use sparingly (title emphasis, hero stat)
+- Primary text: `#000000`
+- Secondary: `#595959`
+- Tertiary: `#666666`
+- Accent: `#012281` — use sparingly (title emphasis, hero stat)
 
 ### Never
 
-- Pure black `#000000` (use `#1A1A1A`)
+- Pure black `#000000` (use `#000000`)
 - Gradient fills on text
 - Multiple weight/color combinations within a single text element (use sibling `<tspan>` with consistent attributes)
 
@@ -499,7 +501,7 @@ Labels MUST match deck content language. Never mix English markers with Korean b
 
 ### Voice
 
-Jangpm's editorial voice extends to the speaker notes: declarative, analytical, third-person institutional. Avoid direct address ("여러분"), marketing tone, and motivational cheerleading. The notes are the instructor's analytic gloss, not a sales pitch.
+Insightlearning's editorial voice extends to the speaker notes: declarative, analytical, third-person institutional. Avoid direct address ("여러분"), marketing tone, and motivational cheerleading. The notes are the instructor's analytic gloss, not a sales pitch.
 
 ### Task 2. Split into Per-Page Files
 
@@ -526,16 +528,16 @@ Each command runs in its own bash call — never bundled into one block. See `re
 
 ---
 
-## 12. Self-check (Jangpm)
+## 12. Self-check (Insightlearning)
 
 Final pre-save verification (items covered by §2 Per-Page Self-Audit are omitted here):
 
-- [ ] Background is `#FAFAF9` (not white, not pure black)
-- [ ] Text primary is `#1A1A1A`, not `#000000`
+- [ ] Background is `#FFFFFF` (not white, not pure black)
+- [ ] Text primary is `#000000`, not `#000000`
 - [ ] No gradients, no glow, no filter-shadow with color, no multi-hue
 - [ ] Every `<text>` has the full active-theme font-family chain (`Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif`)
 - [ ] Icons are from `tabler-outline/` (bare line art, no wrapper), 2px stroke
-- [ ] Grid spacing is 8-multiple; card radius 12px; borders `1px solid #E5E7EB`
+- [ ] Grid spacing is 8-multiple; card radius 12px; borders `1px solid #DFDFDF`
 - [ ] Filename is `NN_<korean_name>.svg` with two-digit prefix
 - [ ] Text density controlled (≤4–5 bullets, ≤4 cards)
 - [ ] Works in grayscale first (remove accent mentally — does hierarchy still hold?)

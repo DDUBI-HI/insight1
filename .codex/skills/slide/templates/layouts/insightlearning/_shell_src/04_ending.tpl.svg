@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Insightlearning — 04 Ending (composed shell) -->
+  <!-- Signature: full navy field, everything centered (logo slot above the label), sky rule + sky highlight -->
+
+  <rect width="1280" height="720" fill="{{TOKEN:colors.shell-bg}}"/>
+
+  <!-- Eyebrow (centered, tracked, sky) -->
+  <text x="640" y="240" font-family="{{TOKEN:typography.font-chain}}"
+        font-size="18" font-weight="400" letter-spacing="7" text-anchor="middle"
+        fill="{{TOKEN:colors.shell-accent}}">
+    {{CLOSING_LABEL}}
+  </text>
+
+  <!-- Short sky rule -->
+  <rect x="600" y="262" width="80" height="3" fill="{{TOKEN:colors.shell-accent}}"/>
+
+  <!-- Closing headline (Display) -->
+  <text x="640" y="350" font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.display.size}}" font-weight="{{TOKEN:typography.display.weight}}"
+        letter-spacing="{{TOKEN:typography.display.letter-spacing}}" text-anchor="middle"
+        fill="{{TOKEN:colors.shell-text}}">
+    {{CLOSING_HEADLINE}}
+  </text>
+
+  <!-- Highlight line (sky) -->
+  <text x="640" y="414" font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.display-sm.size}}" font-weight="{{TOKEN:typography.display-sm.weight}}"
+        letter-spacing="{{TOKEN:typography.display-sm.letter-spacing}}" text-anchor="middle"
+        fill="{{TOKEN:colors.shell-accent}}">
+    {{CLOSING_ACCENT}}
+  </text>
+
+  <!-- Contact line -->
+  <text x="640" y="478" font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.title.size}}" font-weight="{{TOKEN:typography.title.weight}}" text-anchor="middle"
+        fill="{{TOKEN:colors.shell-text}}">
+    {{CONTACT_LINE}}
+  </text>
+
+  <!-- Presenter footer -->
+  <text x="640" y="670" font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.caption.size}}" font-weight="{{TOKEN:typography.caption.weight}}" text-anchor="middle"
+        fill="{{TOKEN:colors.shell-text-secondary}}">
+    {{PRESENTER}} · {{DATE}}
+  </text>
+</svg>

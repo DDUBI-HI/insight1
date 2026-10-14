@@ -75,9 +75,9 @@ new Chart(ctx, {
       data: [10, 20, 15],
       // Single-accent opacity ladder — active theme accent (anti-slop Rule T4). Never multi-hue.
       backgroundColor: [
-        'rgba(70, 51, 227, 0.85)',
-        'rgba(70, 51, 227, 0.6)',
-        'rgba(70, 51, 227, 0.4)'
+        'rgba(1, 34, 129, 0.85)',
+        'rgba(1, 34, 129, 0.6)',
+        'rgba(1, 34, 129, 0.4)'
       ]
     }]
   },

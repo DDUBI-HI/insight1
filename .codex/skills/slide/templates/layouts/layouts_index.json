@@ -1,23 +1,57 @@
 {
   "meta": {
-    "total": 1,
+    "total": 2,
     "defaultViewBox": "0 0 1280 720",
-    "formats": ["ppt169"],
-    "standardFiles": ["design_spec.md", "01_cover.svg", "02_chapter.svg", "03_content.svg", "04_ending.svg"],
-    "standardPageTypes": ["cover", "chapter", "content", "ending"],
+    "formats": [
+      "ppt169"
+    ],
+    "standardFiles": [
+      "design_spec.md",
+      "01_cover.svg",
+      "02_chapter.svg",
+      "03_content.svg",
+      "04_ending.svg"
+    ],
+    "standardPageTypes": [
+      "cover",
+      "chapter",
+      "content",
+      "ending"
+    ],
     "updated": "2026-04-22"
   },
   "categories": {
     "jangpm": {
       "label": "Jangpm Design System",
-      "layouts": ["jangpm"]
+      "layouts": [
+        "jangpm"
+      ]
+    },
+    "insightlearning": {
+      "label": "Insightlearning Design System",
+      "layouts": [
+        "insightlearning"
+      ]
     }
   },
   "quickLookup": {
-    "default": ["jangpm"],
-    "lecture": ["jangpm"],
-    "report": ["jangpm"],
-    "korean": ["jangpm"]
+    "default": [
+      "insightlearning"
+    ],
+    "lecture": [
+      "jangpm"
+    ],
+    "report": [
+      "insightlearning",
+      "jangpm"
+    ],
+    "korean": [
+      "insightlearning",
+      "jangpm"
+    ],
+    "hrd": [
+      "insightlearning"
+    ]
   },
   "layouts": {
     "jangpm": {
@@ -26,7 +60,34 @@
       "tone": "Editorial, minimal, report-style, restrained. Notion/Linear/Vercel sensibility adapted to Korean instructional content.",
       "themeMode": "Light only — warm off-white `#FAFAF9` background, `#1A1A1A` text, `#4633E3` single accent.",
       "assets": [],
-      "keywords": ["Korean", "lecture", "monochrome", "indigo accent", "Pretendard", "report-style", "Jangpm", "1280x720"]
+      "keywords": [
+        "Korean",
+        "lecture",
+        "monochrome",
+        "indigo accent",
+        "Pretendard",
+        "report-style",
+        "Jangpm",
+        "1280x720"
+      ]
+    },
+    "insightlearning": {
+      "label": "Insightlearning Company Deck",
+      "summary": "인싸이트러닝 HRD consulting deck: navy-first (#012281), square navy fields, sky (#58CCFF) only on navy narrative shells, filled light cards, top-left slide label + navy title rule + centered headline. Pretendard. Every content slide ends with a `.gm` line.",
+      "tone": "Consultative, confident, polite declarative (~합니다), contrast-framed (A보다 B). Quiet, evidence-led company-profile register.",
+      "themeMode": "Light content on #FFFFFF with #F8F8F8 filled cards; navy #012281 cover / chapter block / closing.",
+      "assets": [],
+      "keywords": [
+        "Korean",
+        "HRD",
+        "consulting",
+        "company profile",
+        "navy",
+        "Insightlearning",
+        "인싸이트러닝",
+        "Pretendard",
+        "1280x720"
+      ]
     }
   }
 }
