@@ -1,7 +1,5 @@
 # slide-svg
 
-> **이 저장소 안내:** 이 문서는 함께 포함된 slide-svg 슬라이드 생성기 규칙입니다. 루트의 `cafe_alert/`, `config.yaml`, `tests/`, `requirements.txt`, `.github/workflows/cafe-alert.yml`은 별개의 카페 교육문의 알림 프로젝트이므로 슬라이드 작업에서 수정하지 마세요. 슬라이드 의존성은 `requirements-slide.txt`로 설치합니다.
-
 ## Source of Truth
 
 **This file is the project SSOT.** Before any slide task, read `.claude/skills/slide/SKILL.md` for the full workflow and execution rules. If another skill's conventions conflict with this document, this document wins.
