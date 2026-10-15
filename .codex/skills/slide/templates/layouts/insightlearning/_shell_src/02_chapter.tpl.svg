@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Insightlearning — 02 Chapter / Section opener (composed shell) -->
+  <!-- Signature: square navy section block on the left with the two-digit number in a sky square;
+       English uppercase section title in heavy display on white, Korean title beneath in navy -->
+
+  <rect width="1280" height="720" fill="{{TOKEN:colors.bg}}"/>
+
+  <!-- Navy section block (square, full height) -->
+  <rect x="0" y="0" width="440" height="720" fill="{{TOKEN:colors.shell-bg}}"/>
+
+  <!-- Sky number block -->
+  <rect x="72" y="232" width="128" height="128" fill="{{TOKEN:colors.shell-accent}}"/>
+  <text x="136" y="314" font-family="{{TOKEN:typography.font-chain}}"
+        font-size="48" font-weight="300" text-anchor="middle"
+        fill="{{TOKEN:colors.shell-text}}">
+    {{CHAPTER_NUMBER}}
+  </text>
+
+  <!-- English section title (uppercase, heavy display) -->
+  <text x="520" y="318" font-family="{{TOKEN:typography.font-chain}}"
+        font-size="56" font-weight="900" letter-spacing="-0.56"
+        fill="{{TOKEN:colors.text}}">
+    {{CHAPTER_LABEL}}
+  </text>
+
+  <!-- Korean title beneath, in navy -->
+  <text x="520" y="374" font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.headline.size}}" font-weight="{{TOKEN:typography.headline.weight}}"
+        letter-spacing="{{TOKEN:typography.headline.letter-spacing}}"
+        fill="{{TOKEN:colors.accent}}">
+    {{CHAPTER_TITLE}}
+  </text>
+
+  <!-- Title rule: short bold segment -->
+  <rect x="520" y="402" width="133" height="5" fill="{{TOKEN:colors.accent}}"/>
+
+  <!-- Supporting line -->
+  <text x="520" y="448" font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.body.size}}" font-weight="{{TOKEN:typography.body.weight}}"
+        letter-spacing="{{TOKEN:typography.body.letter-spacing}}"
+        fill="{{TOKEN:colors.text-secondary}}">
+    {{CHAPTER_SUMMARY}}
+  </text>
+
+  <!-- Page number (bottom right) -->
+  <text x="1224" y="696" font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.caption.size}}" font-weight="{{TOKEN:typography.caption.weight}}"
+        text-anchor="end"
+        fill="{{TOKEN:colors.text-tertiary}}">
+    {{PAGE_NUM}}
+  </text>
+</svg>

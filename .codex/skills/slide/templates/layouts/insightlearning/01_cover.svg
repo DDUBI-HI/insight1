@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Insightlearning — 01 Cover (composed shell) -->
+  <!-- Signature: navy field on the left cut by a diagonal edge, thin sky stripe along the cut,
+       darker navy panel on the right (place a grayscale photo with navy wash here when available) -->
+
+  <!-- Right panel (photo slot) -->
+  <rect width="1280" height="720" fill="#01185A"/>
+
+  <!-- Navy field with diagonal edge -->
+  <polygon points="0,0 820,0 660,720 0,720" fill="#012281"/>
+
+  <!-- Thin sky stripe along the cut -->
+  <polygon points="820,0 828,0 668,720 660,720" fill="#58CCFF"/>
+
+  <!-- Eyebrow (uppercase, widely tracked, sky) -->
+  <text x="72" y="210" font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="18" font-weight="400" letter-spacing="7"
+        fill="#58CCFF">
+    {{EYEBROW}}
+  </text>
+
+  <!-- Primary title (Display) -->
+  <text x="72" y="330" font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="52" font-weight="700"
+        letter-spacing="-1.56"
+        fill="#FFFFFF">
+    {{TITLE}}
+  </text>
+
+  <!-- Highlighted second line (sky on navy) -->
+  <text x="72" y="396" font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="41" font-weight="800"
+        letter-spacing="-0.8"
+        fill="#58CCFF">
+    {{TITLE_ACCENT}}
+  </text>
+
+  <!-- Subtitle (Title) -->
+  <text x="72" y="456" font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="17" font-weight="700"
+        fill="#FFFFFF">
+    {{SUBTITLE}}
+  </text>
+
+  <!-- Presenter / date line -->
+  <text x="72" y="656" font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="12.8" font-weight="400"
+        fill="#B3BDD9">
+    {{PRESENTER}} · {{DATE}}
+  </text>
+</svg>
