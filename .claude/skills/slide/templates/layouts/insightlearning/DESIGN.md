@@ -37,8 +37,8 @@ This preset is navy + light neutrals. The ONLY hex values that may appear in any
 | Token | Hex | Role |
 |---|---|---|
 | `--bg` | `#FFFFFF` | page background |
-| `--surface` | `#F8F8F8` | filled content card / stat card (guide: `surface-card`) |
-| `--surface-alt` | `#F2F2F2` | card header band, tag, timeline tile (guide: `surface-alt` / `surface-tile`) |
+| `--surface` | `#F8F8F8` | quiet container / table zebra (guide: `surface-card`) — not the card fill |
+| `--surface-alt` | `#F2F2F2` | **filled card** (`card_style: filled`, executor.md §4), table header row, timeline tile (guide: `surface-alt` / `surface-tile`) |
 | `--text` | `#000000` | headlines, display titles (guide: `ink`) |
 | `--text-secondary` | `#595959` | body copy, GM line (guide: `ink-body`) |
 | `--text-tertiary` | `#666666` | captions, key–value values, page numbers (guide: `ink-muted`) |
@@ -59,17 +59,17 @@ This preset is navy + light neutrals. The ONLY hex values that may appear in any
 
 - **Max 2 accent events per content slide** (Rule T2). An event = accent text, an accent-filled field (navy panel, navy table header, navy chevron row), or an accent-soft highlighted card. The shell's navy title rule is chrome and does not count.
 - A **navy panel / navy header row counts as one event**, however large. Inside it, text is `#FFFFFF`; its labels use `--accent-soft` (`#E0EDF3`) — never sky on a content slide.
-- **Card differentiation:** cards are `--surface` fills with no border. Exactly one card in a row may be lifted to `--accent-soft` (the "2026~ 프로젝트 확대" treatment). Never two.
+- **Card differentiation:** cards are `--surface-alt` (`#F2F2F2`) fills with no border; tags inside a card are `#FFFFFF`. Exactly one card in a row may be lifted to `--accent-soft` (the "2026~ 프로젝트 확대" treatment). Never two.
 - **Semantic colours** (`positive` / `negative` / `warning`) only when the colour encodes data meaning (growth vs decline). Never decorative, never for category labels.
 - **Chart palette:** navy opacity ladder — primary series `#012281` at 1.0, second series at 0.45, further series at 0.25 / 0.12. Gridlines `--border`.
 - **Contrast:** never set body text in a lighter value than `--text-tertiary`. Large numerals may be navy.
 
 ### 2.3 Background hierarchy
 
-`bg #FFFFFF` (slide) → `surface #F8F8F8` (filled card) → `surface-alt #F2F2F2` (card header band / tag / tile inside a card) → `accent-soft #E0EDF3` (the single highlighted item) → `accent #012281` (navy field: panel, header row, chevron).
+`bg #FFFFFF` (slide) → `surface-alt #F2F2F2` (filled card, table header) → `#FFFFFF` (tag inside a card) → `accent-soft #E0EDF3` (the single highlighted item) → `accent #012281` (navy field: panel, header row, chevron).
 
 - Skipping from `bg` straight to `accent-soft` is allowed only for the single highlight card in a row.
-- Never nest `surface` inside `surface`; use `surface-alt` for the inner tier.
+- Never nest a filled card inside a filled card; inner tags/chips go back to `#FFFFFF`.
 - Navy fields sit directly on `bg`, never inside a card.
 
 ---
@@ -172,12 +172,12 @@ This is the canonical vocabulary `slide-plan` writes into `recommended_layout_fa
 
 | Hybrid pattern | Composition | Best-fit roles | Notes |
 |---|---|---|---|
-| **navy-panel-with-card-grid** ★ | square navy panel in the left third (x=56, w≈360, full content height, `fill=#012281`, `rx=0`) holding a label (accent-soft, label tier), a 2-line claim (white, title/headline tier) and one big figure (white, display-sm); right two-thirds a 2×3 grid of `--surface` filled cards (`rx=12`, no border), each icon 24px + Korean title + 1–2 line body | `concept`, `solution`, `executive_summary`, `evidence` | **Insightlearning signature.** The panel is the slide's one accent event; cards stay monochrome. |
+| **navy-panel-with-card-grid** ★ | square navy panel in the left third (x=56, w≈360, full content height, `fill=#012281`, `rx=0`) holding a label (accent-soft, label tier), a 2-line claim (white, title/headline tier) and one big figure (white, display-sm); right two-thirds a 2×3 grid of `--surface-alt` filled cards (`rx=12`, no border), each icon 24px + Korean title + 1–2 line body | `concept`, `solution`, `executive_summary`, `evidence` | **Insightlearning signature.** The panel is the slide's one accent event; cards stay monochrome. |
 | **navy-header-table** ★ | table with a navy header row (white label text), first column row headers in navy at `fill-opacity=0.7` with white text, body cells `--bg` with `--border` hairlines, square corners | `comparison`, `concept`, `findings` | Use for level tables (임원 / 부장 / 팀장 / 신임) and service × deliverable matrices. Optional: one row lifted to `--accent-soft`. |
 | **chevron-process-with-output-row** ★ | row of 4–6 square navy chevrons (white step titles, the first 1–2 "diagnostic" chevrons at `fill-opacity=0.45` with `--text`), under each chevron a `--surface-alt` tile listing activities as `·`-joined noun phrases, and a bottom OUTPUT row (label + deliverables) | `process`, `solution`, `methodology` | The guide's 니즈 진단 → 설계 → 운영 → 평가 page. Chevrons overlap by 12px. |
 | **ruled-list-with-eyebrow** ★ | uppercase eyebrow + `--border` hairline + `label : body` rows separated by hairlines, no card boxes | `concept`, `recap`, `solution` | first choice for name + description lists (≥ 4 items) when a card grid would feel heavy |
 | **columns-with-vertical-rules** ★ | eyebrow + hairline + 3–4 columns split by vertical hairlines; each column a navy 5px top bar (133px or full column width) + title + body | `concept`, `breakdown`, `executive_summary` | guide's job-competency columns ("bar atop job-competency columns") |
-| **chart-led-with-takeaway-stack** | left chart ≈60% (navy opacity ladder) + right 2–3 stacked `--surface` cards (figure / trend / context) | `evidence`, `findings` | data family default |
+| **chart-led-with-takeaway-stack** | left chart ≈60% (navy opacity ladder) + right 2–3 stacked `--surface-alt` cards (figure / trend / context) | `evidence`, `findings` | data family default |
 | **table-with-adjacent-cards** | navy-header table ≈60% + right column of stat cards | `comparison`, `evidence` | |
 | **definition-with-side-data** | left claim block (headline-tier navy sentence + body) ≈50% + right stat cards or mini chart | `insight`, `concept` | carries the contrast rhetoric ("A보다 B") |
 | **breakdown-with-anchor-stat** | top row of 3–4 stat cards (display-sm figures: 2014 / 665 / 648 / 19,614) + bottom 1×3 explanation cards | `evidence`, `executive_summary` | company-profile "숫자로 보는" page |
@@ -201,7 +201,7 @@ This is the canonical vocabulary `slide-plan` writes into `recommended_layout_fa
 The ★ patterns are first choice **only for their content shape**. The Dominant Primitive Cap (executor.md §0.1 #4) still forbids 3+ consecutive slides on the same primitive.
 
 **Implementation discipline:**
-- Navy fields are square (`rx=0`). Rounding only on light cards (`rx=12`), tags (`rx=5`) and the two summary panels (`rx=25`). Icon discs are full circles.
+- Navy fields are square (`rx=0`). Rounding only on light cards (`rx=12`), tags (`rx=5`) and the two summary panels (`rx=25`).
 - Cards are filled `--surface`, no border, no shadow.
 - Hairlines are `<line stroke="#DFDFDF" stroke-width="1"/>`.
 - Lists inside cards are `·`-joined noun phrases, not sentence bullets.
@@ -216,13 +216,13 @@ The ★ patterns are first choice **only for their content shape**. The Dominant
 - **2×2 grid** — four larger cards with 3-line bodies instead of 2×3.
 - **Stat panel** — panel holds two stacked figures (display-sm) instead of a claim.
 - **Tag footer cards** — each card ends with a row of `--surface-alt` tags (`rx=5`, caption tier).
-- **Icon-disc cards** — card icons sit in 40px navy discs (white icon).
+- **Icon row cards** — every card leads with a 28px bare line icon beside its title (the 직무별 맞춤 page).
 
 #### `navy-header-table` ★
 - **Highlight row** — one row in `--accent-soft`.
 - **Check-mark matrix** — cells hold navy `tabler-filled/circle-check` icons instead of text.
 - **Grouped header** — two header tiers (category / sub-item).
-- **Side stat card** — narrow `--surface` stat card to the right of the table.
+- **Side stat card** — narrow `--surface-alt` stat card to the right of the table.
 - **Footer verdict row** — final full-span row with one sentence, `--surface-alt`.
 - **No row headers** — plain navy header + body rows (for short lists).
 
@@ -408,7 +408,7 @@ This preset honors the 9 rhetorical roles defined in `references/chart-rhetorica
 
 ### 8.4 Required adjacency: chart + takeaway
 
-Every `data` family slide pairs its chart with a takeaway: right column stack (`--surface` cards: display-sm figure + label + context line) or an `--accent-soft` verdict band directly below the chart. A chart without a takeaway fails Layer 1 R2 at plan time.
+Every `data` family slide pairs its chart with a takeaway: right column stack (`--surface-alt` cards: display-sm figure + label + context line) or an `--accent-soft` verdict band directly below the chart. A chart without a takeaway fails Layer 1 R2 at plan time.
 
 ---
 
@@ -439,7 +439,6 @@ ls assets/icons/tabler-outline/ | grep <keyword>
 ### 9.4 Sizing
 
 - Card icon: 24px, stroke 2, `--text`.
-- Icon disc: 40–56px navy circle with a white 24–28px icon (optional `--border` 2px ring).
 - Process-column solid icon: 28px navy (`tabler-filled`).
 - Inline icon: 16px.
 
@@ -451,7 +450,7 @@ ls assets/icons/tabler-outline/ | grep <keyword>
 
 ### 9.6 Icon wrappers / decorations
 
-Allowed: bare line icons on cards, or white icons in **navy discs** (the brand's only wrapper). Forbidden: coloured or semantic-soft badges, rounded-square icon tiles, sky-coloured icons on content slides.
+Bare line icons only (executor.md §5 forbids wrappers). The guide's navy icon discs are not used. Forbidden: discs, coloured or semantic-soft badges, rounded-square icon tiles, sky-coloured icons on content slides.
 
 ---
 
@@ -477,6 +476,21 @@ Allowed: bare line icons on cards, or white icons in **navy discs** (the brand's
 | A16 | Text-only body slide | no panel / card / table / chart / chevron / timeline | add a structural visual |
 | A17 | Colour photography on content slides | image block not grayscale | grayscale photo |
 | A18 | Off-palette hex | hex outside §2.1 | map to nearest token |
+
+---
+
+## 11. Production Notes (learned from the first Insightlearning deck)
+
+| # | Pitfall | Rule |
+|---|---|---|
+| P1 | `verify_deck.py` treats any page without `cover` / `chapter` / `closing` (English) in its filename as a content page and demands a GM line | Name narrative pages `01_cover.svg`, `NN_chapter_<한글>.svg`, `NN_closing.svg`; content pages keep Korean names |
+| P2 | Exported PPTX text boxes start a few px left of the SVG `x` | Keep ≥ 16px between a text start and the edge of a navy panel or filled block on its left |
+| P3 | Tag/chip width computed from byte length (bash `${#var}` without UTF-8 locale) comes out 3× too wide for Hangul | Size chips from character count (`len(text) × 13 + 24` at 12.8px) |
+| P4 | Sky `#58CCFF` on a content slide fails the theme-palette gate | Sky only on cover / chapter / closing shells; navy panels on content slides use `#E0EDF3` for labels |
+| P5 | Source photos are usually colour | Convert to grayscale (PIL `ImageOps.grayscale` + `autocontrast`) into `images/` before placing; cover photo goes in the right panel with a polygon `clipPath` and a navy `fill-opacity="0.35"` wash |
+| P6 | B-density counts newlines in the SVG source, so compact one-element-per-line markup reads as "thin" | Treat B-density as advisory for compact markup; judge density on the render (dominant visual + context + takeaway), never pad markup |
+| P7 | The content shell's long navy title rule always trips the top-right quiet-zone WARN | Expected shell chrome — ignore that single WARN; fix any other quiet-zone element |
+| P8 | `"외 N종"` reads as N+1 items | Write `"등 N종"` when listing one example of N |
 
 ---
 
