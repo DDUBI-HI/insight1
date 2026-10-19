@@ -729,7 +729,7 @@ def _build_run_xml(
         fill_xml = f'<a:solidFill><a:srgbClr val="{fill}">{alpha_xml}</a:srgbClr></a:solidFill>'
 
     return f'''<a:r>
-<a:rPr lang="zh-CN" sz="{sz}"{b_attr}{i_attr}{u_attr}{strike_attr} dirty="0">
+<a:rPr lang="ko-KR" sz="{sz}"{b_attr}{i_attr}{u_attr}{strike_attr} dirty="0">
 {fill_xml}
 <a:latin typeface="{_xml_escape(fonts['latin'])}"/>
 <a:ea typeface="{_xml_escape(fonts['ea'])}"/>

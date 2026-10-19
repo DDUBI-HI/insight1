@@ -43,6 +43,17 @@ EA_FONTS = {
 }
 SYSTEM_FONTS = {'system-ui', '-apple-system', 'BlinkMacSystemFont'}
 
+# Korean-capable fonts cover both Hangul and Latin, so they fill the latin
+# AND ea slots. Without this, a Korean chain like "Pretendard, ..., 'Malgun
+# Gothic'" only set latin and Hangul fell through to the Chinese ea default.
+KO_FONTS = {
+    'Pretendard', 'Pretendard Variable', 'Pretendard JP',
+    'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', 'Noto Serif KR',
+    'Noto Sans CJK KR', 'Source Han Sans KR', 'Nanum Gothic', 'NanumGothic',
+    'Nanum Myeongjo', 'NanumMyeongjo', 'Spoqa Han Sans Neo', 'SUIT',
+    'Gulim', 'Dotum', 'Batang', 'Gungsuh',
+}
+
 # macOS/Linux-only fonts -> Windows equivalents
 FONT_FALLBACK_WIN = {
     'PingFang SC': 'Microsoft YaHei',
@@ -69,6 +80,9 @@ FONT_FALLBACK_WIN = {
     'Source Han Serif TC': 'SimSun',
     'WenQuanYi Micro Hei': 'Microsoft YaHei',
     'WenQuanYi Zen Hei': 'Microsoft YaHei',
+    'Apple SD Gothic Neo': 'Malgun Gothic',
+    'Noto Sans CJK KR': 'Malgun Gothic',
+    'Source Han Sans KR': 'Malgun Gothic',
     # Latin fonts (macOS / Linux / Web -> Windows)
     'SF Pro': 'Segoe UI',
     'SF Pro Display': 'Segoe UI',
@@ -240,7 +254,7 @@ def parse_font_family(font_family_str: str) -> dict[str, str]:
     Windows. macOS/Linux-only fonts are mapped via FONT_FALLBACK_WIN.
     """
     if not font_family_str:
-        return {'latin': 'Segoe UI', 'ea': 'Microsoft YaHei'}
+        return {'latin': 'Segoe UI', 'ea': 'Malgun Gothic'}
 
     fonts = [f.strip().strip("'\"") for f in font_family_str.split(',')]
     latin_font = None
@@ -255,7 +269,10 @@ def parse_font_family(font_family_str: str) -> dict[str, str]:
             continue
 
         win_font = FONT_FALLBACK_WIN.get(font, font)
-        if font in EA_FONTS:
+        if font in KO_FONTS:
+            ea_font = ea_font or win_font
+            latin_font = latin_font or win_font
+        elif font in EA_FONTS:
             ea_font = ea_font or win_font
         else:
             latin_font = latin_font or win_font
@@ -266,9 +283,9 @@ def parse_font_family(font_family_str: str) -> dict[str, str]:
 
     final_latin = latin_font or 'Segoe UI'
 
-    # EA must always be a CJK-capable font
+    # EA must always be a CJK-capable font (Korean-first deck: Malgun/Batang)
     if not ea_font:
-        ea_font = 'SimSun' if final_latin in _SERIF_LATIN else 'Microsoft YaHei'
+        ea_font = 'Batang' if final_latin in _SERIF_LATIN else 'Malgun Gothic'
 
     return {'latin': final_latin, 'ea': ea_font}
 

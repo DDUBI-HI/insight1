@@ -72,17 +72,17 @@ def create_notes_slide_xml(slide_num: int, notes_text: str) -> str:
         if para.strip():
             paragraphs.append(f'''<a:p>
               <a:r>
-                <a:rPr lang="zh-CN" dirty="0"/>
+                <a:rPr lang="ko-KR" dirty="0"/>
                 <a:t>{para}</a:t>
               </a:r>
             </a:p>''')
         else:
-            paragraphs.append('<a:p><a:endParaRPr lang="zh-CN" dirty="0"/></a:p>')
+            paragraphs.append('<a:p><a:endParaRPr lang="ko-KR" dirty="0"/></a:p>')
 
     paragraphs_xml = (
         '\n            '.join(paragraphs)
         if paragraphs
-        else '<a:p><a:endParaRPr lang="zh-CN" dirty="0"/></a:p>'
+        else '<a:p><a:endParaRPr lang="ko-KR" dirty="0"/></a:p>'
     )
 
     return f'''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
