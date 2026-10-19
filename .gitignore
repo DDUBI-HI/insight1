@@ -4,3 +4,11 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .venv/
+
+# slide-svg
+# 생성된 덱은 버전 관리하지 않음
+output/
+.claude/settings.local.json
+.claude/logs/
+.claude/cache/
+.DS_Store

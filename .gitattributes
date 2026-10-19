@@ -1,0 +1,7 @@
+# Keep shell scripts LF even on Windows checkouts.
+#
+# The `_py.sh` python launcher (and any other *.sh) MUST stay LF: with
+# core.autocrlf=true a Windows clone would otherwise get CRLF, and bash then
+# fails with `bad interpreter: /usr/bin/env bash^M`. eol=lf overrides autocrlf
+# so these files are always checked out with LF.
+*.sh text eol=lf

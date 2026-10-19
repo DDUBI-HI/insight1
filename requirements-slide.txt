@@ -1,0 +1,4 @@
+# slide-svg (/slide, /slide-plan, /theme-init) Python 의존성.
+# 정본: .claude/skills/slide/requirements.txt — 의존성 변경은 그쪽에서 한다.
+# 루트 requirements.txt는 cafe_alert(GitHub Actions)용이라 분리해 둔다.
+-r .claude/skills/slide/requirements.txt
