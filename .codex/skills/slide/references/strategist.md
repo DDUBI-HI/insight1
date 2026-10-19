@@ -14,7 +14,7 @@ As a top-tier AI presentation strategist, receive source documents, perform cont
 
 ## Canvas Format — LOCKED
 
-Under the `slide` skill, the canvas is **always PPT 16:9 (1280×720)**. The active-theme design system (**Jangpm**) is calibrated exclusively to this size. Do NOT recommend alternatives. Users who need a different visual theme should run `/theme-init`; users who need a different canvas format must use a separate tool.
+Under the `slide` skill, the canvas is **always PPT 16:9 (1280×720)**. The active-theme design system (**Insightlearning**) is calibrated exclusively to this size. Do NOT recommend alternatives. Users who need a different visual theme should run `/theme-init`; users who need a different canvas format must use a separate tool.
 
 | Format | viewBox | Dimensions | Ratio |
 |--------|---------|------------|-------|
@@ -32,9 +32,9 @@ The design_spec.md output **MUST** follow this template's structure exactly (Sec
 
 ⛔ **BLOCKING**: After completing the read above, provide professional recommendations for the following eight items, then **present them as a bundled package to the user and wait for explicit confirmation or modifications**.
 
-> **Execution discipline**: This is the only BLOCKING checkpoint remaining in the pipeline under this skill (template selection is automatic — the active theme `jangpm` is always used). Once the user confirms these eight, the AI must automatically complete the Design Specification & Content Outline and seamlessly proceed to subsequent image generation (if applicable), SVG generation, and post-processing — no additional questions or pauses in between.
+> **Execution discipline**: This is the only BLOCKING checkpoint remaining in the pipeline under this skill (template selection is automatic — the active theme `insightlearning` is always used). Once the user confirms these eight, the AI must automatically complete the Design Specification & Content Outline and seamlessly proceed to subsequent image generation (if applicable), SVG generation, and post-processing — no additional questions or pauses in between.
 
-> **Active Theme Lock (`jangpm`)**: Items (a), (d), (e), (f), and (g) have **locked defaults** under this skill — present them to the user as confirmations (not choices). Only (b) page count, (c) key information, and (h) image approach are open, plus content-specific details.
+> **Active Theme Lock (`insightlearning`)**: Items (a), (d), (e), (f), and (g) have **locked defaults** under this skill — present them to the user as confirmations (not choices). Only (b) page count, (c) key information, and (h) image approach are open, plus content-specific details.
 
 ### a. Canvas Format — LOCKED
 
@@ -48,30 +48,30 @@ Provide specific page count recommendation based on source document content volu
 
 Confirm target audience, usage occasion, and core message; provide initial assessment based on document nature.
 
-### d. Style Objective — LOCKED (Jangpm)
+### d. Style Objective — LOCKED (Insightlearning)
 
-**Always Jangpm**: Editorial, minimal, Korean lecture / report visual language. Notion/Linear/Vercel sensibility adapted to instructional content. Voice: editorial, analytical, declarative (third-person institutional, Korean lecture / report); `.gm` (governing message) line on every content slide.
+**Always Insightlearning**: Navy-first, square, quiet HRD-consulting visual language from the 2026 Insightlearning company profile: one deep navy, sky accent on navy only, generous white, filled light cards, no shadows or gradients. Voice: consultative, confident, polite declarative (~합니다 / ~하겠습니다), contrast-framed (first-person corporate — the company speaks as 인싸이트러닝 and calls the client 고객사, Korean HRD consulting proposal / company profile, English for programme names, frameworks and section titles); `.gm` (governing message) line on every content slide.
 
 Present this as a locked value. Do NOT offer alternative style objectives — the active theme is the single visual language under this skill.
 
-### e. Color Scheme — LOCKED (Jangpm)
+### e. Color Scheme — LOCKED (Insightlearning)
 
-**Always monochrome + single `#4633E3` accent.**
+**Always monochrome + single `#012281` accent.**
 
 | Role | HEX | Token |
 |------|-----|-------|
-| Background | `#FAFAF9` | `--bg` |
-| Surface | `#FFFFFF` | `--surface` |
-| Text primary | `#1A1A1A` | `--text` |
-| Text secondary | `#6B7280` | `--text-secondary` |
-| Border | `#E5E7EB` | `--border` |
-| Accent | `#4633E3` | `--accent` |
-| Accent soft | `#E8E5FC` | `--accent-soft` |
+| Background | `#FFFFFF` | `--bg` |
+| Surface | `#F8F8F8` | `--surface` |
+| Text primary | `#000000` | `--text` |
+| Text secondary | `#595959` | `--text-secondary` |
+| Border | `#DFDFDF` | `--border` |
+| Accent | `#012281` | `--accent` |
+| Accent soft | `#E0EDF3` | `--accent-soft` |
 | Semantic (data-only) | `--positive` `#059669`, `--negative` `#E11D48`, `--warning` `#D97706` | — |
 
 **Rules**: Single accent — never multi-hue, never gradient text/borders, never glow. Max 1–2 accent events per slide. Semantic colors used only in data contexts (trend indicators, chart bars, metric badges) — never decoratively.
 
-### f. Icon Usage — LOCKED (Jangpm)
+### f. Icon Usage — LOCKED (Insightlearning)
 
 **Always tabler-outline (Lucide-compatible line-art), 2px stroke, bare icons** — no circle wrappers, no colored badges, no emoji. This is the only icon style compatible with the active theme's anti-slop rules.
 
@@ -91,7 +91,7 @@ Present this as a locked value. Do NOT offer alternative style objectives — th
 
 **Do NOT preload `icons_index.txt`** — use `grep <kw>` on demand with zero token cost. The index is a flat list of `lib/name` entries; finalize_svg.py reads SVGs from `assets/icons/<lib>/<name>.svg` at runtime, falling back to the bundled essentials.
 
-### g. Typography Plan — LOCKED (Jangpm)
+### g. Typography Plan — LOCKED (Insightlearning)
 
 **Always the active-theme font chain** on every text element:
 
@@ -99,19 +99,19 @@ Present this as a locked value. Do NOT offer alternative style objectives — th
 Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif
 ```
 
-#### Type Scale (Jangpm)
+#### Type Scale (Insightlearning)
 
 | Role | Size (px) | Weight | Line-height | Letter-spacing |
 |------|-----------|--------|-------------|----------------|
-| Display (title slide) | 56 | 800 | 1.08 | -1.68 |
-| Display-sm (hero stat, closing accent) | 40 | 800 | 1.1 | -0.8 |
-| Headline (content slide title) | 32 | 700 | 1.2 | -0.64 |
-| Title (card title, subtitle) | 18.4 | 600 | 1.3 | 0.0 |
-| Body | 15.2 | 400 | 1.6 | 0.0 |
-| Caption | 12.8 | 500 | 1.4 | 0.0 |
-| Label (uppercase taxonomy) | 12.8 | 600 | 1.4 | 0.64 |
+| Display (title slide) | 52 | 700 | 1.2 | -1.56 |
+| Display-sm (hero stat, closing accent) | 41 | 800 | 1.1 | -0.8 |
+| Headline (content slide title) | 30 | 800 | 1.3 | -0.9 |
+| Title (card title, subtitle) | 17 | 700 | 1.4 | -0.34 |
+| Body | 15.2 | 400 | 1.65 | -0.3 |
+| Caption | 12.8 | 400 | 1.6 | 0.0 |
+| Label (uppercase taxonomy) | 12.8 | 600 | 1.3 | 0.26 |
 
-Body baseline is **15.2px** for all decks in this theme (the "report density" mode). If the deck is unusually low-density (training slides with 3–4 items per page), raising body to 18.4px is allowed — but this is the exception, not the norm.
+Body baseline is **15.2px** for all decks in this theme (the "report density" mode). If the deck is unusually low-density (training slides with 3–4 items per page), raising body to 17px is allowed — but this is the exception, not the norm.
 
 Font OTFs are at `assets/fonts/`. Distribute with the PPTX for recipients who will re-edit the deck.
 
@@ -123,10 +123,10 @@ Font OTFs are at `assets/fonts/`. Distribute with the PPTX for recipients who wi
 |--------|----------|-------------------|
 | **A** | No images | Data reports, process documentation (active-theme default — prefer text blocks + charts over decorative imagery) |
 | **B** | User-provided | Has existing image assets |
-| **C** | AI-generated (active-theme style) | Concept explanations, hero illustrations — minimal flat, muted/pastel, clean solid #FAFAF9 bg |
+| **C** | AI-generated (active-theme style) | Concept explanations, hero illustrations — minimal flat, muted/pastel, clean solid #FFFFFF bg |
 | **D** | Placeholders | Images to be added later |
 
-Anti-slop Rule 13 bans decorative-only images; every image must explain the content. Brand character: `.codex/skills/slide/templates/layouts/jangpm/assets/brand/jangpm-character.png`. When provided, it is available for instructor-persona slides; when not, do not invent a stand-in.
+Anti-slop Rule 13 bans decorative-only images; every image must explain the content. Brand character: `_(not provided)_`. When provided, it is available for instructor-persona slides; when not, do not invent a stand-in.
 
 **When selection includes B**, you must run `${SKILL_DIR}/scripts/_py.sh ${SKILL_DIR}/scripts/analyze_images.py <project_path>/images` before outputting the spec, and integrate scan results into the image resource list.
 
@@ -258,11 +258,11 @@ Templates are starting points: spacing, radius and layout combinations flex with
 
 ### 4.1 Content Planning Strategy
 
-The active theme `jangpm` enforces the visual language; the Strategist's job is to plan **content structure and information density**, not to pick a style:
+The active theme `insightlearning` enforces the visual language; the Strategist's job is to plan **content structure and information density**, not to pick a style:
 
 - **Content Outline** — deconstruct the source document, define the core message of each page, decide visualization vs. text block per page based on the data shape (trends → chart, precise values → table, list → bulleted body, single-takeaway → hero).
 - **Design Spec** — record the active-theme tokens already locked above (color, type, icon, layout) plus per-page layout choice and visualization references; this is a *transcript* of decisions, not new style invention.
-- **Speaker Notes** — match the theme's voice (`editorial, analytical, declarative`, `third-person institutional`, `Korean lecture / report`); conclusion-first when the deck is analytical, narrative-first when it's instructional.
+- **Speaker Notes** — match the theme's voice (`consultative, confident, polite declarative (~합니다 / ~하겠습니다), contrast-framed`, `first-person corporate — the company speaks as 인싸이트러닝 and calls the client 고객사`, `Korean HRD consulting proposal / company profile, English for programme names, frameworks and section titles`); conclusion-first when the deck is analytical, narrative-first when it's instructional.
 
 ### 4.2 Outline Output Specification (Must include 11 chapters)
 

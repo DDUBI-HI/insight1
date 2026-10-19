@@ -1,6 +1,6 @@
 # Anti-Slop Reference (Theme): Active-Theme Literal Enforcement
 
-Theme-specific anti-patterns for the **Jangpm** theme (`jangpm`). Structural rules that apply regardless of theme live in `anti-slop-core.md`.
+Theme-specific anti-patterns for the **Insightlearning** theme (`insightlearning`). Structural rules that apply regardless of theme live in `anti-slop-core.md`.
 
 > **Regenerate on theme change.** This file is rendered from `theme-active.json` each time `/theme-init` runs. Never hand-edit — edits will be overwritten.
 
@@ -8,39 +8,49 @@ Theme-specific anti-patterns for the **Jangpm** theme (`jangpm`). Structural rul
 
 ## Rule T1: Exclusive Accent Hex
 
-**Forbidden:** introducing any color beyond the locked palette. Especially, introducing a second "accent" hue alongside `#4633E3`.
+**Forbidden:** introducing any color beyond the locked palette. Especially, introducing a second "accent" hue alongside `#012281`.
 
 **Allowed color values** — these are the only hex values permitted in generated SVG / CSS:
 
 | Token | Value |
 |-------|-------|
-| `accent` | `#4633E3` |
-| `accent-soft` | `#E8E5FC` |
-| `accent-ink` | `#2E1FB3` |
-| `text` | `#1A1A1A` |
-| `text-secondary` | `#6B7280` |
-| `text-tertiary` | `#9CA3AF` |
-| `bg` | `#FAFAF9` |
-| `surface` | `#FFFFFF` |
-| `surface-alt` | `#F5F5F4` |
-| `border` | `#E5E7EB` |
-| `border-strong` | `#D4D4D4` |
+| `accent` | `#012281` |
+| `accent-soft` | `#E0EDF3` |
+| `accent-ink` | `#01185A` |
+| `text` | `#000000` |
+| `text-secondary` | `#595959` |
+| `text-tertiary` | `#666666` |
+| `bg` | `#FFFFFF` |
+| `surface` | `#F8F8F8` |
+| `surface-alt` | `#F2F2F2` |
+| `border` | `#DFDFDF` |
+| `border-strong` | `#B2B2B2` |
 | `positive` | `#059669` (data contexts only) |
 | `negative` | `#E11D48` (data contexts only) |
 | `warning` | `#D97706` (data contexts only) |
 
 **Why:** The slide-svg pipeline bakes tokens into DrawingML at export time, so runtime multi-theming is impossible. One file = one theme. Introducing off-palette colors guarantees a visual inconsistency that cannot be fixed post-export.
 
+**Narrative-shell band colors** — additionally permitted, but ONLY on the narrative shells (`01_cover`, `02_chapter`, `04_ending`). NEVER on content slides:
+
+| Token | Value | Scope |
+|-------|-------|-------|
+| `shell-bg` | `#012281` | narrative band fill (full-bleed) |
+| `shell-text` | `#FFFFFF` | text on the band |
+| `shell-text-secondary` | `#B3BDD9` | muted text on the band |
+| `shell-accent` | `#58CCFF` | CTA / accent on the band |
+| `shell-spectrum` | _(none)_ | decorative brand dots (narrative only) |
+
 ---
 
 ## Rule T2: Accent Rarity Budget (≤ 2 per slide)
 
-**Forbidden:** painting multiple elements with `#4633E3` or `#E8E5FC` just to add visual variety.
+**Forbidden:** painting multiple elements with `#012281` or `#E0EDF3` just to add visual variety.
 
 **Allowed:** at most **two** accent "events" per content slide. An event is any of:
-- Accent-colored text (`fill="#4633E3"`)
-- Accent-soft filled container (`fill="#E8E5FC"`)
-- Accent-stroked emphasis rule (`stroke="#4633E3"`)
+- Accent-colored text (`fill="#012281"`)
+- Accent-soft filled container (`fill="#E0EDF3"`)
+- Accent-stroked emphasis rule (`stroke="#012281"`)
 
 **Why:** Accent is a pointer, not a palette. Multiple accents per slide cancel each other out and produce a "colorful SaaS dashboard" read instead of an editorial read.
 
@@ -63,14 +73,14 @@ Theme-specific anti-patterns for the **Jangpm** theme (`jangpm`). Structural rul
 
 **Forbidden:** multi-hue Chart.js palettes.
 
-**Correct:** single accent with an opacity ladder. For `#4633E3`:
+**Correct:** single accent with an opacity ladder. For `#012281`:
 
 ```js
 backgroundColor: [
-  'rgba(70, 51, 227, 0.85)',
-  'rgba(70, 51, 227, 0.60)',
-  'rgba(70, 51, 227, 0.40)',
-  'rgba(70, 51, 227, 0.25)',
+  'rgba(1, 34, 129, 0.85)',
+  'rgba(1, 34, 129, 0.60)',
+  'rgba(1, 34, 129, 0.40)',
+  'rgba(1, 34, 129, 0.25)',
 ]
 ```
 
@@ -100,15 +110,14 @@ Semantic columns (growth vs. decline) may use `#059669` / `#E11D48` **only when 
 
 **Forbidden phrases in GM and speaker notes:**
 - 여러분
-- 우리는
-- 함께해요
+- 당신
 
 **Required tone:**
-- Register: Korean lecture / report
-- Point of view: third-person institutional
-- Tone: editorial, analytical, declarative
+- Register: Korean HRD consulting proposal / company profile, English for programme names, frameworks and section titles
+- Point of view: first-person corporate — the company speaks as 인싸이트러닝 and calls the client 고객사
+- Tone: consultative, confident, polite declarative (~합니다 / ~하겠습니다), contrast-framed
 
-**GM composition hint:** One declarative sentence stating the so-what / takeaway. Never a restatement of the page title. Korean-first, ≤30 chars ideal.
+**GM composition hint:** One polite declarative sentence (~합니다) stating the business impact for 고객사; contrast framing ('A보다 B') welcome; real figures only; never a restatement of the headline.
 
 **Why:** The GM line is the editorial contract between slide and audience. Tone drift is the fastest path to "AI-generated" smell; it's also the easiest to accidentally slip into via marketing-style filler.
 
@@ -122,11 +131,11 @@ Semantic columns (growth vs. decline) may use `#059669` / `#E11D48` **only when 
 
 | Name | Value | Usage |
 |------|-------|-------|
-| `xs` | 4 | chip, tight badge |
-| `sm` | 8 | small callout, inline tag |
+| `xs` | 0 | chip, tight badge |
+| `sm` | 5 | small callout, inline tag |
 | `md` | 12 | default card |
 | `lg` | 12 | hero card |
-| `xl` | 20 | large container |
+| `xl` | 25 | large container |
 | `pill` | 9999 | fully rounded pill |
 
 **Why:** Mixing radii within a deck (12px card next to 6px card next to 16px card) breaks the rhythm. The scale above is the only valid set.
@@ -151,11 +160,27 @@ Semantic columns (growth vs. decline) may use `#059669` / `#E11D48` **only when 
 
 ## Card Treatment Lock
 
-The active theme's card treatment is **hairline**. Apply it consistently across the whole deck.
+The active theme's card treatment is **filled**. Apply it consistently across the whole deck.
 
 **Forbidden:** mixing card treatments within one deck, or ignoring the active treatment.
 
+**Filled lock:** card boxes use a `#F2F2F2` / `#F8F8F8` fill with **no** border. Do not add a 1px border on top of the fill.
+
 **Why:** Card treatment is a structural identity signal. One file = one theme = one treatment; mixing hairline, filled, and borderless boxes reads as AI-assembled rather than designed.
+
+---
+
+## Rule T9: Narrative-Shell Band Scope
+
+**Allowed:** the `shell-*` band fill and `shell-spectrum` hues appear ONLY on the narrative shells — `01_cover`, `02_chapter`, `04_ending`. These may render full-bleed on `#012281`, place `shell-text` / `shell-accent` text on the band, and show the brand spectrum as a decorative dot / bar row.
+
+**Forbidden:**
+- Any `shell-bg` band, `shell-spectrum` hue, or `shell-text` color on a **content** slide (`03_content` and every Executor-composed body slide). Content stays light: `#FFFFFF` / `#F8F8F8` backgrounds, `#000000` / `#595959` ink, single `#012281` accent.
+- Using `shell-spectrum` as a data palette. It is decorative brand identity for narrative shells only — charts still use the single-accent opacity ladder (Rule T4).
+
+**Budget:** spectrum dots are a single narrative-shell decoration and are NOT counted against the content accent budget (Rule T2); the spectrum row counts as one composition element and must not exceed the published `shell-spectrum` length.
+
+**Why:** The light-mode relaxation is deliberately scoped. A dark hero on the cover / closing reads as branded and intentional; the same band on a dense content slide destroys the editorial, report-style legibility the deck depends on.
 
 ---
 

@@ -149,4 +149,5 @@ slide-svg는 [byungjunjang/slide-svg](https://github.com/byungjunjang/slide-svg)
 
 - `cafe_alert/`, `config.yaml`, `tests/`, `.github/workflows/cafe-alert.yml`, 루트 `requirements.txt` — 네이버 카페 교육문의 → 카카오톡 알림 (GitHub Actions)
 - `README.md`, `tokens.json` — Insightlearning(인싸이트러닝) 브랜드 디자인 가이드 / 토큰
+- **활성 슬라이드 테마는 `insightlearning`** (navy `#012281` 액센트, sky `#58CCFF`는 navy 위에서만) — 위 본문의 "기본 테마 Jangpm" 설명보다 이것이 우선한다. 테마 정의: `.claude/skills/slide/assets/design-systems/insightlearning/theme.json`, 레이아웃·디자인 규칙: `.claude/skills/slide/templates/layouts/insightlearning/DESIGN.md`. Jangpm은 카탈로그에 남아 있어 `init_theme.py --activate jangpm`으로 되돌릴 수 있다.
 - slide 의존성은 `requirements-slide.txt`로 설치한다 (루트 `requirements.txt`는 CI가 쓰므로 건드리지 않음). slide-svg 원본 README는 `SLIDE-SVG.md`.

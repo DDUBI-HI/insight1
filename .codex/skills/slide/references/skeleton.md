@@ -33,13 +33,13 @@
     /* === CSS CUSTOM PROPERTIES === */
     :root {
       /* Colors — active theme tokens (rendered from theme-active.json) */
-      --bg: #FAFAF9;
-      --surface: #FFFFFF;
-      --text: #1A1A1A;
-      --text-secondary: #6B7280;
-      --accent: #4633E3;
-      --accent-soft: #E8E5FC;
-      --border: #E5E7EB;
+      --bg: #FFFFFF;
+      --surface: #F8F8F8;
+      --text: #000000;
+      --text-secondary: #595959;
+      --accent: #012281;
+      --accent-soft: #E0EDF3;
+      --border: #DFDFDF;
 
       /* Semantic */
       --positive: #059669;
@@ -57,11 +57,11 @@
       --fs-title: 1.15rem;
       --fs-body: 0.95rem;
       --fs-caption: 0.8rem;
-      --fw-display: 800;
-      --fw-headline: 700;
-      --fw-title: 600;
+      --fw-display: 700;
+      --fw-headline: 800;
+      --fw-title: 700;
       --fw-body: 400;
-      --fw-caption: 500;
+      --fw-caption: 400;
 
       /* Spacing (8px grid) */
       --space-1: 0.25rem;
@@ -373,7 +373,7 @@
     .report-table thead th:first-child { text-align: left; }
     .report-table tbody td { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border); text-align: center; }
     .report-table tbody td:first-child { text-align: left; }
-    .col-highlight { border-left: 2px solid var(--accent); border-right: 2px solid var(--accent); background: rgba(70, 51, 227, 0.03); }
+    .col-highlight { border-left: 2px solid var(--accent); border-right: 2px solid var(--accent); background: rgba(1, 34, 129, 0.03); }
 
     /* === BEFORE/AFTER LABEL === */
     .before-after-label {

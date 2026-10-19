@@ -1,6 +1,6 @@
-# Design System Reference — Jangpm
+# Design System Reference — Insightlearning
 
-> **Active theme:** `jangpm` — Editorial, minimal, Korean lecture / report visual language. Notion/Linear/Vercel sensibility adapted to instructional content.
+> **Active theme:** `insightlearning` — Navy-first, square, quiet HRD-consulting visual language from the 2026 Insightlearning company profile: one deep navy, sky accent on navy only, generous white, filled light cards, no shadows or gradients.
 >
 > This file is rendered from `theme-active.json` by `render_design_system.py`. Never hand-edit — edits will be overwritten on the next `/theme-init` run. The template source is `design-system.tpl.md`.
 
@@ -8,7 +8,7 @@
 
 - Generous whitespace, restrained color (single accent), clear typographic hierarchy
 - Forbidden: excessive decoration, icon spam, dense card interiors
-- **Single accent color** — `#4633E3` only; all other colors must be achromatic (black/gray/white) or from the tokens below
+- **Single accent color** — `#012281` only; all other colors must be achromatic (black/gray/white) or from the tokens below
 - **Visually full slides** — fill the slide with one **dominant visual** (chart/diagram/image/table), never with more text; "full" means visually *led*, not packed (bounded by the Restraint counterweights below — Rules 21–22)
 - **No text-only slides** — even quote/hero patterns require at least one visual element alongside the text
 - **High content density** — a slide should feel informationally rich via its dominant visual + concise supporting context (subtitle, benchmark comparison, trend annotation, a takeaway card) — **not** via dense body text or stacked cards. Stats cards should include a context line (e.g., "vs industry avg 3.2%"). Bounded by the Restraint counterweights below: one message, ≤3 bullets, ≥30% whitespace.
@@ -16,7 +16,7 @@
 - **Card differentiation rule** — In any card grid, at least one card should be visually distinct (accent-soft background or highlighted metric). Equal-weight cards are a design smell.
 - **Density minimum** — Every card should contain at least 3 content layers (e.g., icon/badge + title + body + caption/metric). Two-layer cards (icon + title only) look unfinished.
 - **Icon badges preferred, number badges for steps** — Default to SVG icon badges for card grids. Use `.number-badge` (01–04) only when sequential order is the primary information (numbered steps, ranked priorities). Mix icons and numbers when appropriate — icons are more visually interesting.
-- **Charts use single accent with opacity** — `rgba(70, 51, 227, 0.85/0.6/0.4/0.25)`; never multiple distinct hues
+- **Charts use single accent with opacity** — `rgba(1, 34, 129, 0.85/0.6/0.4/0.25)`; never multiple distinct hues
 - **Semantic colors in data contexts** — Use `--positive` (`#059669`), `--negative` (`#E11D48`), `--warning` (`#D97706`) to encode meaning in trend indicators, metric badges, and chart colors. Example: churn rate trend arrow uses `color: var(--negative)`, growth metric badge uses `color: var(--positive)`
 - **Chart container height** — Use `height: 400px` (not 320px) for single-chart slides to fill vertical space properly
 - **Comparison tables need a winner** — Always highlight one column with `col-recommended` class (accent-soft background). Equal-weight columns are a design smell. Add subtitle/stat in column headers for density. Use check/x SVG icons for binary features. Include a verdict/summary bottom row.
@@ -30,17 +30,17 @@
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--bg` | `#FAFAF9` | Body background |
-| `--surface` | `#FFFFFF` | Card/container background |
-| `--surface-alt` | `#F5F5F4` | Subtle grouped background |
-| `--text` | `#1A1A1A` | Main text (never pure `#000`) |
-| `--text-secondary` | `#6B7280` | Secondary text |
-| `--text-tertiary` | `#9CA3AF` | Captions, page numbers |
-| `--accent` | `#4633E3` | Primary accent |
-| `--accent-soft` | `#E8E5FC` | Accent-tinted background / highlight column |
-| `--accent-ink` | `#2E1FB3` | Accent pressed / darker variant |
-| `--border` | `#E5E7EB` | Default border |
-| `--border-strong` | `#D4D4D4` | Stronger divider |
+| `--bg` | `#FFFFFF` | Body background |
+| `--surface` | `#F8F8F8` | Card/container background |
+| `--surface-alt` | `#F2F2F2` | Subtle grouped background |
+| `--text` | `#000000` | Main text (never pure `#000`) |
+| `--text-secondary` | `#595959` | Secondary text |
+| `--text-tertiary` | `#666666` | Captions, page numbers |
+| `--accent` | `#012281` | Primary accent |
+| `--accent-soft` | `#E0EDF3` | Accent-tinted background / highlight column |
+| `--accent-ink` | `#01185A` | Accent pressed / darker variant |
+| `--border` | `#DFDFDF` | Default border |
+| `--border-strong` | `#B2B2B2` | Stronger divider |
 
 ## Semantic Colors
 
@@ -67,13 +67,13 @@ Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif
 
 | Level | Size (px) | Weight | Line-height | Letter-spacing (px) | Use Case |
 |-------|-----------|--------|-------------|---------------------|----------|
-| Display | 56 | 800 | 1.08 | -1.68 | Title slide large text |
-| Display-sm | 40 | 800 | 1.1 | -0.8 | Hero stat, closing accent |
-| Headline | 32 | 700 | 1.2 | -0.64 | Content slide titles |
-| Title | 18.4 | 600 | 1.3 | 0.0 | Card titles, subtitles |
-| Body | 15.2 | 400 | 1.6 | 0.0 | Body text |
-| Caption | 12.8 | 500 | 1.4 | 0.0 | Labels, annotations |
-| Label | 12.8 | 600 | 1.4 | 0.64 | Uppercase taxonomy labels (eyebrow) |
+| Display | 52 | 700 | 1.2 | -1.56 | Title slide large text |
+| Display-sm | 41 | 800 | 1.1 | -0.8 | Hero stat, closing accent |
+| Headline | 30 | 800 | 1.3 | -0.9 | Content slide titles |
+| Title | 17 | 700 | 1.4 | -0.34 | Card titles, subtitles |
+| Body | 15.2 | 400 | 1.65 | -0.3 | Body text |
+| Caption | 12.8 | 400 | 1.6 | 0.0 | Labels, annotations |
+| Label | 12.8 | 600 | 1.3 | 0.26 | Uppercase taxonomy labels (eyebrow) |
 
 ## Spacing System
 
@@ -102,11 +102,11 @@ Key spacing values:
 
 | Token | Value (px) | Usage |
 |-------|------------|-------|
-| `--radius-xs` | 4 | chip, tight badge |
-| `--radius-sm` | 8 | small callout, inline tag |
+| `--radius-xs` | 0 | chip, tight badge |
+| `--radius-sm` | 5 | small callout, inline tag |
 | `--radius-md` | 12 | default card |
 | `--radius-lg` | 12 | hero card |
-| `--radius-xl` | 20 | large container |
+| `--radius-xl` | 25 | large container |
 | `--radius-pill` | 9999 | fully rounded pill |
 
 ## Stroke
@@ -123,15 +123,15 @@ Key spacing values:
 |-------|-------|
 | `icon-pack-default` | `tabler-outline` |
 | `icon-pack-fallback` | `tabler-filled` |
-| `character` | `.claude/skills/slide/templates/layouts/jangpm/assets/brand/jangpm-character.png` |
+| `character` | `_(not provided)_` |
 
 ## Voice
 
-- **Tone:** editorial, analytical, declarative
-- **Point of view:** third-person institutional
-- **Register:** Korean lecture / report
-- **Forbidden phrases:** "여러분", "우리는", "함께해요"
-- **GM line hint:** One declarative sentence stating the so-what / takeaway. Never a restatement of the page title. Korean-first, ≤30 chars ideal.
+- **Tone:** consultative, confident, polite declarative (~합니다 / ~하겠습니다), contrast-framed
+- **Point of view:** first-person corporate — the company speaks as 인싸이트러닝 and calls the client 고객사
+- **Register:** Korean HRD consulting proposal / company profile, English for programme names, frameworks and section titles
+- **Forbidden phrases:** "여러분", "당신"
+- **GM line hint:** One polite declarative sentence (~합니다) stating the business impact for 고객사; contrast framing ('A보다 B') welcome; real figures only; never a restatement of the headline.
 
 ## Slide Layout
 
@@ -147,7 +147,7 @@ Key spacing values:
 
 ## Card System
 
-**Card treatment:** **hairline** (default) — a `1px solid var(--border)` rule on a `var(--surface)` fill. Differentiate the hero card with a `var(--accent-soft)` background.
+**Card treatment:** **filled** — `var(--surface-alt)` / `var(--surface)` fill, **no** border; differentiate the hero card with a `var(--accent-soft)` background.
 
 | Property | Value |
 |----------|-------|

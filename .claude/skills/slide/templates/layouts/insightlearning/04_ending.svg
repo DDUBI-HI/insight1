@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Insightlearning — 04 Ending (composed shell) -->
+  <!-- Signature: full navy field, everything centered (logo slot above the label), sky rule + sky highlight -->
+
+  <rect width="1280" height="720" fill="#012281"/>
+
+  <!-- Eyebrow (centered, tracked, sky) -->
+  <text x="640" y="240" font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="18" font-weight="400" letter-spacing="7" text-anchor="middle"
+        fill="#58CCFF">
+    {{CLOSING_LABEL}}
+  </text>
+
+  <!-- Short sky rule -->
+  <rect x="600" y="262" width="80" height="3" fill="#58CCFF"/>
+
+  <!-- Closing headline (Display) -->
+  <text x="640" y="350" font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="52" font-weight="700"
+        letter-spacing="-1.56" text-anchor="middle"
+        fill="#FFFFFF">
+    {{CLOSING_HEADLINE}}
+  </text>
+
+  <!-- Highlight line (sky) -->
+  <text x="640" y="414" font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="41" font-weight="800"
+        letter-spacing="-0.8" text-anchor="middle"
+        fill="#58CCFF">
+    {{CLOSING_ACCENT}}
+  </text>
+
+  <!-- Contact line -->
+  <text x="640" y="478" font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="17" font-weight="700" text-anchor="middle"
+        fill="#FFFFFF">
+    {{CONTACT_LINE}}
+  </text>
+
+  <!-- Presenter footer -->
+  <text x="640" y="670" font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="12.8" font-weight="400" text-anchor="middle"
+        fill="#B3BDD9">
+    {{PRESENTER}} · {{DATE}}
+  </text>
+</svg>

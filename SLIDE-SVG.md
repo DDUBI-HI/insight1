@@ -8,6 +8,8 @@
 > .claude/skills/slide/scripts/_py.sh .claude/skills/slide/scripts/preflight.py   # [preflight] PASS 확인
 > ```
 >
+> 활성 테마는 Jangpm이 아니라 **인싸이트러닝(`insightlearning`, navy `#012281`)**입니다. 아래 원문의 Jangpm 설명은 기본값 기준입니다.
+>
 > 아래 원문의 "2단계 클론"은 건너뛰고, "3단계"의 `requirements.txt`는 `requirements-slide.txt`로 바꿔 읽으면 됩니다.
 
 # slide-svg
