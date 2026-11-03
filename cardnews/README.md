@@ -40,7 +40,7 @@ cardnews/
    각 카드의 `data-name` 이 PNG 파일 이름이 됩니다.
 3. `images.json` 에 카드마다 내용에 맞는 사진을 지정합니다.
    - `unsplash`: Unsplash 사진 페이지 주소 끝의 ID (`unsplash.com/photos/...-RdEFWm0N84o` → `RdEFWm0N84o`)
-   - `query`: 검색어. `unsplash` 를 비워 두고 `UNSPLASH_ACCESS_KEY` 가 있으면 검색 1순위 사진을 자동으로 고르고 ID 를 기록합니다.
+   - `query`: 검색어. `unsplash` 를 비워 두면 검색 1순위 사진을 자동으로 고르고 ID 를 기록합니다.
    - `file`: `index.html` 의 `<img src="images/...">` 와 같은 이름
    - 사진 위치를 옮기려면 `<img style="object-position: 50% 70%">` 처럼 지정합니다.
 4. 브랜치에 push 하면 GitHub Actions(`카드뉴스 렌더`)가 사진을 받고 PNG 를 렌더해 `out/` 에 커밋합니다.
@@ -52,7 +52,7 @@ cardnews/
 cd cardnews
 npm ci
 npx playwright install chromium
-npm run build           # = fetch(사진 받기) + render(PNG 캡처)
+UNSPLASH_ACCESS_KEY=... npm run build   # = fetch(사진 받기) + render(PNG 캡처)
 ```
 
 - 덱 하나만: `node scripts/fetch-images.mjs decks/<덱>` → `node scripts/render.mjs decks/<덱>`
@@ -62,11 +62,15 @@ npm run build           # = fetch(사진 받기) + render(PNG 캡처)
 
 `render.mjs` 는 Pretendard 폰트가 안 읽히거나, 사진이 비어 있거나, 글이 카드 밖으로 넘치면 알려줍니다.
 
-### Unsplash API 키 (선택)
+### Unsplash API 키 (필수, 무료)
 
-키 없이도 `images.json` 의 사진 ID 로 받을 수 있습니다. 검색어만으로 사진을 고르게 하려면
-[Unsplash 개발자](https://unsplash.com/developers)에서 Access Key 를 만들어
-저장소 Settings → Secrets → Actions 에 `UNSPLASH_ACCESS_KEY` 로 넣으세요.
+사진은 공식 [Unsplash API](https://unsplash.com/developers)로 받습니다. 처음 한 번만 설정하면 됩니다.
+
+1. https://unsplash.com/oauth/applications 에서 **New Application**을 만들고 **Access Key**를 복사합니다 (Demo 등급: 시간당 50회, 카드뉴스 용도로 충분).
+2. GitHub 저장소 **Settings → Secrets and variables → Actions → New repository secret**에 이름 `UNSPLASH_ACCESS_KEY`로 등록합니다.
+3. Actions 탭에서 **카드뉴스 렌더 → Run workflow**를 누르거나 브랜치에 다시 push 합니다.
+
+로컬에서는 `UNSPLASH_ACCESS_KEY=... npm run build` 로 실행합니다. 키가 없으면 워크플로는 사진 받기와 렌더를 건너뛰고 안내만 남깁니다.
 
 ## 사진 라이선스
 

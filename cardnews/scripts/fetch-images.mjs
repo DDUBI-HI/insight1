@@ -8,11 +8,11 @@
 // images.json 항목
 //   file      저장할 파일 이름 (index.html 의 <img src="images/..."> 와 같아야 함)
 //   unsplash  Unsplash 사진 ID (사진 페이지 URL 끝부분). 비어 있으면 query 로 검색
-//   query     검색어. UNSPLASH_ACCESS_KEY 가 있을 때만 사용, 찾은 ID 를 images.json 에 기록
+//   query     검색어. unsplash 가 비어 있으면 1순위 결과를 골라 ID 를 images.json 에 기록
 //   author    사진가 이름 (받을 때 자동 기록)
 //
-// UNSPLASH_ACCESS_KEY 가 있으면 공식 API 를 쓰고(다운로드 집계 포함),
-// 없으면 공개 사진 페이지의 다운로드 링크를 씁니다.
+// 공식 Unsplash API 를 쓰므로 UNSPLASH_ACCESS_KEY (무료 개발자 키) 가 필요합니다.
+// 사진을 쓸 때마다 API 가이드라인대로 download_location 을 호출해 다운로드를 집계합니다.
 
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -36,7 +36,7 @@ async function get(url, init = {}) {
   const headers = { "User-Agent": UA, ...(init.headers || {}) };
   if (KEY && url.startsWith("https://api.unsplash.com/")) headers.Authorization = `Client-ID ${KEY}`;
   const res = await fetch(url, { ...init, headers });
-  if (!res.ok && !(init.redirect === "manual" && res.status >= 300 && res.status < 400)) {
+  if (!res.ok) {
     throw new Error(`${res.status} ${res.statusText} — ${url}`);
   }
   return res;
@@ -53,40 +53,28 @@ function sized(rawUrl, width) {
 }
 
 async function searchId(query) {
-  if (!KEY) throw new Error(`"${query}": 사진 ID 가 없고 UNSPLASH_ACCESS_KEY 도 없어 검색할 수 없습니다`);
   const q = new URLSearchParams({ query, per_page: "1", content_filter: "high", orientation: "landscape" });
   const json = await (await get(`https://api.unsplash.com/search/photos?${q}`)).json();
   if (!json.results?.length) throw new Error(`"${query}": 검색 결과 없음`);
   return json.results[0].id;
 }
 
-// → { url, author, authorUrl }
+// 공식 Unsplash API 로 사진 정보를 가져옵니다 → { url, author, authorUrl }
 async function resolve(id, width) {
-  if (KEY) {
-    const p = await (await get(`https://api.unsplash.com/photos/${encodeURIComponent(id)}`)).json();
-    // API 가이드라인: 사진을 쓸 때 download_location 을 호출해 다운로드를 집계합니다.
-    await get(p.links.download_location).catch(() => {});
-    return { url: sized(p.urls.raw, width), author: p.user?.name, authorUrl: p.user?.links?.html };
-  }
-  let url = null;
-  try {
-    const res = await get(`https://unsplash.com/photos/${encodeURIComponent(id)}/download?force=true`, { redirect: "manual" });
-    const loc = res.headers.get("location");
-    if (loc && new URL(loc).hostname.endsWith("unsplash.com")) url = sized(loc, width);
-  } catch { /* 아래 og:image 로 대체 */ }
-  if (!url) {
-    const html = await (await get(`https://unsplash.com/photos/${encodeURIComponent(id)}`)).text();
-    const m = html.match(/<meta[^>]+property="og:image"[^>]+content="([^"]+)"/);
-    if (!m) throw new Error(`${id}: 사진 주소를 찾지 못했습니다`);
-    url = sized(m[1].replaceAll("&amp;", "&"), width);
-  }
-  let author, authorUrl;
-  try {
-    const o = await (await get(`https://unsplash.com/oembed?url=${encodeURIComponent(`https://unsplash.com/photos/${id}`)}`)).json();
-    author = o.author_name;
-    authorUrl = o.author_url;
-  } catch { /* 출처 이름을 못 받아도 사진은 사용 */ }
-  return { url, author, authorUrl };
+  const p = await (await get(`https://api.unsplash.com/photos/${encodeURIComponent(id)}`)).json();
+  // API 가이드라인: 사진을 쓸 때 download_location 을 호출해 다운로드를 집계합니다.
+  await get(p.links.download_location).catch(() => {});
+  return { url: sized(p.urls.raw, width), author: p.user?.name, authorUrl: p.user?.links?.html };
+}
+
+if (!KEY) {
+  console.error(
+    "UNSPLASH_ACCESS_KEY 가 없습니다.\n" +
+    "  1) https://unsplash.com/oauth/applications 에서 앱을 만들고 Access Key 를 복사합니다.\n" +
+    "  2) 로컬: UNSPLASH_ACCESS_KEY=... npm run fetch\n" +
+    "     GitHub Actions: 저장소 Settings → Secrets and variables → Actions 에 UNSPLASH_ACCESS_KEY 로 등록합니다.",
+  );
+  process.exit(1);
 }
 
 let failed = 0;

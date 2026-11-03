@@ -39,18 +39,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Unsplash 키 확인
+        id: key
+        env:
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+        run: |
+          if [ -n "$UNSPLASH_ACCESS_KEY" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            echo "::warning title=UNSPLASH_ACCESS_KEY 없음::저장소 Settings → Secrets and variables → Actions 에 UNSPLASH_ACCESS_KEY 를 등록하면 사진을 받아 PNG 를 렌더합니다 (cardnews/README.md 참고)."
+          fi
+
       - uses: actions/setup-node@v4
+        if: steps.key.outputs.ok == 'true'
         with:
           node-version: "22"
           cache: npm
           cache-dependency-path: cardnews/package-lock.json
 
       - name: 의존성 설치
+        if: steps.key.outputs.ok == 'true'
         run: |
           npm ci
           npx playwright install --with-deps chromium
 
       - name: Unsplash 사진 받기
+        if: steps.key.outputs.ok == 'true'
         env:
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
         run: |
@@ -58,16 +73,19 @@ jobs:
           node scripts/fetch-images.mjs ${target:+decks/$target} ${{ github.event.inputs.refetch == 'true' && '--force' || '' }}
 
       - name: PNG 렌더
+        if: steps.key.outputs.ok == 'true'
         run: |
           target="${{ github.event.inputs.deck }}"
           node scripts/render.mjs ${target:+decks/$target}
 
       - uses: actions/upload-artifact@v4
+        if: steps.key.outputs.ok == 'true'
         with:
           name: cardnews-png
           path: cardnews/decks/*/out/*.png
 
       - name: 결과 커밋
+        if: steps.key.outputs.ok == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
