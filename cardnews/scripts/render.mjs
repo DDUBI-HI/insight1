@@ -60,7 +60,8 @@ try {
     // 넘침 검사: 글이 카드 밖으로 나가거나 요소끼리 겹치면 경고
     const overflow = await page.$$eval(".cn-card", (cards) => cards.flatMap((card) => {
       const box = card.getBoundingClientRect();
-      return [...card.querySelectorAll(".cn-content *")]
+      return [...card.querySelectorAll("*")]
+        .filter((el) => !el.closest(".cn-photo, .cn-scrim"))
         .filter((el) => { const r = el.getBoundingClientRect(); return r.width && (r.bottom > box.bottom + 0.5 || r.right > box.right + 0.5); })
         .map((el) => `${card.dataset.name}: ${el.className || el.tagName}`);
     }));

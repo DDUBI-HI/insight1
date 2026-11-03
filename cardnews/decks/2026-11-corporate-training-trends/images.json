@@ -21,7 +21,7 @@
     },
     {
       "file": "ai.jpg",
-      "card": "03-ai-x-job",
+      "card": "05-trend1-ai-x-job",
       "query": "laptop AI chatbot work",
       "unsplash": "0Jk1QCGMz5o",
       "page": "https://unsplash.com/photos/a-laptop-displays-a-search-bar-asking-how-it-can-help-0Jk1QCGMz5o",
@@ -30,7 +30,7 @@
     },
     {
       "file": "micro.jpg",
-      "card": "04-microlearning",
+      "card": "06-trend2-microlearning",
       "query": "person learning on smartphone",
       "unsplash": "pGnXCqKNhYA",
       "page": "https://unsplash.com/photos/a-person-holding-a-cell-phone-pGnXCqKNhYA",
@@ -38,8 +38,15 @@
       "author_url": "https://unsplash.com/@johnsmithphotography"
     },
     {
+      "file": "coaching.jpg",
+      "card": "07-trend3-coaching",
+      "query": "leader coaching conversation office",
+      "unsplash": "tOUH9V8V6IE",
+      "page": "https://unsplash.com/photos/two-businessmen-discussing-documents-at-a-table-tOUH9V8V6IE"
+    },
+    {
       "file": "faq.jpg",
-      "card": "06-faq",
+      "card": "11-faq",
       "query": "two colleagues discussing data laptop office",
       "unsplash": "1FzEg5g7vt0",
       "page": "https://unsplash.com/photos/two-colleagues-discussing-data-on-a-laptop-screen-1FzEg5g7vt0",
@@ -48,7 +55,7 @@
     },
     {
       "file": "closing.jpg",
-      "card": "07-closing",
+      "card": "13-closing",
       "query": "glass office skyscraper looking up",
       "unsplash": "Lp3L3ZP_y3g",
       "page": "https://unsplash.com/photos/modern-skyscraper-with-glass-facade-against-sky-Lp3L3ZP_y3g",

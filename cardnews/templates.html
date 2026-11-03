@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>카드뉴스 템플릿 7종</title>
+  <title>카드뉴스 템플릿 13종</title>
   <link rel="stylesheet" href="cardnews.css">
 </head>
 <body class="cn-preview">
   <header>
-    <h1>카드뉴스 템플릿 7종</h1>
-    <p>Figma "카드뉴스" Frame 1–7 을 그대로 옮긴 견본입니다. 새 덱은 decks/ 의 예시를 복사해 문구와 사진만 바꾸세요. 남색 칸은 사진 자리입니다.</p>
+    <h1>카드뉴스 템플릿 13종</h1>
+    <p>01–07 은 Figma "카드뉴스" Frame 1–7 그대로, 08–13 은 같은 색·글꼴로 만든 구조형 확장 템플릿입니다. 새 덱은 decks/ 의 예시를 복사해 문구와 사진만 바꾸세요. 남색 칸은 사진 자리입니다.</p>
   </header>
 
   <main class="cn-deck">
@@ -98,6 +98,86 @@
         </div>
       </section>
       <figcaption>07 .cn-closing — 마무리</figcaption>
+    </figure>
+
+    <figure>
+      <section class="cn-card cn-compare">
+        <div class="cn-head"><p class="cn-kicker">KICKER</p><h2 class="cn-title">비교 제목을<br>두 줄로 적어요</h2></div>
+        <div class="cn-table">
+          <p class="cn-col-head cn-col-head--before">이전</p><span></span><p class="cn-col-head cn-col-head--after">지금</p>
+          <p class="cn-cell cn-cell--before">이전 방식</p><span class="cn-arrow"></span><p class="cn-cell cn-cell--after">바뀐 방식</p>
+          <p class="cn-cell cn-cell--before">이전 방식</p><span class="cn-arrow"></span><p class="cn-cell cn-cell--after">바뀐 방식</p>
+          <p class="cn-cell cn-cell--before">이전 방식</p><span class="cn-arrow"></span><p class="cn-cell cn-cell--after">바뀐 방식</p>
+          <p class="cn-cell cn-cell--before">이전 방식</p><span class="cn-arrow"></span><p class="cn-cell cn-cell--after">바뀐 방식</p>
+        </div>
+      </section>
+      <figcaption>08 .cn-compare — 이전/지금 비교 (2–4행)</figcaption>
+    </figure>
+
+    <figure>
+      <section class="cn-card cn-summary">
+        <div class="cn-head"><p class="cn-kicker">KICKER</p><h2 class="cn-title">요약 제목을<br>두 줄로 적어요</h2></div>
+        <ol class="cn-rows">
+          <li class="cn-row"><span class="cn-badge">01</span><div><p class="cn-row-title">항목 제목</p><p class="cn-row-desc">한 줄 설명을 적어요</p></div></li>
+          <li class="cn-row"><span class="cn-badge">02</span><div><p class="cn-row-title">항목 제목</p><p class="cn-row-desc">한 줄 설명을 적어요</p></div></li>
+          <li class="cn-row"><span class="cn-badge">03</span><div><p class="cn-row-title">항목 제목</p><p class="cn-row-desc">한 줄 설명을 적어요</p></div></li>
+          <li class="cn-row"><span class="cn-badge">04</span><div><p class="cn-row-title">항목 제목</p><p class="cn-row-desc">한 줄 설명을 적어요</p></div></li>
+          <li class="cn-row"><span class="cn-badge">05</span><div><p class="cn-row-title">항목 제목</p><p class="cn-row-desc">한 줄 설명을 적어요</p></div></li>
+        </ol>
+      </section>
+      <figcaption>09 .cn-summary — 번호 목록 요약 (3–5행)</figcaption>
+    </figure>
+
+    <figure>
+      <section class="cn-card cn-split">
+        <div class="cn-image"></div>
+        <div class="cn-body">
+          <p class="cn-kicker">KICKER</p>
+          <h2 class="cn-title">제목을 작성하세요<br><span class="cn-hl">둘째 줄은 포인트색</span></h2>
+          <ul class="cn-checks"><li>체크 항목을 한 줄로 적어요</li><li>체크 항목을 한 줄로 적어요</li><li>체크 항목을 한 줄로 적어요</li></ul>
+        </div>
+      </section>
+      <figcaption>10 .cn-split — 위 사진 + 체크 목록</figcaption>
+    </figure>
+
+    <figure>
+      <section class="cn-card cn-grid">
+        <div class="cn-head"><p class="cn-kicker">KICKER</p><h2 class="cn-title">타일 제목을<br>두 줄로 적어요</h2><p class="cn-sub">출처나 보조 설명</p></div>
+        <div class="cn-tiles">
+          <div class="cn-tile"><p class="cn-tile-num">1</p><p class="cn-tile-title">항목</p><p class="cn-tile-desc">짧은 설명</p></div>
+          <div class="cn-tile"><p class="cn-tile-num">2</p><p class="cn-tile-title">항목</p><p class="cn-tile-desc">짧은 설명</p></div>
+          <div class="cn-tile is-point"><p class="cn-tile-num">3</p><p class="cn-tile-title">강조 항목</p><p class="cn-tile-desc">짧은 설명</p></div>
+          <div class="cn-tile"><p class="cn-tile-num">4</p><p class="cn-tile-title">항목</p><p class="cn-tile-desc">짧은 설명</p></div>
+        </div>
+        <p class="cn-note">마무리 한 줄, <strong>강조 단어</strong></p>
+      </section>
+      <figcaption>11 .cn-grid — 2 × 2 타일 (.is-point 로 강조)</figcaption>
+    </figure>
+
+    <figure>
+      <section class="cn-card cn-steps">
+        <div class="cn-head"><p class="cn-kicker">KICKER</p><h2 class="cn-title">단계 제목을<br>두 줄로 적어요</h2></div>
+        <ol class="cn-timeline">
+          <li class="cn-step"><p class="cn-step-label">STEP 1</p><p class="cn-step-title">단계 이름</p><p class="cn-step-desc">한 줄 설명을 적어요</p></li>
+          <li class="cn-step is-point"><p class="cn-step-label">STEP 2</p><p class="cn-step-title">강조 단계</p><p class="cn-step-desc">한 줄 설명을 적어요</p></li>
+          <li class="cn-step"><p class="cn-step-label">STEP 3</p><p class="cn-step-title">단계 이름</p><p class="cn-step-desc">한 줄 설명을 적어요</p></li>
+          <li class="cn-step"><p class="cn-step-label">STEP 4</p><p class="cn-step-title">단계 이름</p><p class="cn-step-desc">한 줄 설명을 적어요</p></li>
+        </ol>
+      </section>
+      <figcaption>12 .cn-steps — 세로 단계 (3–4단계)</figcaption>
+    </figure>
+
+    <figure>
+      <section class="cn-card cn-statement">
+        <div class="cn-content">
+          <span class="cn-mark"></span>
+          <p class="cn-kicker">KEY MESSAGE</p>
+          <h2 class="cn-title">핵심 메시지를<br>세 줄 안으로<br><em>강조</em>합니다</h2>
+          <p class="cn-desc">보조 문장을 두 줄 안으로 적어요</p>
+        </div>
+        <p class="cn-foot">INSIGHT LEARNING</p>
+      </section>
+      <figcaption>13 .cn-statement — 포인트 블루 핵심 메시지</figcaption>
     </figure>
   </main>
 </body>

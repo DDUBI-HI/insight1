@@ -6,13 +6,13 @@ Figma "카드뉴스" 페이지(Frame 1–7)를 HTML/CSS 로 옮긴 카드뉴스 
 ```
 cardnews/
 ├─ cardnews.css            디자인 시스템 (토큰 + 템플릿 7종)
-├─ templates.html          템플릿 견본 (Figma 자리 문구 그대로)
+├─ templates.html          템플릿 13종 견본 (자리 문구)
 ├─ scripts/
 │  ├─ fetch-images.mjs     images.json → Unsplash 사진 다운로드, CREDITS.md 생성
 │  └─ render.mjs           index.html → out/*.png (1080 × 1440) + out/overview.png
 └─ decks/
    └─ 2026-11-corporate-training-trends/   예시: 현재 기업 교육의 트렌드
-      ├─ index.html        카드 7장
+      ├─ index.html        카드 13장
       ├─ images.json       카드별 Unsplash 사진 ID·검색어
       ├─ CREDITS.md        사진 출처 (자동 생성)
       └─ out/              결과 PNG (자동 생성)
@@ -29,6 +29,21 @@ cardnews/
 | `cn-checklist` | Frame 5 | 리스트. 제목 + 체크 항목 3개 |
 | `cn-faq` | Frame 6 | FAQ. 질문 말풍선(회색) · 이미지 · 답변 말풍선(포인트색) |
 | `cn-closing` | Frame 7 | 마무리 CTA. 사진 + 40% 블랙, 가운데 문구 |
+| `cn-compare` | 확장 | 이전 → 지금 비교표 (회색 칸 → 포인트 블루 칸, 2–4행) |
+| `cn-summary` | 확장 | 번호 목록 한 장 요약 (파란 번호 원 + 제목 + 한 줄 설명, 3–5행) |
+| `cn-split` | 확장 | 위 사진(풀폭) + 아래 제목·체크 목록 |
+| `cn-grid` | 확장 | 2 × 2 타일, `.is-point` 타일은 포인트 블루 |
+| `cn-steps` | 확장 | 세로 단계 타임라인 (3–4단계, `.is-point` 로 단계 강조) |
+| `cn-statement` | 확장 | 포인트 블루 전면 + 핵심 메시지 (하늘색 형광펜 강조) |
+
+확장 템플릿은 공통 머리글 `.cn-head`(`.cn-kicker` 라벨 + 2줄 `.cn-title` + `.cn-sub`)를 씁니다.
+보조 설명은 `#666`, 구분선은 `#dfdfdf`, 타일은 말풍선과 같은 `#ededed` 로 Figma 팔레트를 벗어나지 않습니다.
+
+### 덱 구성 예 (샘플 13장)
+
+표지 → 도입 → 비교(무엇이 바뀌었나) → 요약(한눈에 보기) → 트렌드별 카드 5장(포인트 · 본문 · 사진+체크 · 타일 · 단계)
+→ 셀프 점검 → FAQ → 핵심 메시지 → 마무리.
+같은 템플릿을 연달아 쓰지 말고, 사진 카드와 흰 카드, 구조 카드를 번갈아 배치하면 넘길 때 리듬이 생깁니다.
 
 치수는 모두 Figma 1x(300 × 400) 그대로이며, 캡처할 때 3.6배로 키워 1080 × 1440 이 됩니다.
 색·글자 크기는 `cardnews.css` 맨 위 `--cn-*` 변수와 루트 `tokens.json` 의 **Card news** 항목에 있습니다.

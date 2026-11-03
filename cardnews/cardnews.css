@@ -244,6 +244,194 @@
 .cn-closing .cn-lead { font: var(--cn-lead); }
 .cn-closing .cn-title { margin-top: 13px; font: var(--cn-headline); }
 
+/* =====================================================================
+ * 확장 템플릿 — Figma 7종과 같은 색·글꼴·여백 규칙으로 만든 구조형 카드
+ *   .cn-compare    이전 → 지금 비교표
+ *   .cn-summary    번호 목록 한 장 요약
+ *   .cn-split      위 사진(풀폭) + 아래 제목·체크 목록
+ *   .cn-grid       2 × 2 타일 (강조 타일은 .is-point)
+ *   .cn-steps      세로 단계 타임라인
+ *   .cn-statement  포인트 블루 전면 + 핵심 메시지
+ * 공통 머리글 .cn-head = .cn-kicker(라벨) + .cn-title + .cn-sub
+ * ===================================================================== */
+
+:root {
+  --cn-muted: #666666;   /* 보조 설명 (브랜드 ink-muted, 흰 바탕 5.7:1) */
+  --cn-line: #dfdfdf;    /* 구분선 (브랜드 line) */
+  --cn-tile: var(--cn-bubble);
+  --cn-kicker: 700 10px/var(--cn-lh) var(--cn-font);
+  --cn-small: 600 11px/1.35 var(--cn-font);
+  --cn-caption: 400 9px/1.35 var(--cn-font);
+}
+
+.cn-kicker { font: var(--cn-kicker); letter-spacing: 0.08em; color: var(--cn-point); }
+.cn-head { padding: 40px 28px 0; }
+.cn-head .cn-title { margin-top: 6px; font: var(--cn-headline); }
+.cn-head .cn-sub { margin-top: 6px; font: var(--cn-caption); color: var(--cn-muted); }
+.cn-head--center { text-align: center; }
+.cn-feature .cn-kicker { margin-top: 24px; }
+.cn-feature .cn-kicker + .cn-title { margin-top: 6px; }
+
+/* ---------- compare ---------- */
+
+.cn-compare .cn-table {
+  display: grid;
+  grid-template-columns: 1fr 14px 1fr;
+  align-items: stretch;
+  gap: 8px 6px;
+  margin: 28px 28px 0;
+}
+.cn-compare .cn-col-head { font: var(--cn-kicker); text-align: center; padding-bottom: 2px; }
+.cn-compare .cn-col-head--before { color: var(--cn-muted); }
+.cn-compare .cn-col-head--after { color: var(--cn-point); }
+.cn-compare .cn-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  text-align: center;
+  font: var(--cn-small);
+}
+.cn-compare .cn-cell--before { background: var(--cn-tile); color: var(--cn-muted); }
+.cn-compare .cn-cell--after { background: var(--cn-point); color: var(--cn-on-dark); font-weight: 700; }
+.cn-compare .cn-arrow {
+  align-self: center;
+  justify-self: center;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 7px solid var(--cn-point);
+}
+
+/* ---------- summary ---------- */
+
+.cn-summary .cn-rows { list-style: none; margin: 22px 28px 0; }
+.cn-summary .cn-row {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  column-gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid var(--cn-line);
+}
+.cn-summary .cn-row:last-child { border-bottom: 1px solid var(--cn-line); }
+.cn-summary .cn-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--cn-radius-pill);
+  background: var(--cn-point);
+  color: var(--cn-on-dark);
+  font: 700 9px/1 var(--cn-font);
+}
+.cn-summary .cn-row-title { font: 700 13px/var(--cn-lh) var(--cn-font); }
+.cn-summary .cn-row-desc { margin-top: 3px; font: var(--cn-caption); color: var(--cn-muted); }
+
+/* ---------- split ---------- */
+
+.cn-split .cn-image { width: 100%; height: 200px; }
+.cn-split .cn-body { padding: 24px 28px 0; }
+.cn-split .cn-title { margin-top: 6px; font: var(--cn-headline); }
+.cn-checks { list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+.cn-checks li { position: relative; padding-left: 17px; font: var(--cn-small); }
+.cn-checks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 10px;
+  height: 8px;
+  background: var(--cn-point);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15.46 11.23'%3E%3Cpath d='M5.29 8.77 13.76.3a1 1 0 0 1 1.4 1.43l-9.17 9.19a1 1 0 0 1-1.4 0L.29 6.63A1 1 0 0 1 1.74 5.2Z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15.46 11.23'%3E%3Cpath d='M5.29 8.77 13.76.3a1 1 0 0 1 1.4 1.43l-9.17 9.19a1 1 0 0 1-1.4 0L.29 6.63A1 1 0 0 1 1.74 5.2Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* ---------- grid ---------- */
+
+.cn-grid .cn-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 22px 28px 0;
+}
+.cn-tile {
+  min-height: 92px;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--cn-tile);
+}
+.cn-tile .cn-tile-num { font: 700 20px/1 var(--cn-font); color: var(--cn-point); }
+.cn-tile .cn-tile-title { margin-top: 10px; font: 700 13px/var(--cn-lh) var(--cn-font); }
+.cn-tile .cn-tile-desc { margin-top: 4px; font: var(--cn-caption); color: var(--cn-muted); }
+.cn-tile.is-point { background: var(--cn-point); color: var(--cn-on-dark); }
+.cn-tile.is-point .cn-tile-num,
+.cn-tile.is-point .cn-tile-desc { color: var(--cn-on-dark); }
+.cn-grid .cn-note { margin: 12px 28px 0; font: var(--cn-caption); color: var(--cn-muted); }
+.cn-grid .cn-note strong { color: var(--cn-point); font-weight: 700; }
+
+/* ---------- steps ---------- */
+
+.cn-steps .cn-timeline { list-style: none; position: relative; margin: 24px 28px 0; }
+.cn-steps .cn-timeline::before {
+  /* 점들을 잇는 세로선: 첫 점 중심에서 마지막 점 중심까지 */
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 30px;
+  width: 1px;
+  background: var(--cn-line);
+}
+.cn-steps .cn-step { position: relative; padding: 0 0 14px 24px; }
+.cn-steps .cn-step::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 11px;
+  height: 11px;
+  border-radius: var(--cn-radius-pill);
+  background: var(--cn-surface);
+  border: 2px solid var(--cn-point);
+}
+.cn-steps .cn-step.is-point::before { background: var(--cn-point); }
+.cn-steps .cn-step-label { font: var(--cn-kicker); letter-spacing: 0.08em; color: var(--cn-point); }
+.cn-steps .cn-step-title { margin-top: 3px; font: 700 13px/var(--cn-lh) var(--cn-font); }
+.cn-steps .cn-step-desc { margin-top: 3px; font: var(--cn-caption); color: var(--cn-muted); }
+
+/* ---------- statement ---------- */
+
+.cn-statement { background: var(--cn-point); color: var(--cn-on-dark); }
+.cn-statement .cn-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 28px 20px;
+}
+.cn-statement .cn-mark { display: block; width: 28px; height: 4px; background: var(--cn-point-on-dark); }
+.cn-statement .cn-kicker { margin-top: 18px; color: var(--cn-on-dark); opacity: 0.8; }
+.cn-statement .cn-title { margin-top: 10px; font: var(--cn-display); }
+.cn-statement .cn-desc { margin-top: 14px; font: var(--cn-small); opacity: 0.85; }
+.cn-statement .cn-title em {
+  font-style: normal;
+  box-shadow: inset 0 -6px 0 rgba(88, 204, 255, 0.55); /* sky 형광펜 */
+}
+.cn-statement .cn-foot {
+  position: absolute;
+  left: 28px;
+  bottom: 28px;
+  font: var(--cn-kicker);
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+}
+
 /* ---------- preview page (not part of the exported image) ---------- */
 
 .cn-preview {
