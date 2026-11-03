@@ -48,3 +48,14 @@ Insightlearning (인싸이트러닝) is an HRD consulting partner: "고객사 HR
 
 - Use `assets/Logos/insightlearning-logo-color.png` on white and light surfaces, `insightlearning-logo-white.png` on `navy` and on photos.
 - Place it top-left on the cover and centered on the closing slide. Do not recolor, outline or redraw the swoosh mark.
+
+## Card news
+
+Square-ish social cards built from the Figma "카드뉴스" page and kept in `cardnews/`. They are written in HTML/CSS, then captured to PNG; see `cardnews/README.md` for the workflow.
+
+- Canvas is 3:4. Cards are laid out at the Figma size, 300 × 400, and exported at ×3.6 as 1080 × 1440 PNG.
+- Seven templates, one per Figma frame, in this deck order: `cn-cover` → `cn-intro` → `cn-feature` → `cn-story` → `cn-checklist` → `cn-faq` → `cn-closing`. A deck may repeat or skip middle templates but always opens with `cn-cover` and closes with `cn-closing`.
+- Card news has its own accent, `point` (#0044ff), in place of `navy`: pill tags, the second line of a feature title, list numbers, eyebrows on white cards, the answer bubble. On dark photo scrims the point phrase switches to `sky`, because `point` on black is only 3.3:1.
+- Type is Pretendard throughout with letter-spacing 0 and line-height 1.2, in the `cn-*` styles under **Card news** in `tokens.json` (24 / 20 / 16 / 15 / 14 / 12 / 10 / 8 px at design size). Korean lines break with `word-break: keep-all`; break titles by hand with `<br>` so each title is two balanced lines.
+- Photos are colour, full-bleed under a black scrim on the cover (bottom gradient), intro (top gradient) and closing (40% wash), and boxed on the feature, story and FAQ cards. Choose an Unsplash photo that shows the card's subject; never keep a placeholder.
+- Copy follows the voice rules above: polite declarative endings, one claim per card, list items as noun phrases, real figures only, no emoji.

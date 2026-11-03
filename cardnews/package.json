@@ -1,0 +1,14 @@
+{
+  "name": "insightlearning-cardnews",
+  "private": true,
+  "type": "module",
+  "description": "HTML/CSS 카드뉴스 → Unsplash 사진 받기 → Playwright 캡처로 PNG 출력",
+  "scripts": {
+    "fetch": "node scripts/fetch-images.mjs",
+    "render": "node scripts/render.mjs",
+    "build": "node scripts/fetch-images.mjs && node scripts/render.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}
