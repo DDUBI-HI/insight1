@@ -11,6 +11,7 @@
 // 환경 변수
 //   SCALE=3.6                   출력 배율 (1080 / 300)
 //   ALLOW_MISSING_IMAGES=1      사진이 없어도 자리 표시 색으로 렌더 (레이아웃 확인용)
+//   STRICT=1                    글이 카드 밖으로 넘치거나 직접 나눈 줄보다 더 꺾이면 실패
 //   CHROMIUM_PATH=/path/chrome  Playwright 기본 브라우저 대신 쓸 Chromium
 
 import fs from "node:fs/promises";
@@ -24,6 +25,7 @@ const { chromium } = require("playwright");
 
 const SCALE = Number(process.env.SCALE || 3.6);
 const allowMissing = process.env.ALLOW_MISSING_IMAGES === "1";
+const strict = process.env.STRICT === "1";
 
 let decks = process.argv.slice(2).map((d) => path.resolve(d));
 if (decks.length === 0) {
@@ -66,6 +68,24 @@ try {
         .map((el) => `${card.dataset.name}: ${el.className || el.tagName}`);
     }));
     if (overflow.length) console.warn(`  ! 카드 밖으로 넘친 요소\n    ${overflow.join("\n    ")}`);
+
+    // 줄 수 검사: 줄을 직접 나눈(<br>) 글이 칸이 좁아 한 줄 더 꺾였는지 확인합니다.
+    const rewrapped = await page.$$eval(".cn-card", (cards) => cards.flatMap((card) => {
+      const sel = ".cn-title, .cn-subtitle, .cn-eyebrow, .cn-point, .cn-pill, .cn-lead, .cn-desc, .cn-cell, .cn-bubble, " +
+        ".cn-item-title, .cn-item-desc, .cn-row-title, .cn-row-desc, .cn-step-label, .cn-step-title, .cn-step-desc, " +
+        ".cn-tile-title, .cn-kicker, .cn-checks li, .cn-note, .cn-sub";
+      return [...card.querySelectorAll(sel)].flatMap((el) => {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const tops = new Set([...range.getClientRects()].filter((r) => r.width > 0).map((r) => Math.round(r.top)));
+        const authored = el.querySelectorAll("br").length + 1;
+        return tops.size > authored ? [`${card.dataset.name}: .${el.classList[0]} ${authored}줄 → ${tops.size}줄 "${el.textContent.trim().slice(0, 24)}"`] : [];
+      });
+    }));
+    if (rewrapped.length) console.warn(`  ! 줄이 더 꺾인 글\n    ${rewrapped.join("\n    ")}`);
+    if (strict && (overflow.length || rewrapped.length)) {
+      throw new Error(`${path.relative(ROOT, deck)}: STRICT — 넘치거나 꺾인 글이 있습니다. deck.json 문구를 줄이세요.`);
+    }
 
     const cards = await page.$$(".cn-card[data-name]");
     console.log(`\n▶ ${path.relative(ROOT, deck)} (${cards.length}장, ×${SCALE})`);

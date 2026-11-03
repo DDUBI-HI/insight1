@@ -5,15 +5,18 @@ Figma "카드뉴스" 페이지(Frame 1–7)를 HTML/CSS 로 옮긴 카드뉴스 
 
 ```
 cardnews/
-├─ cardnews.css            디자인 시스템 (토큰 + 템플릿 7종)
+├─ cardnews.css            디자인 시스템 (토큰 + 템플릿 13종)
 ├─ templates.html          템플릿 13종 견본 (자리 문구)
+├─ COPY_GUIDE.md           문구·구성·사진 기준 (에이전트와 사람 공용)
 ├─ scripts/
+│  ├─ build-deck.mjs       deck.json → index.html + images.json (검증 포함)
 │  ├─ fetch-images.mjs     images.json → Unsplash 사진 다운로드, CREDITS.md 생성
 │  └─ render.mjs           index.html → out/*.png (1080 × 1440) + out/overview.png
 └─ decks/
    └─ 2026-11-corporate-training-trends/   예시: 현재 기업 교육의 트렌드
-      ├─ index.html        카드 13장
-      ├─ images.json       카드별 Unsplash 사진 ID·검색어
+      ├─ deck.json         원본: 카드별 템플릿·문구·사진
+      ├─ index.html        카드 13장 (생성됨)
+      ├─ images.json       카드별 Unsplash 사진 ID·검색어 (생성됨)
       ├─ CREDITS.md        사진 출처 (자동 생성)
       └─ out/              결과 PNG (자동 생성)
 ```
@@ -48,16 +51,49 @@ cardnews/
 치수는 모두 Figma 1x(300 × 400) 그대로이며, 캡처할 때 3.6배로 키워 1080 × 1440 이 됩니다.
 색·글자 크기는 `cardnews.css` 맨 위 `--cn-*` 변수와 루트 `tokens.json` 의 **Card news** 항목에 있습니다.
 
-## 새 카드뉴스 만들기
+## 에이전트로 만들기 (`/cardnews`)
 
-1. `decks/2026-11-corporate-training-trends` 폴더를 복사해 이름을 바꿉니다 (예: `decks/2026-12-leadership`).
-2. `index.html` 에서 문구를 고칩니다. 카드 순서·개수는 자유지만 표지로 시작해 `cn-closing` 으로 끝냅니다.
-   각 카드의 `data-name` 이 PNG 파일 이름이 됩니다.
-3. `images.json` 에 카드마다 내용에 맞는 사진을 지정합니다.
+Claude Code 에서 주제만 입력하면 됩니다.
+
+```
+/cardnews 신입사원 온보딩 트렌드
+/cardnews 팀장 리더십 교육 10 중간관리자
+```
+
+에이전트(`.claude/skills/cardnews/SKILL.md`)는 다음 순서로 진행합니다.
+1. 구성과 문구를 쓰고, **카드별 초안 표를 보여주며 확인을 받습니다.**
+2. 확인을 받으면 Unsplash 무료 사진을 고릅니다.
+3. `deck.json` → `index.html` 을 만들고, push 해서 Actions 로 PNG 를 렌더합니다.
+4. 결과 이미지를 직접 보고 검수한 뒤 전달합니다.
+
+문구 기준은 [`COPY_GUIDE.md`](COPY_GUIDE.md) 에 있습니다.
+
+### deck.json → index.html
+
+덱의 원본은 `decks/<slug>/deck.json` 입니다. 카드마다 템플릿 이름과 문구 필드만 적습니다.
+`index.html` 과 `images.json` 은 생성기가 만듭니다.
+
+```bash
+cd cardnews
+npm run new -- decks/<slug> --check   # 검증만: 템플릿 필드, 행 개수, 줄 길이(실측 폭), 덱 구성 규칙
+npm run new -- decks/<slug>           # index.html · images.json 생성
+ALLOW_MISSING_IMAGES=1 STRICT=1 npm run render -- decks/<slug>   # 사진 없이 레이아웃만 검사
+```
+
+`STRICT=1` 렌더는 두 경우에 실패합니다. 글이 카드 밖으로 넘친 경우, 그리고 직접 나눈 줄보다 더 꺾인 경우입니다.
+
+## 손으로 새 카드뉴스 만들기
+
+1. `decks/2026-11-corporate-training-trends` 폴더에서 `deck.json` 만 새 폴더로 복사합니다 (예: `decks/2026-12-leadership/deck.json`).
+2. `deck.json` 의 문구를 고치고 `npm run new -- decks/<slug>` 로 `index.html` 을 만듭니다.
+   카드 순서·개수는 자유지만 표지로 시작해 `cn-closing` 으로 끝냅니다.
+   PNG 파일 이름은 `<번호>-<name>` 이 됩니다.
+3. 각 카드의 `photo` 에 내용에 맞는 사진을 지정합니다. 생성기가 이 내용으로 `images.json` 을 만듭니다.
    - `unsplash`: Unsplash 사진 페이지 주소 끝의 ID (`unsplash.com/photos/...-RdEFWm0N84o` → `RdEFWm0N84o`)
-   - `query`: 검색어. `unsplash` 를 비워 두면 검색 1순위 사진을 자동으로 고르고 ID 를 기록합니다.
-   - `file`: `index.html` 의 `<img src="images/...">` 와 같은 이름
-   - 사진 위치를 옮기려면 `<img style="object-position: 50% 70%">` 처럼 지정합니다.
+   - `query`: 영문 검색어. `unsplash` 를 비워 두면 검색 결과 중 첫 무료 사진을 자동으로 고르고 ID 를 기록합니다.
+   - `alt`: 사진 설명 (한국어, 필수)
+   - `file`: 저장할 파일 이름 (기본 `<name>.jpg`)
+   - `position`: 사진 위치 조정, 예 `"30% 50%"`. 풀블리드 가로 사진은 가로 값만 효과가 있습니다.
 4. 브랜치에 push 하면 GitHub Actions(`카드뉴스 렌더`)가 사진을 받고 PNG 를 렌더해 `out/` 에 커밋합니다.
    Actions 탭의 `cardnews-png` 아티팩트로도 받을 수 있습니다.
 

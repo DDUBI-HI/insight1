@@ -1,0 +1,124 @@
+{
+  "slug": "2026-11-corporate-training-trends",
+  "title": "현재 기업 교육의 트렌드",
+  "topic": "현재 기업 교육의 트렌드",
+  "audience": "기업 HR·교육 담당자",
+  "sources": [
+    { "claim": "교육 효과 4단계(반응·학습·행동·결과)", "source": "Kirkpatrick 4단계 평가 모델" }
+  ],
+  "cards": [
+    {
+      "template": "cn-cover", "name": "cover",
+      "pill": "HR 담당자 필독",
+      "title": ["현재 기업 교육의", "5가지 트렌드"],
+      "subtitle": "교육 담당자가 꼭 알아야 할 변화",
+      "photo": { "file": "cover.jpg", "unsplash": "RdEFWm0N84o", "query": "team collaborating conference table laptops", "page": "https://unsplash.com/photos/six-colleagues-collaborating-around-a-conference-table-with-laptops-RdEFWm0N84o", "alt": "노트북을 펴고 회의 테이블에 둘러앉아 협업하는 동료들" }
+    },
+    {
+      "template": "cn-intro", "name": "intro",
+      "eyebrow": "2026 기업 교육 트렌드",
+      "title": ["교육의 기준이", "바뀌고 있습니다"],
+      "point": "수강 시간보다 현업의 변화를 봅니다",
+      "photo": { "file": "intro.jpg", "unsplash": "-Lzdk59aldE", "query": "corporate training workshop presentation", "page": "https://unsplash.com/photos/woman-presenting-to-audience-in-a-modern-office-meeting-room--Lzdk59aldE", "alt": "교육장 화면 앞에 앉아 있는 강사" }
+    },
+    {
+      "template": "cn-compare", "name": "before-after",
+      "kicker": "WHAT'S CHANGED",
+      "title": ["기업 교육,", "이렇게 달라지고 있습니다"],
+      "rows": [
+        { "before": ["1년에 한 번", "몰아서 듣는 집합교육"], "after": ["짧고 자주,", "업무 속 학습"] },
+        { "before": ["전 직원", "공통 과정"], "after": ["직무·조직별", "맞춤 과정"] },
+        { "before": "강의 듣기 중심", "after": "실습·코칭 중심" },
+        { "before": ["만족도 설문으로", "평가"], "after": ["현업 행동 변화로", "평가"] }
+      ]
+    },
+    {
+      "template": "cn-summary", "name": "five-trends", "label": "한눈에 보기",
+      "kicker": "5 TRENDS",
+      "title": ["한눈에 보는", "기업 교육 트렌드"],
+      "rows": [
+        { "title": "AI × JOB", "desc": "툴 사용법이 아닌, 직무에 붙는 AI 활용 교육" },
+        { "title": "마이크로러닝", "desc": "짧고 자주, 업무 흐름 속에서 배우는 학습" },
+        { "title": "코칭형 리더십", "desc": "지시하는 팀장에서 질문하는 리더로" },
+        { "title": "성과로 증명하는 교육", "desc": "만족도를 넘어 행동 변화와 성과까지 측정" },
+        { "title": "하이브리드 러닝", "desc": "온라인과 오프라인을 하나의 학습 여정으로" }
+      ]
+    },
+    {
+      "template": "cn-feature", "name": "trend1-ai-x-job", "label": "TREND 01",
+      "kicker": "TREND 01",
+      "title": ["AI 툴 사용법을 넘어", "*직무에 붙는 AI 교육*"],
+      "desc": ["직무별 실제 업무 과제로 실습하고", "바로 현업에 적용합니다"],
+      "photo": { "file": "ai.jpg", "unsplash": "0Jk1QCGMz5o", "query": "laptop AI chatbot work", "page": "https://unsplash.com/photos/a-laptop-displays-a-search-bar-asking-how-it-can-help-0Jk1QCGMz5o", "alt": "AI 채팅 화면이 열린 노트북" }
+    },
+    {
+      "template": "cn-story", "name": "trend2-microlearning", "label": "TREND 02",
+      "eyebrow": "TREND 02",
+      "title": "짧고 자주, 마이크로러닝",
+      "body": "하루 종일 몰아 듣는 집합교육 대신 짧은 콘텐츠로 업무 흐름 속에서 배웁니다. 모바일로 필요할 때 다시 보고, 사전·사후 학습으로 집합교육의 효과를 높입니다.",
+      "photo": { "file": "micro.jpg", "unsplash": "pGnXCqKNhYA", "query": "person learning on smartphone", "page": "https://unsplash.com/photos/a-person-holding-a-cell-phone-pGnXCqKNhYA", "alt": "스마트폰으로 학습 콘텐츠를 보는 사람" }
+    },
+    {
+      "template": "cn-split", "name": "trend3-coaching", "label": "TREND 03",
+      "kicker": "TREND 03",
+      "title": ["지시하는 팀장에서", "*질문하는 리더로*"],
+      "checks": [
+        "1on1 면담으로 구성원의 목표와 고민을 확인합니다",
+        "피드백 · 코칭 대화를 실제 사례로 실습합니다",
+        "리더가 구성원의 성장을 돕는 역할로 바뀝니다"
+      ],
+      "photo": { "file": "coaching.jpg", "unsplash": "tOUH9V8V6IE", "query": "leader coaching conversation office", "page": "https://unsplash.com/photos/two-businessmen-discussing-documents-at-a-table-tOUH9V8V6IE", "alt": "테이블에서 문서를 보며 대화하는 두 사람" }
+    },
+    {
+      "template": "cn-grid", "name": "trend4-measurement", "label": "TREND 04",
+      "kicker": "TREND 04",
+      "title": ["교육 효과,", "4단계로 확인합니다"],
+      "sub": "Kirkpatrick 4단계 평가 모델",
+      "tiles": [
+        { "title": "반응", "desc": "교육에 만족했는가" },
+        { "title": "학습", "desc": "지식과 기술을 익혔는가" },
+        { "title": "행동", "desc": "현업에서 행동이 바뀌었는가", "point": true },
+        { "title": "결과", "desc": "조직 성과로 이어졌는가", "point": true }
+      ],
+      "note": "만족도 설문에서 끝내지 않고 **3·4단계**까지 측정합니다"
+    },
+    {
+      "template": "cn-steps", "name": "trend5-hybrid", "label": "TREND 05",
+      "kicker": "TREND 05",
+      "title": ["하이브리드 러닝,", "이렇게 이어집니다"],
+      "steps": [
+        { "label": "STEP 1 · ONLINE", "title": "온라인 사전학습", "desc": "핵심 개념을 미리 익히고 워크숍에 참여합니다" },
+        { "label": "STEP 2 · OFFLINE", "title": "오프라인 워크숍", "desc": "실습과 토론으로 우리 팀의 현업 과제를 다룹니다", "point": true },
+        { "label": "STEP 3 · ON THE JOB", "title": "현업 적용 과제", "desc": "배운 내용을 실제 업무에 바로 적용합니다" },
+        { "label": "STEP 4 · FOLLOW-UP", "title": "사후 코칭·공유", "desc": "적용 결과를 돌아보고 다음 행동을 정합니다" }
+      ]
+    },
+    {
+      "template": "cn-checklist", "name": "self-check", "label": "셀프 점검",
+      "title": "우리 회사 교육, 점검해 보세요",
+      "items": [
+        { "num": "Q1", "title": "직무별 과정이 따로 있나요?", "desc": ["공통 과정만으로는 직무별 현업 과제를", "깊이 다루기 어렵습니다"] },
+        { "num": "Q2", "title": "교육 후 현업 적용을 확인하나요?", "desc": ["만족도 설문 외에 행동 변화를", "확인하는 장치가 필요합니다"] },
+        { "num": "Q3", "title": "리더가 코칭할 수 있나요?", "desc": ["교육 효과는 현업에서 리더가", "함께 이어갈 때 오래 남습니다"] }
+      ]
+    },
+    {
+      "template": "cn-faq", "name": "faq",
+      "title": ["HR 담당자가 가장 많이", "묻는 질문"],
+      "question": ["우리 회사에 맞는 교육,", "어디서부터 시작해야 하나요?"],
+      "answer": ["조직·직무 진단으로 니즈를 먼저 찾고", "맞춤 과정으로 설계합니다"],
+      "photo": { "file": "faq.jpg", "unsplash": "1FzEg5g7vt0", "query": "two colleagues discussing data laptop office", "page": "https://unsplash.com/photos/two-colleagues-discussing-data-on-a-laptop-screen-1FzEg5g7vt0", "alt": "노트북 화면의 데이터를 함께 보며 논의하는 두 동료" }
+    },
+    {
+      "template": "cn-statement", "name": "statement",
+      "title": ["교육은", "이벤트가 아니라", "*과정*입니다"],
+      "desc": ["현업의 변화와 성과로 이어질 때까지", "설계하고, 실행하고, 확인합니다"]
+    },
+    {
+      "template": "cn-closing", "name": "closing",
+      "lead": ["지금 트렌드에 맞는", "기업 교육을 찾으신다면"],
+      "title": "인싸이트러닝이 정답입니다",
+      "photo": { "file": "closing.jpg", "unsplash": "Lp3L3ZP_y3g", "query": "glass office skyscraper looking up", "page": "https://unsplash.com/photos/modern-skyscraper-with-glass-facade-against-sky-Lp3L3ZP_y3g", "alt": "아래에서 올려다본 유리 외벽의 고층 빌딩" }
+    }
+  ]
+}

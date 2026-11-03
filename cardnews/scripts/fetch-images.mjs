@@ -53,10 +53,12 @@ function sized(rawUrl, width) {
 }
 
 async function searchId(query) {
-  const q = new URLSearchParams({ query, per_page: "1", content_filter: "high", orientation: "landscape" });
+  const q = new URLSearchParams({ query, per_page: "10", content_filter: "high", orientation: "landscape" });
   const json = await (await get(`https://api.unsplash.com/search/photos?${q}`)).json();
-  if (!json.results?.length) throw new Error(`"${query}": 검색 결과 없음`);
-  return json.results[0].id;
+  // Unsplash+ (유료) 사진은 건너뛰고 무료 사진 중 첫 번째를 고릅니다.
+  const free = (json.results || []).find((p) => !p.premium && !p.plus);
+  if (!free) throw new Error(`"${query}": 무료 사진 검색 결과 없음`);
+  return free.id;
 }
 
 // 공식 Unsplash API 로 사진 정보를 가져옵니다 → { url, author, authorUrl }

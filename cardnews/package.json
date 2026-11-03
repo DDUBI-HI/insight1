@@ -4,6 +4,7 @@
   "type": "module",
   "description": "HTML/CSS 카드뉴스 → Unsplash 사진 받기 → Playwright 캡처로 PNG 출력",
   "scripts": {
+    "new": "node scripts/build-deck.mjs",
     "fetch": "node scripts/fetch-images.mjs",
     "render": "node scripts/render.mjs",
     "build": "node scripts/fetch-images.mjs && node scripts/render.mjs"
