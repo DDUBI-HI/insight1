@@ -4,20 +4,20 @@
     {
       "file": "cover.jpg",
       "card": "01-cover",
-      "query": "corporate training workshop presentation",
-      "unsplash": "-Lzdk59aldE",
-      "page": "https://unsplash.com/photos/woman-presenting-to-audience-in-a-modern-office-meeting-room--Lzdk59aldE",
-      "author": "Vitaly Gariev",
-      "author_url": "https://unsplash.com/@silverkblack"
-    },
-    {
-      "file": "intro.jpg",
-      "card": "02-intro",
       "query": "team collaborating conference table laptops",
       "unsplash": "RdEFWm0N84o",
       "page": "https://unsplash.com/photos/six-colleagues-collaborating-around-a-conference-table-with-laptops-RdEFWm0N84o",
       "author": "Ngital",
       "author_url": "https://unsplash.com/@ngital"
+    },
+    {
+      "file": "intro.jpg",
+      "card": "02-intro",
+      "query": "corporate training workshop presentation",
+      "unsplash": "-Lzdk59aldE",
+      "page": "https://unsplash.com/photos/woman-presenting-to-audience-in-a-modern-office-meeting-room--Lzdk59aldE",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
     },
     {
       "file": "ai.jpg",
