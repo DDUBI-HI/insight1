@@ -1,0 +1,124 @@
+{
+  "slug": "2026-11-onboarding-trends",
+  "title": "신입사원 온보딩 트렌드",
+  "topic": "신입사원 온보딩 트렌드",
+  "audience": "기업 HR·교육 담당자",
+  "sources": [
+    { "claim": "온보딩 4C(규정·역할 명확화·문화·관계)", "source": "Talya Bauer, Onboarding New Employees: Maximizing Success (SHRM Foundation)" }
+  ],
+  "cards": [
+    {
+      "template": "cn-cover", "name": "cover",
+      "pill": "HR 담당자 필독",
+      "title": ["신입사원 온보딩,", "이렇게 바뀝니다"],
+      "subtitle": "첫 90일을 설계하는 5가지 흐름",
+      "photo": { "query": "new employee first day office welcome team", "alt": "사무실에서 동료들의 환영을 받는 신입사원" }
+    },
+    {
+      "template": "cn-intro", "name": "intro",
+      "eyebrow": "2026 온보딩 트렌드",
+      "title": ["첫날 교육에서", "첫 90일 여정으로"],
+      "point": "입사 첫날보다 적응의 과정을 설계합니다",
+      "photo": { "query": "office orientation session new hires", "alt": "회의실에서 오리엔테이션을 듣는 신입사원들" }
+    },
+    {
+      "template": "cn-compare", "name": "before-after",
+      "kicker": "WHAT'S CHANGED",
+      "title": ["온보딩,", "무엇이 달라졌을까요"],
+      "rows": [
+        { "before": ["입사 첫날", "하루 오리엔테이션"], "after": ["입사 전부터", "90일 여정"] },
+        { "before": ["규정·제도", "설명 중심"], "after": ["역할·기대", "명확화 중심"] },
+        { "before": ["혼자 알아서", "적응"], "after": ["버디·리더와", "함께 적응"] },
+        { "before": ["서류 처리", "완료로 끝"], "after": ["30·60·90일", "점검으로 확인"] }
+      ]
+    },
+    {
+      "template": "cn-summary", "name": "five-trends", "label": "한눈에 보기",
+      "kicker": "5 TRENDS",
+      "title": ["한눈에 보는", "온보딩 트렌드"],
+      "rows": [
+        { "title": "프리보딩", "desc": "입사 전부터 시작하는 첫 연결" },
+        { "title": "90일 온보딩 여정", "desc": "하루가 아닌 단계별 적응 설계" },
+        { "title": "버디·멘토 제도", "desc": "질문할 수 있는 동료를 먼저 연결" },
+        { "title": "리더가 여는 온보딩", "desc": "역할과 기대를 리더가 직접 합의" },
+        { "title": "4C 관점의 설계", "desc": "규정을 넘어 문화와 관계까지" }
+      ]
+    },
+    {
+      "template": "cn-feature", "name": "trend1-preboarding", "label": "TREND 01",
+      "kicker": "TREND 01",
+      "title": ["입사 첫날 전부터", "*프리보딩*"],
+      "desc": ["입사 전 환영 메시지와 준비 자료로", "첫날의 긴장을 줄입니다"],
+      "photo": { "query": "welcome kit laptop desk new employee", "alt": "새 노트북과 환영 키트가 놓인 책상" }
+    },
+    {
+      "template": "cn-steps", "name": "trend2-90days", "label": "TREND 02",
+      "kicker": "TREND 02",
+      "title": ["첫 90일,", "단계별로 이어집니다"],
+      "steps": [
+        { "label": "DAY 1", "title": "환영과 업무 환경 준비", "desc": "팀 소개와 업무 도구 준비를 마칩니다" },
+        { "label": "DAY 30", "title": "핵심 업무 이해", "desc": "버디와 함께 주요 업무를 익힙니다", "point": true },
+        { "label": "DAY 60", "title": "첫 성과 경험", "desc": "혼자 맡은 과제로 첫 결과를 냅니다" },
+        { "label": "DAY 90", "title": "돌아보기와 목표 합의", "desc": "리더와 적응을 돌아보고 다음 목표를 정합니다" }
+      ]
+    },
+    {
+      "template": "cn-split", "name": "trend3-buddy", "label": "TREND 03",
+      "kicker": "TREND 03",
+      "title": ["혼자 적응하지 않게,", "*버디·멘토 제도*"],
+      "checks": [
+        "입사 초기 동안 가까운 선배가 함께합니다",
+        "업무와 조직 생활의 질문 창구가 됩니다",
+        "버디에게도 역할 가이드를 제공합니다"
+      ],
+      "photo": { "query": "mentor helping new employee computer office", "alt": "선배가 신입사원에게 화면을 보며 업무를 설명하는 모습" }
+    },
+    {
+      "template": "cn-story", "name": "trend4-leader", "label": "TREND 04",
+      "eyebrow": "TREND 04",
+      "title": "리더가 직접 여는 온보딩",
+      "body": "온보딩은 HR만의 일이 아닙니다. 리더가 첫 주에 역할과 기대를 직접 설명하고, 30·60·90일마다 짧은 면담으로 적응을 확인합니다.",
+      "photo": { "query": "manager one on one meeting new hire", "alt": "리더와 신입사원이 마주 앉아 면담하는 모습" }
+    },
+    {
+      "template": "cn-grid", "name": "trend5-4c", "label": "TREND 05",
+      "kicker": "TREND 05",
+      "title": ["온보딩,", "4C로 설계합니다"],
+      "sub": "Talya Bauer의 온보딩 4C 모델 (SHRM Foundation)",
+      "tiles": [
+        { "num": "C1", "title": "규정", "desc": "규정과 제도를 안내합니다" },
+        { "num": "C2", "title": "역할", "desc": "역할과 기대를 명확히 합니다" },
+        { "num": "C3", "title": "문화", "desc": "일하는 방식을 공유합니다", "point": true },
+        { "num": "C4", "title": "관계", "desc": "동료와의 관계를 연결합니다", "point": true }
+      ],
+      "note": "규정 안내에서 끝내지 않고 **문화와 관계**까지 설계합니다"
+    },
+    {
+      "template": "cn-checklist", "name": "self-check", "label": "셀프 점검",
+      "title": "우리 회사 온보딩 점검",
+      "items": [
+        { "num": "Q1", "title": "90일 계획이 있나요?", "desc": ["첫날 오리엔테이션만으로는", "적응을 돕기 어렵습니다"] },
+        { "num": "Q2", "title": "질문할 버디가 있나요?", "desc": ["질문할 사람이 정해져 있으면", "적응 부담이 줄어듭니다"] },
+        { "num": "Q3", "title": "리더 면담이 정해져 있나요?", "desc": ["30·60·90일 면담으로", "적응을 함께 확인합니다"] }
+      ]
+    },
+    {
+      "template": "cn-faq", "name": "faq",
+      "title": ["HR 담당자가 가장 많이", "묻는 질문"],
+      "question": ["경력 입사자도", "온보딩이 필요한가요?"],
+      "answer": ["업무 경험이 있어도 조직 문화와", "관계 적응은 새로 시작됩니다"],
+      "photo": { "query": "experienced professional joining new team office", "alt": "새 팀원과 인사를 나누는 직장인" }
+    },
+    {
+      "template": "cn-statement", "name": "statement",
+      "title": ["온보딩은", "첫날이 아니라", "*첫 90일*입니다"],
+      "desc": ["입사 전부터 90일까지,", "적응의 과정을 함께 설계합니다"]
+    },
+    {
+      "template": "cn-closing", "name": "closing",
+      "lead": ["우리 회사에 맞는", "온보딩을 찾으신다면"],
+      "title": "인싸이트러닝과 함께하세요",
+      "photo": { "query": "modern office building glass facade sky", "alt": "하늘을 배경으로 한 유리 외벽의 사무실 건물" }
+    }
+  ]
+}

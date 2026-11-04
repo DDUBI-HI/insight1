@@ -1,0 +1,47 @@
+{
+  "width": 1600,
+  "images": [
+    {
+      "file": "cover.jpg",
+      "card": "01-cover",
+      "query": "new employee first day office welcome team",
+      "unsplash": ""
+    },
+    {
+      "file": "intro.jpg",
+      "card": "02-intro",
+      "query": "office orientation session new hires",
+      "unsplash": ""
+    },
+    {
+      "file": "trend1-preboarding.jpg",
+      "card": "05-trend1-preboarding",
+      "query": "welcome kit laptop desk new employee",
+      "unsplash": ""
+    },
+    {
+      "file": "trend3-buddy.jpg",
+      "card": "07-trend3-buddy",
+      "query": "mentor helping new employee computer office",
+      "unsplash": ""
+    },
+    {
+      "file": "trend4-leader.jpg",
+      "card": "08-trend4-leader",
+      "query": "manager one on one meeting new hire",
+      "unsplash": ""
+    },
+    {
+      "file": "faq.jpg",
+      "card": "11-faq",
+      "query": "experienced professional joining new team office",
+      "unsplash": ""
+    },
+    {
+      "file": "closing.jpg",
+      "card": "13-closing",
+      "query": "modern office building glass facade sky",
+      "unsplash": ""
+    }
+  ]
+}
