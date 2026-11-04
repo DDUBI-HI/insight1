@@ -11,7 +11,8 @@ cardnews/
 ├─ scripts/
 │  ├─ build-deck.mjs       deck.json → index.html + images.json (검증 포함)
 │  ├─ fetch-images.mjs     images.json → Unsplash 사진 다운로드, CREDITS.md 생성
-│  └─ render.mjs           index.html → out/*.png (1080 × 1440) + out/overview.png
+│  ├─ render.mjs           index.html → out/*.png (1080 × 1440) + out/overview.png
+│  └─ pack-deck.mjs        out/*.png + caption.txt + CREDITS.md → dist/<slug>.zip (커밋하지 않음)
 └─ decks/
    └─ 2026-11-corporate-training-trends/   예시: 현재 기업 교육의 트렌드
       ├─ deck.json         원본: 카드별 템플릿·문구·사진
@@ -65,7 +66,7 @@ Claude Code 에서 주제만 입력하면 됩니다.
 1. 구성과 문구를 쓰고, **카드별 초안 표를 보여주며 확인을 받습니다.**
 2. 확인을 받으면 Unsplash 무료 사진을 고릅니다.
 3. `deck.json` → `index.html` 을 만들고, push 해서 Actions 로 PNG 를 렌더합니다.
-4. 결과 이미지를 직접 보고 검수한 뒤, 이미지와 **인스타그램 문구**(`caption.txt`)를 함께 전달합니다.
+4. 결과 이미지를 직접 보고 검수한 뒤, 이미지와 **인스타그램 문구**(`caption.txt`), 그리고 둘을 한 번에 받을 수 있는 **압축 파일**을 함께 전달합니다.
 
 문구 기준은 [`COPY_GUIDE.md`](COPY_GUIDE.md) 에 있습니다.
 
@@ -79,6 +80,12 @@ cd cardnews
 npm run new -- decks/<slug> --check   # 검증만: 템플릿 필드, 행 개수, 줄 길이(실측 폭), 덱 구성 규칙
 npm run new -- decks/<slug>           # index.html · images.json · caption.txt 생성
 ALLOW_MISSING_IMAGES=1 STRICT=1 npm run render -- decks/<slug>   # 사진 없이 레이아웃만 검사
+```
+
+렌더가 끝난 덱은 한 번에 받을 수 있게 묶을 수 있습니다.
+
+```bash
+npm run pack -- decks/<slug>          # → dist/<slug>.zip (카드 PNG + caption.txt + CREDITS.md)
 ```
 
 `STRICT=1` 렌더는 두 경우에 실패합니다. 글이 카드 밖으로 넘친 경우, 그리고 직접 나눈 줄보다 더 꺾인 경우입니다.
