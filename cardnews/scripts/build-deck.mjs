@@ -94,10 +94,43 @@ function count(i, c, field, min, max) {
   const n = (c[field] || []).length;
   if (n < min || n > max) errors.push(`${where(i, c, field)}: ${min === max ? `${min}개` : `${min}–${max}개`}여야 합니다 (지금 ${n}개)`);
 }
+const photoFiles = new Map(); // 사진 파일 이름 → 처음 쓴 카드
 function photo(i, c) {
   if (!need(i, c, "photo")) return;
   if (!c.photo.alt) errors.push(`${where(i, c, "photo.alt")}: 사진 설명(alt)이 없습니다`);
   if (!c.photo.unsplash && !c.photo.query) errors.push(`${where(i, c, "photo")}: unsplash ID 나 query 중 하나는 있어야 합니다`);
+  // 파일 이름은 images/ 안의 단순한 이름만 허용합니다 (경로 이동·덮어쓰기 방지).
+  const file = c.photo.file || `${c.name}.jpg`;
+  if (!/^[a-z0-9][a-z0-9-]*\.(jpg|jpeg|png)$/.test(file)) {
+    errors.push(`${where(i, c, "photo.file")}: 영문 소문자·숫자·하이픈 이름에 .jpg/.png 확장자만 쓸 수 있습니다 ("${file}")`);
+  } else if (photoFiles.has(file)) {
+    errors.push(`${where(i, c, "photo.file")}: ${photoFiles.get(file)} 카드와 사진 파일 이름(${file})이 겹칩니다`);
+  } else {
+    photoFiles.set(file, String(i + 1).padStart(2, "0"));
+  }
+}
+// 목록 항목마다 꼭 있어야 하는 필드. 빠지면 카드에 "undefined" 가 찍히므로 검사합니다.
+const ITEM_FIELDS = {
+  "cn-checklist": ["items", ["title", "desc"]],
+  "cn-compare": ["rows", ["before", "after"]],
+  "cn-summary": ["rows", ["title", "desc"]],
+  "cn-split": ["checks", null],
+  "cn-grid": ["tiles", ["title", "desc"]],
+  "cn-steps": ["steps", ["title", "desc"]],
+};
+const blank = (v) => v === undefined || v === null || (Array.isArray(v) ? v.length === 0 || v.some(blank) : String(v).trim() === "");
+function items(i, c) {
+  const spec = ITEM_FIELDS[c.template];
+  if (!spec || !Array.isArray(c[spec[0]])) return;
+  const [list, keys] = spec;
+  c[list].forEach((it, n) => {
+    if (keys === null) {
+      if (blank(it)) errors.push(`${where(i, c, `${list}[${n + 1}]`)}: 내용이 비어 있습니다`);
+      return;
+    }
+    if (typeof it !== "object" || it === null) { errors.push(`${where(i, c, `${list}[${n + 1}]`)}: { ${keys.join(", ")} } 형태여야 합니다`); return; }
+    for (const k of keys) if (blank(it[k])) errors.push(`${where(i, c, `${list}[${n + 1}].${k}`)}: 필수 항목이 없습니다`);
+  });
 }
 
 const RULES = {
@@ -148,6 +181,7 @@ cards.forEach((c, i) => {
   if (names.has(c.name)) errors.push(`${where(i, c, "name")}: 이름이 겹칩니다`);
   names.add(c.name);
   RULES[c.template](i, c);
+  items(i, c);
 });
 
 if (errors.length) {

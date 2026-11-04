@@ -92,7 +92,18 @@ jobs:
           git add decks/*/out decks/*/images.json decks/*/CREDITS.md
           if git diff --cached --quiet; then
             echo "변경 없음"
-          else
-            git commit -m "cardnews: render PNG [skip ci]"
-            git push
+            exit 0
           fi
+          git commit -m "cardnews: render PNG [skip ci]"
+          # 렌더 중에 브랜치에 새 커밋이 올라왔으면 그 위에 얹어 다시 push 합니다.
+          for attempt in 1 2 3; do
+            if git push; then exit 0; fi
+            if ! git pull --rebase; then
+              # 같은 파일이 바뀌어 충돌하면, 새 커밋으로 시작된 다음 렌더가 결과를 올리므로 이번 결과는 버립니다.
+              git rebase --abort
+              echo "::notice::브랜치가 바뀌어 이번 렌더 결과는 올리지 않습니다. 새 커밋의 렌더가 이어서 처리합니다."
+              exit 0
+            fi
+          done
+          echo "::error::렌더 결과를 push 하지 못했습니다."
+          exit 1

@@ -69,15 +69,12 @@ async function resolve(id, width) {
   return { url: sized(p.urls.raw, width), author: p.user?.name, authorUrl: p.user?.links?.html };
 }
 
-if (!KEY) {
-  console.error(
-    "UNSPLASH_ACCESS_KEY 가 없습니다.\n" +
-    "  1) https://unsplash.com/oauth/applications 에서 앱을 만들고 Access Key 를 복사합니다.\n" +
-    "  2) 로컬: UNSPLASH_ACCESS_KEY=... npm run fetch\n" +
-    "     GitHub Actions: 저장소 Settings → Secrets and variables → Actions 에 UNSPLASH_ACCESS_KEY 로 등록합니다.",
-  );
-  process.exit(1);
-}
+const KEY_HELP =
+  "UNSPLASH_ACCESS_KEY 가 없습니다.\n" +
+  "  1) https://unsplash.com/oauth/applications 에서 앱을 만들고 Access Key 를 복사합니다.\n" +
+  "  2) 로컬: UNSPLASH_ACCESS_KEY=... npm run fetch\n" +
+  "     GitHub Actions: 저장소 Settings → Secrets and variables → Actions 에 UNSPLASH_ACCESS_KEY 로 등록합니다.";
+let keyMissing = false;
 
 let failed = 0;
 for (const deck of decks) {
@@ -98,6 +95,14 @@ for (const deck of decks) {
     const exists = await fs.stat(dest).then(() => true, () => false);
     if (exists && !force && item.author) {
       console.log(`  · ${item.file} (이미 있음)`);
+      continue;
+    }
+    if (!KEY) {
+      // 사진은 이미 있고 사진가 정보만 비어 있으면 그대로 두고 넘어갑니다. 받을 사진이 있을 때만 키가 필요합니다.
+      if (exists && !force) { console.log(`  · ${item.file} (이미 있음, 키가 없어 사진가 정보는 건너뜀)`); continue; }
+      keyMissing = true;
+      failed++;
+      console.error(`  ✗ ${item.file}: 사진을 받으려면 UNSPLASH_ACCESS_KEY 가 필요합니다`);
       continue;
     }
     try {
@@ -135,6 +140,7 @@ for (const deck of decks) {
 }
 
 if (failed) {
+  if (keyMissing) console.error(`\n${KEY_HELP}`);
   console.error(`\n${failed}개 사진을 받지 못했습니다.`);
   process.exit(1);
 }

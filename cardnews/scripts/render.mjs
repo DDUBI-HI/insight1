@@ -70,7 +70,7 @@ try {
     if (overflow.length) console.warn(`  ! 카드 밖으로 넘친 요소\n    ${overflow.join("\n    ")}`);
 
     // 줄 수 검사: 줄을 직접 나눈(<br>) 글이 칸이 좁아 한 줄 더 꺾였는지 확인합니다.
-    const rewrapped = await page.$$eval(".cn-card", (cards) => cards.flatMap((card) => {
+    let rewrapped = await page.$$eval(".cn-card", (cards) => cards.flatMap((card) => {
       const sel = ".cn-title, .cn-subtitle, .cn-eyebrow, .cn-point, .cn-pill, .cn-lead, .cn-desc, .cn-cell, .cn-bubble, " +
         ".cn-item-title, .cn-item-desc, .cn-row-title, .cn-row-desc, .cn-step-label, .cn-step-title, .cn-step-desc, " +
         ".cn-tile-title, .cn-kicker, .cn-checks li, .cn-note, .cn-sub";
@@ -82,6 +82,17 @@ try {
         return tops.size > authored ? [`${card.dataset.name}: .${el.classList[0]} ${authored}줄 → ${tops.size}줄 "${el.textContent.trim().slice(0, 24)}"`] : [];
       });
     }));
+    // 줄을 나누지 않는 문단은 최대 줄 수로 검사합니다 (본문 카드 문단 4줄, 타일 설명 2줄).
+    const tooLong = await page.$$eval(".cn-card", (cards) => cards.flatMap((card) => {
+      const MAX = { ".cn-story .cn-body": 4, ".cn-tile-desc": 2 };
+      return Object.entries(MAX).flatMap(([sel, max]) => [...card.querySelectorAll(sel)].flatMap((el) => {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const n = new Set([...range.getClientRects()].filter((r) => r.width > 0).map((r) => Math.round(r.top))).size;
+        return n > max ? [`${card.dataset.name}: ${sel} ${max}줄 이하여야 합니다 (지금 ${n}줄)`] : [];
+      }));
+    }));
+    rewrapped.push(...tooLong);
     if (rewrapped.length) console.warn(`  ! 줄이 더 꺾인 글\n    ${rewrapped.join("\n    ")}`);
     if (strict && (overflow.length || rewrapped.length)) {
       throw new Error(`${path.relative(ROOT, deck)}: STRICT — 넘치거나 꺾인 글이 있습니다. deck.json 문구를 줄이세요.`);

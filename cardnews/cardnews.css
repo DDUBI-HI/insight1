@@ -62,6 +62,9 @@
   /* radius */
   --cn-radius-pill: 9999px;
   --cn-radius-image: 5px;
+
+  /* Figma 'Vector' 체크 아이콘 (mask 로 색을 입혀 씀) */
+  --cn-check-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15.46 11.23'%3E%3Cpath d='M5.29 8.77 13.76.3a1 1 0 0 1 1.4 1.43l-9.17 9.19a1 1 0 0 1-1.4 0L.29 6.63A1 1 0 0 1 1.74 5.2Z'/%3E%3C/svg%3E");
 }
 
 /* ---------- card base ---------- */
@@ -188,8 +191,8 @@
   width: 9px;
   height: 8px;
   background: currentColor;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15.46 11.23'%3E%3Cpath d='M5.29 8.77 13.76.3a1 1 0 0 1 1.4 1.43l-9.17 9.19a1 1 0 0 1-1.4 0L.29 6.63A1 1 0 0 1 1.74 5.2Z'/%3E%3C/svg%3E") center / contain no-repeat;
-          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15.46 11.23'%3E%3Cpath d='M5.29 8.77 13.76.3a1 1 0 0 1 1.4 1.43l-9.17 9.19a1 1 0 0 1-1.4 0L.29 6.63A1 1 0 0 1 1.74 5.2Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  -webkit-mask: var(--cn-check-icon) center / contain no-repeat;
+          mask: var(--cn-check-icon) center / contain no-repeat;
 }
 
 /* ---------- 06 faq ---------- */
@@ -216,16 +219,15 @@
 .cn-bubble::after {
   content: "";
   position: absolute;
-  top: 27px;
+  bottom: -1px;
   width: 18px;
   height: 16px;
   background: inherit;
-  border-radius: 0;
 }
 .cn-bubble--q { margin: 29px 0 0 38px; background: var(--cn-bubble); color: var(--cn-ink); }
-.cn-bubble--q::after { left: 0; top: auto; bottom: -1px; clip-path: polygon(2px 15px, 7.5px 0, 17.5px 10.7px); }
+.cn-bubble--q::after { left: 0; clip-path: polygon(2px 15px, 7.5px 0, 17.5px 10.7px); }
 .cn-bubble--a { margin: 9px 0 0 67px; background: var(--cn-point); color: var(--cn-on-dark); }
-.cn-bubble--a::after { right: 0; top: auto; bottom: -1px; clip-path: polygon(16px 15px, 10.5px 0, 0.5px 10.7px); }
+.cn-bubble--a::after { right: 0; clip-path: polygon(16px 15px, 10.5px 0, 0.5px 10.7px); }
 .cn-faq .cn-image { width: 192px; height: 100px; margin: 14px 0 0 67px; border-radius: var(--cn-radius-image); }
 
 /* ---------- 07 closing ---------- */
@@ -347,8 +349,8 @@
   width: 10px;
   height: 8px;
   background: var(--cn-point);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15.46 11.23'%3E%3Cpath d='M5.29 8.77 13.76.3a1 1 0 0 1 1.4 1.43l-9.17 9.19a1 1 0 0 1-1.4 0L.29 6.63A1 1 0 0 1 1.74 5.2Z'/%3E%3C/svg%3E") center / contain no-repeat;
-          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15.46 11.23'%3E%3Cpath d='M5.29 8.77 13.76.3a1 1 0 0 1 1.4 1.43l-9.17 9.19a1 1 0 0 1-1.4 0L.29 6.63A1 1 0 0 1 1.74 5.2Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  -webkit-mask: var(--cn-check-icon) center / contain no-repeat;
+          mask: var(--cn-check-icon) center / contain no-repeat;
 }
 
 /* ---------- grid ---------- */
