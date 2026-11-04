@@ -1,0 +1,459 @@
+/*
+ * Insightlearning 카드뉴스 디자인 시스템
+ * ------------------------------------------------------------
+ * 원본: Figma "카드뉴스" 페이지 (Frame 1–7, 300 × 400)
+ * 모든 수치는 Figma 1x(300 × 400) 기준 CSS px 입니다.
+ * 이미지 출력은 scripts/render.mjs 가 deviceScaleFactor 3.6 으로
+ * 캡처해 1080 × 1440(3:4) PNG 를 만듭니다.
+ *
+ * 템플릿 7종
+ *   .cn-cover      01 표지      풀블리드 사진 + 하단 그라디언트 + 알약 라벨
+ *   .cn-intro      02 도입      풀블리드 사진 + 상단 그라디언트 + 가운데 제목
+ *   .cn-feature    03 포인트    상단 이미지 + 2줄 제목(둘째 줄 포인트색) + 설명
+ *   .cn-story      04 본문      라벨 + 제목 + 이미지 + 긴 설명
+ *   .cn-checklist  05 리스트    제목 + 체크 항목 3개
+ *   .cn-faq        06 FAQ       질문 말풍선 + 이미지 + 답변 말풍선
+ *   .cn-closing    07 마무리    풀블리드 사진 + 40% 블랙 스크림 + CTA
+ */
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("../fonts/PretendardVariable.woff2") format("woff2-variations"),
+       url("../fonts/PretendardVariable.woff2") format("woff2");
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: block;
+}
+
+:root {
+  /* canvas */
+  --cn-w: 300px;
+  --cn-h: 400px;
+
+  /* color */
+  --cn-point: #0044ff;          /* Figma 포인트 블루. 흰 배경 위 6.4:1, 흰 글자 6.4:1 */
+  --cn-point-on-dark: #58ccff;  /* 브랜드 sky. 어두운 사진·스크림 위 포인트 문구 */
+  --cn-ink: #000000;            /* 흰 카드 위 제목·본문 */
+  --cn-on-dark: #ffffff;        /* 사진·포인트색 위 글자 */
+  --cn-surface: #ffffff;        /* 카드 바탕 */
+  --cn-bubble: #ededed;         /* FAQ 질문 말풍선 */
+  --cn-photo-fallback: #1f375d; /* 사진이 아직 없을 때 자리 표시 */
+
+  /* scrim */
+  --cn-scrim-bottom: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #000000 100%);
+  --cn-scrim-top: linear-gradient(to bottom, #000000 0%, rgba(0, 0, 0, 0) 100%);
+  --cn-scrim-flat: rgba(0, 0, 0, 0.4);
+
+  /* type — Pretendard, 자간 0, 행간 1.2 (Figma Auto) */
+  --cn-font: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --cn-lh: 1.2;
+  --cn-display: 700 24px/var(--cn-lh) var(--cn-font);   /* 표지·도입 제목 */
+  --cn-headline: 700 20px/var(--cn-lh) var(--cn-font);  /* 포인트 카드 제목, CTA 결론 */
+  --cn-title: 700 16px/var(--cn-lh) var(--cn-font);     /* 본문·리스트·FAQ 카드 제목 */
+  --cn-lead: 600 15px/var(--cn-lh) var(--cn-font);      /* CTA 도입 문장 */
+  --cn-subtitle: 700 14px/var(--cn-lh) var(--cn-font);  /* 표지 소제목, 리스트 항목 제목 */
+  --cn-desc: 600 14px/var(--cn-lh) var(--cn-font);      /* 포인트 카드 설명 */
+  --cn-label: 700 12px/var(--cn-lh) var(--cn-font);     /* 도입 카드 소제목·포인트 문구 */
+  --cn-body: 600 12px/var(--cn-lh) var(--cn-font);      /* 본문 카드 긴 설명 */
+  --cn-tag: 600 10px/var(--cn-lh) var(--cn-font);       /* 알약 라벨 */
+  --cn-bubble-text: 400 10px/var(--cn-lh) var(--cn-font);  /* FAQ 말풍선 */
+  --cn-micro: 400 8px/1.25 var(--cn-font);              /* 리스트 항목 설명 */
+
+  /* radius */
+  --cn-radius-pill: 9999px;
+  --cn-radius-image: 5px;
+
+  /* Figma 'Vector' 체크 아이콘 (mask 로 색을 입혀 씀) */
+  --cn-check-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15.46 11.23'%3E%3Cpath d='M5.29 8.77 13.76.3a1 1 0 0 1 1.4 1.43l-9.17 9.19a1 1 0 0 1-1.4 0L.29 6.63A1 1 0 0 1 1.74 5.2Z'/%3E%3C/svg%3E");
+}
+
+/* ---------- card base ---------- */
+
+.cn-card {
+  position: relative;
+  width: var(--cn-w);
+  height: var(--cn-h);
+  flex: none;
+  overflow: hidden;
+  background: var(--cn-surface);
+  color: var(--cn-ink);
+  font-family: var(--cn-font);
+  letter-spacing: 0;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+.cn-card *, .cn-card *::before, .cn-card *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.cn-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.cn-hl { color: var(--cn-point); }
+.cn-on-dark .cn-hl { color: var(--cn-point-on-dark); }
+
+/* full-bleed photo + scrims */
+.cn-photo {
+  position: absolute;
+  inset: 0;
+  background: var(--cn-photo-fallback);
+}
+.cn-scrim { position: absolute; left: 0; right: 0; pointer-events: none; }
+.cn-scrim--bottom { top: 152px; bottom: 0; background: var(--cn-scrim-bottom); }
+.cn-scrim--top { top: 0; height: 299px; background: var(--cn-scrim-top); }
+.cn-scrim--flat { inset: 0; background: var(--cn-scrim-flat); }
+
+/* inline image box */
+.cn-image {
+  overflow: hidden;
+  background: var(--cn-photo-fallback);
+  flex: none;
+}
+
+/* pill tag */
+.cn-pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: var(--cn-radius-pill);
+  background: var(--cn-point);
+  color: var(--cn-on-dark);
+  font: var(--cn-tag);
+  white-space: nowrap;
+}
+
+/* ---------- 01 cover ---------- */
+
+.cn-cover { color: var(--cn-on-dark); }
+.cn-cover .cn-content {
+  position: absolute;
+  left: 33px;
+  right: 33px;
+  bottom: 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.cn-cover .cn-title { margin-top: 7px; font: var(--cn-display); }
+.cn-cover .cn-subtitle { margin-top: 8px; font: var(--cn-subtitle); }
+
+/* ---------- 02 intro ---------- */
+
+.cn-intro { color: var(--cn-on-dark); }
+.cn-intro .cn-content {
+  position: absolute;
+  top: 66px;
+  left: 20px;
+  right: 20px;
+  text-align: center;
+}
+.cn-intro .cn-eyebrow { font: var(--cn-label); }
+.cn-intro .cn-title { margin-top: 9px; font: var(--cn-display); }
+.cn-intro .cn-point { margin-top: 9px; font: var(--cn-label); color: var(--cn-point-on-dark); }
+
+/* ---------- 03 feature ---------- */
+
+.cn-feature .cn-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 24px 0;
+  text-align: center;
+}
+.cn-feature .cn-image { width: 226px; height: 144px; }
+.cn-feature .cn-title { margin-top: 28px; font: var(--cn-headline); }
+.cn-feature .cn-desc { margin-top: 10px; font: var(--cn-desc); }
+
+/* ---------- 04 story ---------- */
+
+.cn-story .cn-content { padding: 50px 34px 0; }
+.cn-story .cn-eyebrow { font: var(--cn-title); color: var(--cn-point); }
+.cn-story .cn-title { font: var(--cn-title); }
+.cn-story .cn-image { width: 229px; height: 168px; margin: 13px 0 0 2px; }
+.cn-story .cn-body { margin-top: 26px; font: var(--cn-body); }
+
+/* ---------- 05 checklist ---------- */
+
+.cn-checklist .cn-content { padding: 46px 46px 0; }
+.cn-checklist .cn-title { font: var(--cn-title); color: var(--cn-point); text-align: center; }
+.cn-checklist .cn-list { margin-top: 56px; list-style: none; display: flex; flex-direction: column; gap: 23px; }
+.cn-checklist .cn-item-title { font: var(--cn-subtitle); }
+.cn-checklist .cn-item-title .cn-num { color: var(--cn-point); margin-right: 4px; }
+.cn-checklist .cn-item-desc {
+  position: relative;
+  margin-top: 8px;
+  padding-left: 17px;
+  font: var(--cn-micro);
+}
+.cn-checklist .cn-item-desc::before {
+  /* Figma 'Vector' 9 × 8 체크 아이콘 */
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 9px;
+  height: 8px;
+  background: currentColor;
+  -webkit-mask: var(--cn-check-icon) center / contain no-repeat;
+          mask: var(--cn-check-icon) center / contain no-repeat;
+}
+
+/* ---------- 06 faq ---------- */
+
+.cn-faq .cn-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 69px;
+}
+.cn-faq .cn-title { align-self: stretch; padding: 0 24px; font: var(--cn-title); text-align: center; }
+.cn-bubble {
+  position: relative;
+  width: 195px;
+  min-height: 42px;
+  padding: 8px 18px;
+  border-radius: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font: var(--cn-bubble-text);
+}
+.cn-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  width: 18px;
+  height: 16px;
+  background: inherit;
+}
+.cn-bubble--q { margin: 29px 0 0 38px; background: var(--cn-bubble); color: var(--cn-ink); }
+.cn-bubble--q::after { left: 0; clip-path: polygon(2px 15px, 7.5px 0, 17.5px 10.7px); }
+.cn-bubble--a { margin: 9px 0 0 67px; background: var(--cn-point); color: var(--cn-on-dark); }
+.cn-bubble--a::after { right: 0; clip-path: polygon(16px 15px, 10.5px 0, 0.5px 10.7px); }
+.cn-faq .cn-image { width: 192px; height: 100px; margin: 14px 0 0 67px; border-radius: var(--cn-radius-image); }
+
+/* ---------- 07 closing ---------- */
+
+.cn-closing { color: var(--cn-on-dark); }
+.cn-closing .cn-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px 24px;
+  text-align: center;
+}
+.cn-closing .cn-lead { font: var(--cn-lead); }
+.cn-closing .cn-title { margin-top: 13px; font: var(--cn-headline); }
+
+/* =====================================================================
+ * 확장 템플릿 — Figma 7종과 같은 색·글꼴·여백 규칙으로 만든 구조형 카드
+ *   .cn-compare    이전 → 지금 비교표
+ *   .cn-summary    번호 목록 한 장 요약
+ *   .cn-split      위 사진(풀폭) + 아래 제목·체크 목록
+ *   .cn-grid       2 × 2 타일 (강조 타일은 .is-point)
+ *   .cn-steps      세로 단계 타임라인
+ *   .cn-statement  포인트 블루 전면 + 핵심 메시지
+ * 공통 머리글 .cn-head = .cn-kicker(라벨) + .cn-title + .cn-sub
+ * ===================================================================== */
+
+:root {
+  --cn-muted: #666666;   /* 보조 설명 (브랜드 ink-muted, 흰 바탕 5.7:1) */
+  --cn-line: #dfdfdf;    /* 구분선 (브랜드 line) */
+  --cn-tile: var(--cn-bubble);
+  --cn-kicker: 700 10px/var(--cn-lh) var(--cn-font);
+  --cn-small: 600 11px/1.35 var(--cn-font);
+  --cn-caption: 400 9px/1.35 var(--cn-font);
+}
+
+.cn-kicker { font: var(--cn-kicker); letter-spacing: 0.08em; color: var(--cn-point); }
+.cn-head { padding: 40px 28px 0; }
+.cn-head .cn-title { margin-top: 6px; font: var(--cn-headline); }
+.cn-head .cn-sub { margin-top: 6px; font: var(--cn-caption); color: var(--cn-muted); }
+.cn-head--center { text-align: center; }
+.cn-feature .cn-kicker { margin-top: 24px; }
+.cn-feature .cn-kicker + .cn-title { margin-top: 6px; }
+
+/* ---------- compare ---------- */
+
+.cn-compare .cn-table {
+  display: grid;
+  grid-template-columns: 1fr 14px 1fr;
+  align-items: stretch;
+  gap: 8px 6px;
+  margin: 28px 28px 0;
+}
+.cn-compare .cn-col-head { font: var(--cn-kicker); text-align: center; padding-bottom: 2px; }
+.cn-compare .cn-col-head--before { color: var(--cn-muted); }
+.cn-compare .cn-col-head--after { color: var(--cn-point); }
+.cn-compare .cn-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  text-align: center;
+  font: var(--cn-small);
+}
+.cn-compare .cn-cell--before { background: var(--cn-tile); color: var(--cn-muted); }
+.cn-compare .cn-cell--after { background: var(--cn-point); color: var(--cn-on-dark); font-weight: 700; }
+.cn-compare .cn-arrow {
+  align-self: center;
+  justify-self: center;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 7px solid var(--cn-point);
+}
+
+/* ---------- summary ---------- */
+
+.cn-summary .cn-rows { list-style: none; margin: 22px 28px 0; }
+.cn-summary .cn-row {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  column-gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid var(--cn-line);
+}
+.cn-summary .cn-row:last-child { border-bottom: 1px solid var(--cn-line); }
+.cn-summary .cn-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--cn-radius-pill);
+  background: var(--cn-point);
+  color: var(--cn-on-dark);
+  font: 700 9px/1 var(--cn-font);
+}
+.cn-summary .cn-row-title { font: 700 13px/var(--cn-lh) var(--cn-font); }
+.cn-summary .cn-row-desc { margin-top: 3px; font: var(--cn-caption); color: var(--cn-muted); }
+
+/* ---------- split ---------- */
+
+.cn-split .cn-image { width: 100%; height: 200px; }
+.cn-split .cn-body { padding: 24px 28px 0; }
+.cn-split .cn-title { margin-top: 6px; font: var(--cn-headline); }
+.cn-checks { list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+.cn-checks li { position: relative; padding-left: 17px; font: var(--cn-small); }
+.cn-checks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 10px;
+  height: 8px;
+  background: var(--cn-point);
+  -webkit-mask: var(--cn-check-icon) center / contain no-repeat;
+          mask: var(--cn-check-icon) center / contain no-repeat;
+}
+
+/* ---------- grid ---------- */
+
+.cn-grid .cn-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 22px 28px 0;
+}
+.cn-tile {
+  min-height: 92px;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--cn-tile);
+}
+.cn-tile .cn-tile-num { font: 700 20px/1 var(--cn-font); color: var(--cn-point); }
+.cn-tile .cn-tile-title { margin-top: 10px; font: 700 13px/var(--cn-lh) var(--cn-font); }
+.cn-tile .cn-tile-desc { margin-top: 4px; font: var(--cn-caption); color: var(--cn-muted); }
+.cn-tile.is-point { background: var(--cn-point); color: var(--cn-on-dark); }
+.cn-tile.is-point .cn-tile-num,
+.cn-tile.is-point .cn-tile-desc { color: var(--cn-on-dark); }
+.cn-grid .cn-note { margin: 12px 28px 0; font: var(--cn-caption); color: var(--cn-muted); }
+.cn-grid .cn-note strong { color: var(--cn-point); font-weight: 700; }
+
+/* ---------- steps ---------- */
+
+.cn-steps .cn-timeline { list-style: none; position: relative; margin: 24px 28px 0; }
+.cn-steps .cn-timeline::before {
+  /* 점들을 잇는 세로선: 첫 점 중심에서 마지막 점 중심까지 */
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 30px;
+  width: 1px;
+  background: var(--cn-line);
+}
+.cn-steps .cn-step { position: relative; padding: 0 0 14px 24px; }
+.cn-steps .cn-step::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 11px;
+  height: 11px;
+  border-radius: var(--cn-radius-pill);
+  background: var(--cn-surface);
+  border: 2px solid var(--cn-point);
+}
+.cn-steps .cn-step.is-point::before { background: var(--cn-point); }
+.cn-steps .cn-step-label { font: var(--cn-kicker); letter-spacing: 0.08em; color: var(--cn-point); }
+.cn-steps .cn-step-title { margin-top: 3px; font: 700 13px/var(--cn-lh) var(--cn-font); }
+.cn-steps .cn-step-desc { margin-top: 3px; font: var(--cn-caption); color: var(--cn-muted); }
+
+/* ---------- statement ---------- */
+
+.cn-statement { background: var(--cn-point); color: var(--cn-on-dark); }
+.cn-statement .cn-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 28px 20px;
+}
+.cn-statement .cn-mark { display: block; width: 28px; height: 4px; background: var(--cn-point-on-dark); }
+.cn-statement .cn-kicker { margin-top: 18px; color: var(--cn-on-dark); opacity: 0.8; }
+.cn-statement .cn-title { margin-top: 10px; font: var(--cn-display); }
+.cn-statement .cn-desc { margin-top: 14px; font: var(--cn-small); opacity: 0.85; }
+.cn-statement .cn-title em {
+  font-style: normal;
+  box-shadow: inset 0 -6px 0 rgba(88, 204, 255, 0.55); /* sky 형광펜 */
+}
+.cn-statement .cn-foot {
+  position: absolute;
+  left: 28px;
+  bottom: 28px;
+  font: var(--cn-kicker);
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+}
+
+/* ---------- preview page (not part of the exported image) ---------- */
+
+.cn-preview {
+  margin: 0;
+  min-height: 100vh;
+  background: #f5f5f5;
+  font-family: var(--cn-font);
+  color: #333333;
+}
+.cn-preview header { padding: 32px 40px 0; }
+.cn-preview h1 { margin: 0; font-size: 20px; font-weight: 700; }
+.cn-preview header p { margin: 6px 0 0; font-size: 14px; color: #595959; }
+.cn-deck {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  padding: 32px 40px 48px;
+  zoom: 1.4;
+}
+.cn-deck figure { margin: 0; }
+.cn-deck figcaption { margin-top: 8px; font-size: 10px; color: #666666; }
+/* render.mjs 가 붙이는 클래스: 미리보기용 확대·여백 제거 */
+.cn-rendering .cn-deck { zoom: 1; }

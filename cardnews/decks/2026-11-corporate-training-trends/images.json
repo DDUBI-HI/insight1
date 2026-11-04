@@ -1,0 +1,68 @@
+{
+  "width": 1600,
+  "images": [
+    {
+      "file": "cover.jpg",
+      "card": "01-cover",
+      "query": "team collaborating conference table laptops",
+      "unsplash": "RdEFWm0N84o",
+      "page": "https://unsplash.com/photos/six-colleagues-collaborating-around-a-conference-table-with-laptops-RdEFWm0N84o",
+      "author": "Ngital",
+      "author_url": "https://unsplash.com/@ngital"
+    },
+    {
+      "file": "intro.jpg",
+      "card": "02-intro",
+      "query": "corporate training workshop presentation",
+      "unsplash": "-Lzdk59aldE",
+      "page": "https://unsplash.com/photos/woman-presenting-to-audience-in-a-modern-office-meeting-room--Lzdk59aldE",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
+    },
+    {
+      "file": "ai.jpg",
+      "card": "05-trend1-ai-x-job",
+      "query": "laptop AI chatbot work",
+      "unsplash": "0Jk1QCGMz5o",
+      "page": "https://unsplash.com/photos/a-laptop-displays-a-search-bar-asking-how-it-can-help-0Jk1QCGMz5o",
+      "author": "Aerps.com",
+      "author_url": "https://unsplash.com/@almoya"
+    },
+    {
+      "file": "micro.jpg",
+      "card": "06-trend2-microlearning",
+      "query": "person learning on smartphone",
+      "unsplash": "pGnXCqKNhYA",
+      "page": "https://unsplash.com/photos/a-person-holding-a-cell-phone-pGnXCqKNhYA",
+      "author": "John Smith",
+      "author_url": "https://unsplash.com/@johnsmithphotography"
+    },
+    {
+      "file": "coaching.jpg",
+      "card": "07-trend3-coaching",
+      "query": "leader coaching conversation office",
+      "unsplash": "tOUH9V8V6IE",
+      "page": "https://unsplash.com/photos/two-businessmen-discussing-documents-at-a-table-tOUH9V8V6IE",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
+    },
+    {
+      "file": "faq.jpg",
+      "card": "11-faq",
+      "query": "two colleagues discussing data laptop office",
+      "unsplash": "1FzEg5g7vt0",
+      "page": "https://unsplash.com/photos/two-colleagues-discussing-data-on-a-laptop-screen-1FzEg5g7vt0",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
+    },
+    {
+      "file": "closing.jpg",
+      "card": "13-closing",
+      "query": "glass office skyscraper looking up",
+      "unsplash": "Lp3L3ZP_y3g",
+      "page": "https://unsplash.com/photos/modern-skyscraper-with-glass-facade-against-sky-Lp3L3ZP_y3g",
+      "author": "Rafael Garcin",
+      "author_url": "https://unsplash.com/@nimbus_vulpis"
+    }
+  ]
+}
