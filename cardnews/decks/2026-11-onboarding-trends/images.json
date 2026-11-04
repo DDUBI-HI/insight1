@@ -6,49 +6,63 @@
       "card": "01-cover",
       "query": "new employee first day office welcome team",
       "unsplash": "UikYLDQj9_I",
-      "page": "https://unsplash.com/photos/team-collaborating-around-a-computer-in-an-office-UikYLDQj9_I"
+      "page": "https://unsplash.com/photos/team-collaborating-around-a-computer-in-an-office-UikYLDQj9_I",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
     },
     {
       "file": "intro.jpg",
       "card": "02-intro",
       "query": "office orientation session new hires",
       "unsplash": "y7xUr3aDLXc",
-      "page": "https://unsplash.com/photos/business-professionals-collaborating-around-a-conference-table-y7xUr3aDLXc"
+      "page": "https://unsplash.com/photos/business-professionals-collaborating-around-a-conference-table-y7xUr3aDLXc",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
     },
     {
       "file": "trend1-preboarding.jpg",
       "card": "05-trend1-preboarding",
       "query": "welcome kit laptop desk new employee",
       "unsplash": "TdgfSyDoWBE",
-      "page": "https://unsplash.com/photos/notebook-and-laptop-sit-on-a-work-desk-TdgfSyDoWBE"
+      "page": "https://unsplash.com/photos/notebook-and-laptop-sit-on-a-work-desk-TdgfSyDoWBE",
+      "author": "Yen Vu",
+      "author_url": "https://unsplash.com/@yenvu2410"
     },
     {
       "file": "trend3-buddy.jpg",
       "card": "07-trend3-buddy",
       "query": "mentor helping new employee computer office",
       "unsplash": "0iTp1WNlMGc",
-      "page": "https://unsplash.com/photos/colleagues-collaborating-at-a-modern-office-desk-0iTp1WNlMGc"
+      "page": "https://unsplash.com/photos/colleagues-collaborating-at-a-modern-office-desk-0iTp1WNlMGc",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
     },
     {
       "file": "trend4-leader.jpg",
       "card": "08-trend4-leader",
       "query": "manager one on one meeting new hire",
       "unsplash": "so2ol7Wv0D0",
-      "page": "https://unsplash.com/photos/two-colleagues-discussing-work-at-their-desks-so2ol7Wv0D0"
+      "page": "https://unsplash.com/photos/two-colleagues-discussing-work-at-their-desks-so2ol7Wv0D0",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
     },
     {
       "file": "faq.jpg",
       "card": "11-faq",
       "query": "experienced professional joining new team office",
       "unsplash": "jEpZNyFSQwQ",
-      "page": "https://unsplash.com/photos/two-professionals-shaking-hands-across-a-table-jEpZNyFSQwQ"
+      "page": "https://unsplash.com/photos/two-professionals-shaking-hands-across-a-table-jEpZNyFSQwQ",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
     },
     {
       "file": "closing.jpg",
       "card": "13-closing",
       "query": "modern office building glass facade sky",
       "unsplash": "0EwYFuj4OPM",
-      "page": "https://unsplash.com/photos/a-tall-glass-building-with-a-sky-background-0EwYFuj4OPM"
+      "page": "https://unsplash.com/photos/a-tall-glass-building-with-a-sky-background-0EwYFuj4OPM",
+      "author": "fabian jones",
+      "author_url": "https://unsplash.com/@secondsight"
     }
   ]
 }
