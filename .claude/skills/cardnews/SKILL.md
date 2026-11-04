@@ -67,7 +67,10 @@ ALLOW_MISSING_IMAGES=1 STRICT=1 node scripts/render.mjs decks/<slug>
   - PNG 를 렌더합니다.
   - `out/*.png`, `CREDITS.md`, 사진가 정보가 채워진 `images.json` 을 `cardnews: render PNG [skip ci]` 커밋으로 올립니다.
 - 그 커밋을 기다립니다. `git ls-remote` 로 브랜치 HEAD 가 바뀌는지 백그라운드에서 확인하면 됩니다. 이어서 pull 합니다.
-- 워크플로가 실패하면 로그를 확인합니다. 사진 ID 오류면 다른 사진으로 바꿉니다.
+- 워크플로가 실패하면 로그를 확인합니다.
+  - 사진 ID 오류(404)면 다른 사진으로 바꿉니다.
+  - "시간당 요청 한도를 다 썼습니다"면 코드 문제가 아닙니다. Unsplash 데모 키는 1시간에 50회까지이고, 사진 1장에 2회를 씁니다. 1시간 뒤 Actions에서 **카드뉴스 렌더 → Run workflow**를 실행하고 `deck` 에 덱 폴더 이름을 넣어 그 덱만 다시 렌더합니다 (`send_later` 로 예약해도 됩니다).
+- 워크플로는 push 에서 바뀐 덱만 렌더합니다. 받은 사진은 Actions 캐시에 남아 다음 실행에서 다시 쓰입니다.
 
 ### 6. 시각 검수 (반드시 PNG 를 직접 봅니다)
 - `out/overview.png` 와 사진 카드 PNG 를 하나씩 열어 확인합니다.

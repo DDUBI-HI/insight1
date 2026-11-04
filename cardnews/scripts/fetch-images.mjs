@@ -37,6 +37,11 @@ async function get(url, init = {}) {
   if (KEY && url.startsWith("https://api.unsplash.com/")) headers.Authorization = `Client-ID ${KEY}`;
   const res = await fetch(url, { ...init, headers });
   if (!res.ok) {
+    // Unsplash 는 시간당 요청 한도(데모 키 50회)를 넘기면 403 과 남은 횟수 0 을 돌려줍니다.
+    if (res.status === 403 && res.headers.get("x-ratelimit-remaining") === "0") {
+      rateLimited = true;
+      throw new Error("Unsplash API 시간당 요청 한도를 다 썼습니다 (데모 키는 1시간에 50회). 1시간 뒤 다시 실행하세요");
+    }
     throw new Error(`${res.status} ${res.statusText} — ${url}`);
   }
   return res;
@@ -75,6 +80,7 @@ const KEY_HELP =
   "  2) 로컬: UNSPLASH_ACCESS_KEY=... npm run fetch\n" +
   "     GitHub Actions: 저장소 Settings → Secrets and variables → Actions 에 UNSPLASH_ACCESS_KEY 로 등록합니다.";
 let keyMissing = false;
+let rateLimited = false;
 
 let failed = 0;
 for (const deck of decks) {
@@ -90,11 +96,22 @@ for (const deck of decks) {
   await fs.mkdir(dir, { recursive: true });
   console.log(`\n▶ ${path.relative(ROOT, deck)}`);
 
+  // images/.fetched.json: 파일마다 실제로 받은 사진 ID. 캐시에서 복원한 파일이 다른 사진이면 다시 받습니다.
+  const fetchedPath = path.join(dir, ".fetched.json");
+  const fetched = JSON.parse(await fs.readFile(fetchedPath, "utf8").catch(() => "{}"));
+
   for (const item of manifest.images) {
     const dest = path.join(dir, item.file);
-    const exists = await fs.stat(dest).then(() => true, () => false);
+    const onDisk = await fs.stat(dest).then(() => true, () => false);
+    // ID 가 정해진 사진은 같은 ID 로 받은 파일만 "있음" 으로 봅니다.
+    const exists = onDisk && (!item.unsplash || !fetched[item.file] || fetched[item.file] === item.unsplash);
     if (exists && !force && item.author) {
       console.log(`  · ${item.file} (이미 있음)`);
+      continue;
+    }
+    if (rateLimited) {
+      failed++;
+      console.error(`  ✗ ${item.file}: 요청 한도 초과로 건너뜀`);
       continue;
     }
     if (!KEY) {
@@ -118,6 +135,7 @@ for (const deck of decks) {
         if (!type.startsWith("image/") || buf.length < 10_000) throw new Error(`이미지가 아닌 응답 (${type}, ${buf.length} bytes)`);
         await fs.writeFile(dest, buf);
       }
+      fetched[item.file] = item.unsplash;
       if (info.author) item.author = info.author;
       if (info.authorUrl) item.author_url = info.authorUrl;
       console.log(`  ✓ ${item.file} ← ${item.unsplash}${item.author ? ` (${item.author})` : ""}`);
@@ -127,6 +145,7 @@ for (const deck of decks) {
     }
   }
 
+  await fs.writeFile(fetchedPath, JSON.stringify(fetched, null, 2) + "\n");
   await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
   const rows = manifest.images.map((i) => {
     const who = i.author ? (i.author_url ? `[${i.author}](${i.author_url})` : i.author) : "—";

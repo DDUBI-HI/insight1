@@ -38,6 +38,8 @@ jobs:
         working-directory: cardnews
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # 이번 push 에서 바뀐 덱을 찾으려면 이전 커밋이 필요합니다
 
       - name: Unsplash 키 확인
         id: key
@@ -51,45 +53,73 @@ jobs:
             echo "::warning title=UNSPLASH_ACCESS_KEY 없음::저장소 Settings → Secrets and variables → Actions 에 UNSPLASH_ACCESS_KEY 를 등록하면 사진을 받아 PNG 를 렌더합니다 (cardnews/README.md 참고)."
           fi
 
-      - uses: actions/setup-node@v4
+      # 렌더할 덱: 수동 실행이면 지정한 덱(비우면 전체), push 면 바뀐 덱만.
+      # 덱 밖의 파일(CSS·스크립트·폰트·워크플로)이 바뀌었으면 전체를 다시 렌더합니다.
+      - name: 렌더할 덱 고르기
+        id: decks
         if: steps.key.outputs.ok == 'true'
+        env:
+          INPUT_DECK: ${{ github.event.inputs.deck }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            if [ -n "$INPUT_DECK" ]; then list="decks/$INPUT_DECK"; else list=$(ls -d decks/*/ | sed 's:/$::' | tr '\n' ' '); fi
+          elif [ -z "$BEFORE" ] || ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            list=$(ls -d decks/*/ | sed 's:/$::' | tr '\n' ' ')
+          else
+            changed=$(git diff --name-only "$BEFORE" "${{ github.sha }}" -- ..)
+            if echo "$changed" | grep -v '^cardnews/decks/' | grep -qE '^(cardnews/|fonts/|\.github/workflows/cardnews-render\.yml)'; then
+              list=$(ls -d decks/*/ | sed 's:/$::' | tr '\n' ' ')
+            else
+              list=$(echo "$changed" | sed -n 's:^cardnews/\(decks/[^/]*\)/.*:\1:p' | sort -u | while read d; do [ -f "$d/index.html" ] && echo "$d"; done | tr '\n' ' ')
+            fi
+          fi
+          echo "렌더할 덱: ${list:-없음}"
+          echo "list=$list" >> "$GITHUB_OUTPUT"
+
+      # 받은 사진을 실행 사이에 재사용해 Unsplash 요청 한도(데모 키 50회/시간)를 아낍니다.
+      - uses: actions/cache@v4
+        if: steps.decks.outputs.list != ''
+        with:
+          path: cardnews/decks/*/images
+          key: cardnews-images-${{ hashFiles('cardnews/decks/*/images.json') }}
+          restore-keys: cardnews-images-
+
+      - uses: actions/setup-node@v4
+        if: steps.decks.outputs.list != ''
         with:
           node-version: "22"
           cache: npm
           cache-dependency-path: cardnews/package-lock.json
 
       - name: 의존성 설치
-        if: steps.key.outputs.ok == 'true'
+        if: steps.decks.outputs.list != ''
         run: |
           npm ci
           npx playwright install --with-deps chromium
 
       - name: Unsplash 사진 받기
-        if: steps.key.outputs.ok == 'true'
+        if: steps.decks.outputs.list != ''
         env:
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
-        run: |
-          target="${{ github.event.inputs.deck }}"
-          node scripts/fetch-images.mjs ${target:+decks/$target} ${{ github.event.inputs.refetch == 'true' && '--force' || '' }}
+        run: node scripts/fetch-images.mjs ${{ steps.decks.outputs.list }} ${{ github.event.inputs.refetch == 'true' && '--force' || '' }}
 
       - name: PNG 렌더
-        if: steps.key.outputs.ok == 'true'
-        run: |
-          target="${{ github.event.inputs.deck }}"
-          node scripts/render.mjs ${target:+decks/$target}
+        if: steps.decks.outputs.list != ''
+        run: node scripts/render.mjs ${{ steps.decks.outputs.list }}
 
       - uses: actions/upload-artifact@v4
-        if: steps.key.outputs.ok == 'true'
+        if: steps.decks.outputs.list != ''
         with:
           name: cardnews-png
           path: cardnews/decks/*/out/*.png
 
       - name: 결과 커밋
-        if: steps.key.outputs.ok == 'true'
+        if: steps.decks.outputs.list != ''
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add decks/*/out decks/*/images.json decks/*/CREDITS.md
+          for d in ${{ steps.decks.outputs.list }}; do git add "$d/out" "$d/images.json" "$d/CREDITS.md"; done
           if git diff --cached --quiet; then
             echo "변경 없음"
             exit 0

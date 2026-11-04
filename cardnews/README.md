@@ -121,7 +121,13 @@ UNSPLASH_ACCESS_KEY=... npm run build   # = fetch(사진 받기) + render(PNG �
 2. GitHub 저장소 **Settings → Secrets and variables → Actions → New repository secret**에 이름 `UNSPLASH_ACCESS_KEY`로 등록합니다.
 3. Actions 탭에서 **카드뉴스 렌더 → Run workflow**를 누르거나 브랜치에 다시 push 합니다.
 
-로컬에서는 `UNSPLASH_ACCESS_KEY=... npm run build` 로 실행합니다. 키가 없으면 워크플로는 사진 받기와 렌더를 건너뛰고 안내만 남깁니다.
+로컬에서는 `UNSPLASH_ACCESS_KEY=... npm run build` 로 실행합니다.
+
+Demo 키는 **1시간에 50회**까지 요청할 수 있고, 사진 1장에 2회를 씁니다. 그래서 워크플로는 이렇게 동작합니다.
+- push 에서 바뀐 덱만 사진을 받고 렌더합니다. CSS·스크립트가 바뀌면 전체 덱을 렌더합니다.
+- 받은 사진은 Actions 캐시에 두고 다음 실행에서 다시 씁니다.
+- 한도에 걸리면 "시간당 요청 한도" 오류가 납니다. 1시간 뒤 **Run workflow** 에서 덱 이름을 넣어 다시 실행하세요.
+- 덱을 자주 만든다면 Unsplash 에 Production 승인을 신청하면 한도가 시간당 5,000회로 늘어납니다. 키가 없으면 워크플로는 사진 받기와 렌더를 건너뛰고 안내만 남깁니다.
 
 ## 사진 라이선스
 
