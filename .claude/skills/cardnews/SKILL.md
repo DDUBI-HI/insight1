@@ -1,6 +1,6 @@
 ---
 name: cardnews
-description: 인싸이트러닝 카드뉴스를 주제만으로 만든다. 구성·문구 작성 → 사용자 확인 → Unsplash 사진 선정 → HTML 생성 → GitHub Actions 렌더(1080×1440 PNG) → 시각 검수 → 전달. "/cardnews <주제>", "카드뉴스 만들어줘" 같은 요청에 사용.
+description: 인싸이트러닝 카드뉴스를 주제만으로 만든다. 구성·문구·인스타그램 본문 작성 → 사용자 확인 → Unsplash 사진 선정 → HTML 생성 → GitHub Actions 렌더(1080×1440 PNG) → 시각 검수 → 이미지와 인스타 문구 전달. "/cardnews <주제>", "카드뉴스 만들어줘" 같은 요청에 사용.
 argument-hint: <주제> [장수] [대상]
 ---
 
@@ -33,9 +33,11 @@ argument-hint: <주제> [장수] [대상]
 2. `cardnews/decks/<slug>/deck.json` 을 작성합니다.
    - COPY_GUIDE의 덱 구성표와 템플릿 선택표를 따릅니다.
    - 사진 칸에는 일단 `query`(영문)와 `alt` 만 넣습니다.
+   - 인스타그램 게시물 문구를 `caption` 에 함께 씁니다(COPY_GUIDE §7: 첫 줄 후킹, 요약, 참여 유도, CTA, 해시태그 8–15개).
 3. 검증합니다: `cd cardnews && node scripts/build-deck.mjs decks/<slug> --check`
    - 오류가 나면 문구를 고쳐 통과할 때까지 반복합니다. 메시지에 "약 N자 줄이세요"처럼 줄일 양이 나옵니다.
 4. **사용자에게 초안 표를 보여주고 멈춥니다.** 표는 카드 번호 | 템플릿 | 문구 요약(제목과 핵심 문장) 형식입니다.
+   - 표 아래에 인스타그램 문구 초안을 코드 블록으로 함께 보여줍니다. 문의 방법이 정해져 있지 않으면 확인을 요청합니다.
    - "이대로 진행할까요, 고칠 곳이 있나요?"라고 묻습니다.
    - 수정 요청이 오면 반영하고 3번(검증)부터 다시 합니다.
 
@@ -61,7 +63,7 @@ ALLOW_MISSING_IMAGES=1 STRICT=1 node scripts/render.mjs decks/<slug>
 - 로컬에 Playwright 가 없으면 `NODE_PATH` 에 전역 설치 경로를 지정하거나, 이 단계를 건너뛰고 CI 렌더에 맡깁니다.
 
 ### 5. 렌더 (GitHub Actions)
-- 커밋할 파일은 `decks/<slug>/deck.json`, `index.html`, `images.json` 입니다. 커밋한 뒤 작업 브랜치에 push 합니다.
+- 커밋할 파일은 `decks/<slug>/deck.json`, `index.html`, `images.json`, `caption.txt` 입니다. 커밋한 뒤 작업 브랜치에 push 합니다.
 - push 하면 `.github/workflows/cardnews-render.yml` 이 다음을 처리합니다.
   - Unsplash API(`UNSPLASH_ACCESS_KEY` Secret)로 사진을 받습니다.
   - PNG 를 렌더합니다.
@@ -86,7 +88,8 @@ ALLOW_MISSING_IMAGES=1 STRICT=1 node scripts/render.mjs decks/<slug>
 - `build-deck.mjs` 는 이미 받은 사진의 사진가 정보를 같은 ID 일 때 유지합니다. ID 를 바꾸면 다시 받습니다.
 
 ### 7. 전달
-- `out/overview.png` 와 카드 PNG 를 사용자에게 보냅니다.
+- `out/overview.png` 와 카드 PNG 를 사용자에게 보냅니다. 업로드 순서대로 01→13 파일 이름 순입니다.
+- **인스타그램 문구**(`decks/<slug>/caption.txt`)를 복사해 바로 붙여넣을 수 있게 코드 블록으로 함께 보냅니다.
 - 함께 알릴 것:
   - 덱 구성 요약
   - 사진 출처 `CREDITS.md`

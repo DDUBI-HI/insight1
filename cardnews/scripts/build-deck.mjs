@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// deck.json → index.html + images.json
+// deck.json → index.html + images.json + caption.txt (인스타그램 문구)
 //
 //   node scripts/build-deck.mjs decks/<slug>            # 검증 후 생성
 //   node scripts/build-deck.mjs decks/<slug> --check    # 검증만 (파일을 쓰지 않음)
@@ -170,6 +170,31 @@ const RULES = {
 
 if (!Array.isArray(deck.cards) || deck.cards.length < 7) errors.push(`cards: 7장 이상이어야 합니다 (지금 ${deck.cards?.length ?? 0}장)`);
 if (deck.cards?.length > 20) errors.push(`cards: 20장 이하여야 합니다 (인스타그램 캐러셀 한도)`);
+
+// 인스타그램 문구: caption.body(줄 배열) + caption.hashtags(태그 배열) → caption.txt
+const EMOJI = /[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}]/u;
+function captionText(cap) {
+  const body = asArray(cap.body || []).join("\n").trim();
+  const tags = (cap.hashtags || []).map((t) => `#${t}`).join(" ");
+  return tags ? `${body}\n\n${tags}\n` : `${body}\n`;
+}
+if (!deck.caption || blankCaption(deck.caption.body)) {
+  errors.push("caption.body: 인스타그램 문구가 없습니다 (COPY_GUIDE §7)");
+} else {
+  const tags = deck.caption.hashtags || [];
+  if (!Array.isArray(tags)) errors.push("caption.hashtags: 태그 배열이어야 합니다");
+  else {
+    if (tags.length > 30) errors.push(`caption.hashtags: 30개 이하여야 합니다 (인스타그램 한도, 지금 ${tags.length}개)`);
+    tags.forEach((t, n) => {
+      if (typeof t !== "string" || !/^[^\s#]+$/u.test(t)) errors.push(`caption.hashtags[${n + 1}]: '#' 없이 공백 없는 한 단어로 적어 주세요 ("${t}")`);
+    });
+    if (new Set(tags).size !== tags.length) errors.push("caption.hashtags: 겹치는 태그가 있습니다");
+  }
+  const text = captionText(deck.caption);
+  if ([...text].length > 2200) errors.push(`caption: 2,200자 이하여야 합니다 (인스타그램 한도, 지금 ${[...text].length}자)`);
+  if (EMOJI.test(text)) errors.push("caption: 이모지는 쓰지 않습니다 (브랜드 규칙)");
+}
+function blankCaption(v) { return !v || asArray(v).join("").trim() === ""; }
 const cards = deck.cards || [];
 if (cards[0] && cards[0].template !== "cn-cover") errors.push("첫 카드는 cn-cover 여야 합니다");
 if (cards.length && cards.at(-1).template !== "cn-closing") errors.push("마지막 카드는 cn-closing 이어야 합니다");
@@ -388,5 +413,6 @@ for (const e of images) {
 }
 
 await fs.writeFile(path.join(dir, "index.html"), html);
+await fs.writeFile(path.join(dir, "caption.txt"), captionText(deck.caption));
 await fs.writeFile(manifestPath, JSON.stringify({ width: previous.width || 1600, images }, null, 2) + "\n");
-console.log(`✓ ${path.relative(process.cwd(), dir)} — 카드 ${cards.length}장, 사진 ${images.length}장 → index.html, images.json`);
+console.log(`✓ ${path.relative(process.cwd(), dir)} — 카드 ${cards.length}장, 사진 ${images.length}장 → index.html, images.json, caption.txt`);
