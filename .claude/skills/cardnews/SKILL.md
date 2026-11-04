@@ -1,6 +1,6 @@
 ---
 name: cardnews
-description: 인싸이트러닝 카드뉴스를 주제만으로 만든다. 구성·문구·인스타그램 본문 작성 → 사용자 확인 → Unsplash 사진 선정 → HTML 생성 → GitHub Actions 렌더(1080×1440 PNG) → 시각 검수 → 이미지와 인스타 문구 전달. "/cardnews <주제>", "카드뉴스 만들어줘" 같은 요청에 사용.
+description: 인싸이트러닝 카드뉴스를 주제만으로 만든다. 구성·문구·인스타그램 본문 작성 → 사용자 확인 → Unsplash 사진 선정 → HTML 생성 → GitHub Actions 렌더(1080×1440 PNG) → 시각 검수 → 이미지·인스타 문구·압축 파일 전달. "/cardnews <주제>", "카드뉴스 만들어줘" 같은 요청에 사용.
 argument-hint: <주제> [장수] [대상]
 ---
 
@@ -88,7 +88,9 @@ ALLOW_MISSING_IMAGES=1 STRICT=1 node scripts/render.mjs decks/<slug>
 - `build-deck.mjs` 는 이미 받은 사진의 사진가 정보를 같은 ID 일 때 유지합니다. ID 를 바꾸면 다시 받습니다.
 
 ### 7. 전달
-- `out/overview.png` 와 카드 PNG 를 사용자에게 보냅니다. 업로드 순서대로 01→13 파일 이름 순입니다.
+- 압축 파일을 만듭니다: `cd cardnews && node scripts/pack-deck.mjs decks/<slug>` → `cardnews/dist/<slug>.zip`
+  - 안에는 카드 PNG(업로드 순서), `caption.txt`, `CREDITS.md` 가 들어 있습니다. `dist/` 는 커밋하지 않습니다.
+- `out/overview.png`, 카드 PNG, **압축 파일(`cardnews/dist/<slug>.zip`)을 항상 함께** 사용자에게 보냅니다. 업로드 순서는 01→13 파일 이름 순입니다.
 - **인스타그램 문구**(`decks/<slug>/caption.txt`)를 복사해 바로 붙여넣을 수 있게 코드 블록으로 함께 보냅니다.
 - 함께 알릴 것:
   - 덱 구성 요약
