@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Insightlearning — 03 Content. Light. SlideTitle (Light label + double navy rule) + centered SlideHeading. -->
+
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+
+  <!-- SlideTitle: section label, Light 300 -->
+  <text x="56" y="62"
+        font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="24" font-weight="300"
+        letter-spacing="-0.48"
+        fill="#1A1A1A">
+    {{PAGE_EYEBROW}}
+  </text>
+
+  <!-- Double rule: 136px bold segment (6px) over a full-width 2px line, both navy -->
+  <rect x="56" y="72" width="136" height="6" fill="#012281"/>
+  <line x1="192" y1="76" x2="1224" y2="76" stroke="#012281" stroke-width="2"/>
+
+  <!-- SlideHeading: one centered claim (ExtraBold, -0.03em) -->
+  <text x="640" y="128"
+        font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="29.6" font-weight="800"
+        letter-spacing="-0.89"
+        text-anchor="middle"
+        fill="#1A1A1A">
+    {{PAGE_TITLE}}
+  </text>
+
+  <!-- CONTENT AREA (Executor composes freely): x=56, y=168, w=1168, h=472.
+       Optional centered lead sentence at y=158 (body, text). -->
+
+  <!-- Governing Message (GM) — mandatory -->
+  <text x="640" y="680"
+        font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="15.2" font-weight="700"
+        text-anchor="middle"
+        fill="#595959">
+    {{GOVERNING_MESSAGE}}
+  </text>
+
+  <!-- Page number -->
+  <text x="1224" y="696"
+        font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="12.8" font-weight="400"
+        text-anchor="end"
+        fill="#666666">
+    {{PAGE_NUM}}
+  </text>
+</svg>
