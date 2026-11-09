@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Insightlearning — 04 Ending. Full navy band with a centered sky-blue frame (brochure closing page). Logo: place assets/brand/insightlearning-logo-white.png centered above the label via ../images/. -->
+
+  <rect width="1280" height="720" fill="{{TOKEN:colors.shell-bg}}"/>
+
+  <!-- Sky frame -->
+  <rect x="240" y="104" width="800" height="512" fill="none" stroke="{{TOKEN:colors.shell-accent}}" stroke-width="8"/>
+
+  <text x="640" y="232"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="17.6" font-weight="400"
+        letter-spacing="7"
+        text-anchor="middle"
+        fill="{{TOKEN:colors.shell-accent}}">
+    {{CLOSING_LABEL}}
+  </text>
+
+  <text x="640" y="336"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.display.size}}" font-weight="{{TOKEN:typography.display.weight}}"
+        letter-spacing="{{TOKEN:typography.display.letter-spacing}}"
+        text-anchor="middle"
+        fill="{{TOKEN:colors.shell-text}}">
+    {{CLOSING_HEADLINE}}
+  </text>
+
+  <text x="640" y="400"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.display-sm.size}}" font-weight="{{TOKEN:typography.display-sm.weight}}"
+        letter-spacing="{{TOKEN:typography.display-sm.letter-spacing}}"
+        text-anchor="middle"
+        fill="{{TOKEN:colors.shell-accent}}">
+    {{CLOSING_ACCENT}}
+  </text>
+
+  <text x="640" y="480"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.title.size}}" font-weight="400"
+        text-anchor="middle"
+        fill="{{TOKEN:colors.shell-text-secondary}}">
+    {{CONTACT_LINE}}
+  </text>
+
+  <text x="640" y="672"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.caption.size}}" font-weight="{{TOKEN:typography.caption.weight}}"
+        text-anchor="middle"
+        fill="{{TOKEN:colors.shell-text-secondary}}">
+    {{PRESENTER}} · {{DATE}}
+  </text>
+</svg>

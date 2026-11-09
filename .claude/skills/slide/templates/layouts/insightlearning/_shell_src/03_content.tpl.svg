@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Insightlearning — 03 Content. Light. SlideTitle (Light label + double navy rule) + centered SlideHeading. -->
+
+  <rect width="1280" height="720" fill="{{TOKEN:colors.bg}}"/>
+
+  <!-- SlideTitle: section label, Light 300 -->
+  <text x="56" y="62"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="24" font-weight="300"
+        letter-spacing="-0.48"
+        fill="{{TOKEN:colors.text}}">
+    {{PAGE_EYEBROW}}
+  </text>
+
+  <!-- Double rule: 136px bold segment (6px) over a full-width 2px line, both navy -->
+  <rect x="56" y="72" width="136" height="6" fill="{{TOKEN:colors.accent}}"/>
+  <line x1="192" y1="76" x2="1224" y2="76" stroke="{{TOKEN:colors.accent}}" stroke-width="{{TOKEN:stroke.emphasis}}"/>
+
+  <!-- SlideHeading: one centered claim (ExtraBold, -0.03em) -->
+  <text x="640" y="128"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.headline.size}}" font-weight="{{TOKEN:typography.headline.weight}}"
+        letter-spacing="{{TOKEN:typography.headline.letter-spacing}}"
+        text-anchor="middle"
+        fill="{{TOKEN:colors.text}}">
+    {{PAGE_TITLE}}
+  </text>
+
+  <!-- CONTENT AREA (Executor composes freely): x=56, y=168, w=1168, h=472.
+       Optional centered lead sentence at y=158 (body, text). -->
+
+  <!-- Governing Message (GM) — mandatory -->
+  <text x="640" y="680"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.body.size}}" font-weight="700"
+        text-anchor="middle"
+        fill="{{TOKEN:colors.text-secondary}}">
+    {{GOVERNING_MESSAGE}}
+  </text>
+
+  <!-- Page number -->
+  <text x="1224" y="696"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.caption.size}}" font-weight="{{TOKEN:typography.caption.weight}}"
+        text-anchor="end"
+        fill="{{TOKEN:colors.text-tertiary}}">
+    {{PAGE_NUM}}
+  </text>
+</svg>

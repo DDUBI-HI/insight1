@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "total": 2,
+    "defaultViewBox": "0 0 1280 720",
+    "formats": [
+      "ppt169"
+    ],
+    "standardFiles": [
+      "design_spec.md",
+      "01_cover.svg",
+      "02_chapter.svg",
+      "03_content.svg",
+      "04_ending.svg"
+    ],
+    "standardPageTypes": [
+      "cover",
+      "chapter",
+      "content",
+      "ending"
+    ],
+    "updated": "2026-10-07"
+  },
+  "categories": {
+    "jangpm": {
+      "label": "Jangpm Design System",
+      "layouts": [
+        "jangpm"
+      ]
+    },
+    "insightlearning": {
+      "label": "Insightlearning Design System",
+      "layouts": [
+        "insightlearning"
+      ]
+    }
+  },
+  "quickLookup": {
+    "default": [
+      "jangpm"
+    ],
+    "lecture": [
+      "jangpm"
+    ],
+    "report": [
+      "jangpm"
+    ],
+    "korean": [
+      "jangpm"
+    ],
+    "proposal": [
+      "insightlearning"
+    ],
+    "company-profile": [
+      "insightlearning"
+    ]
+  },
+  "layouts": {
+    "jangpm": {
+      "label": "Jangpm Lecture Deck",
+      "summary": "Korean-first lecture/report deck with monochrome + single #4633E3 indigo accent. Pretendard typography, 8px grid, Lucide line-art icons. Every content slide ends with a `.gm` governing message line.",
+      "tone": "Editorial, minimal, report-style, restrained. Notion/Linear/Vercel sensibility adapted to Korean instructional content.",
+      "themeMode": "Light only — warm off-white `#FAFAF9` background, `#1A1A1A` text, `#4633E3` single accent.",
+      "assets": [],
+      "keywords": [
+        "Korean",
+        "lecture",
+        "monochrome",
+        "indigo accent",
+        "Pretendard",
+        "report-style",
+        "Jangpm",
+        "1280x720"
+      ]
+    },
+    "insightlearning": {
+      "label": "Insightlearning Proposal Deck",
+      "summary": "Korean B2B HRD proposal / company-profile deck extracted from the 2026 Insightlearning company profile. White content pages with a single deep-navy #012281 accent, section label + split navy rule + centered headline, filled #F8F8F8 cards, navy label-column tables, chevron step bands. Navy narrative bands with sky #58CCFF on cover / chapter / closing.",
+      "tone": "Confident, consultative, performance-oriented corporate voice (formal 합니다체).",
+      "themeMode": "Light content (#FFFFFF bg, #1A1A1A text, #012281 accent); navy band on narrative shells only.",
+      "assets": [],
+      "keywords": [
+        "Korean",
+        "proposal",
+        "company profile",
+        "HRD",
+        "navy",
+        "B2B",
+        "Pretendard",
+        "Insightlearning",
+        "1280x720"
+      ]
+    }
+  }
+}

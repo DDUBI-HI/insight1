@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Insightlearning — 02 Chapter (Design System: SectionOpener). Navy-washed field left (photo stand-in), square sky number block straddling the edge, uppercase display title + navy Korean subtitle on white. -->
+
+  <rect width="1280" height="720" fill="{{TOKEN:colors.bg}}"/>
+  <rect x="0" y="0" width="560" height="720" fill="{{TOKEN:colors.shell-bg}}"/>
+
+  <!-- Square number block (tone sky; numeral is decoration, 40px+) -->
+  <rect x="496" y="272" width="128" height="128" fill="{{TOKEN:colors.shell-accent}}"/>
+  <text x="560" y="350"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.display-sm.size}}" font-weight="300"
+        text-anchor="middle"
+        fill="{{TOKEN:colors.shell-text}}">
+    {{CHAPTER_NUMBER}}
+  </text>
+
+  <!-- Uppercase display title (Black) -->
+  <text x="672" y="348"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="52" font-weight="900"
+        letter-spacing="-0.52"
+        fill="{{TOKEN:colors.text}}">
+    {{CHAPTER_TITLE}}
+  </text>
+
+  <!-- Korean subtitle in navy -->
+  <text x="672" y="392"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="24" font-weight="700"
+        fill="{{TOKEN:colors.accent}}">
+    {{CHAPTER_LABEL}}
+  </text>
+
+  <!-- Summary -->
+  <text x="672" y="440"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.body.size}}" font-weight="{{TOKEN:typography.body.weight}}"
+        fill="{{TOKEN:colors.text-secondary}}">
+    {{CHAPTER_SUMMARY}}
+  </text>
+
+  <!-- Page number -->
+  <text x="1224" y="696"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.caption.size}}" font-weight="{{TOKEN:typography.caption.weight}}"
+        text-anchor="end"
+        fill="{{TOKEN:colors.text-tertiary}}">
+    {{PAGE_NUM}}
+  </text>
+</svg>

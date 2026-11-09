@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Insightlearning — 01 Cover. Navy field, diagonal cut with a thin sky stripe, darker wedge standing in for the grayscale photo (Design System: Cover). Logo: place assets/brand/insightlearning-logo-white.png top-left (x=56, y=48, h=28) via ../images/. -->
+
+  <rect width="1280" height="720" fill="{{TOKEN:colors.shell-bg}}"/>
+
+  <!-- Photo stand-in wedge + thin sky stripe along the cut -->
+  <polygon points="836,0 1280,0 1280,720 1060,720" fill="{{TOKEN:colors.accent-ink}}"/>
+  <polygon points="824,0 836,0 1060,720 1048,720" fill="{{TOKEN:colors.shell-accent}}"/>
+
+  <!-- Eyebrow: uppercase, widely tracked (0.4em), sky -->
+  <text x="56" y="232"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="17.6" font-weight="400"
+        letter-spacing="7"
+        fill="{{TOKEN:colors.shell-accent}}">
+    {{EYEBROW}}
+  </text>
+
+  <!-- Hero headline, line 1 (white, 700, -0.03em) -->
+  <text x="56" y="316"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="52" font-weight="700"
+        letter-spacing="-1.56"
+        fill="{{TOKEN:colors.shell-text}}">
+    {{TITLE}}
+  </text>
+
+  <!-- Hero headline, line 2 -->
+  <text x="56" y="380"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="52" font-weight="700"
+        letter-spacing="-1.56"
+        fill="{{TOKEN:colors.shell-text}}">
+    {{TITLE_ACCENT}}
+  </text>
+
+  <!-- Lead (white) -->
+  <text x="56" y="440"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.title.size}}" font-weight="400"
+        fill="{{TOKEN:colors.shell-text}}">
+    {{SUBTITLE}}
+  </text>
+
+  <!-- Presenter / date -->
+  <text x="56" y="656"
+        font-family="{{TOKEN:typography.font-chain}}"
+        font-size="{{TOKEN:typography.body.size}}" font-weight="{{TOKEN:typography.body.weight}}"
+        fill="{{TOKEN:colors.shell-text-secondary}}">
+    {{PRESENTER}} · {{DATE}}
+  </text>
+</svg>

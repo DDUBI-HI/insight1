@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Insightlearning — 02 Chapter (Design System: SectionOpener). Navy-washed field left (photo stand-in), square sky number block straddling the edge, uppercase display title + navy Korean subtitle on white. -->
+
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="560" height="720" fill="#012281"/>
+
+  <!-- Square number block (tone sky; numeral is decoration, 40px+) -->
+  <rect x="496" y="272" width="128" height="128" fill="#58CCFF"/>
+  <text x="560" y="350"
+        font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="40" font-weight="300"
+        text-anchor="middle"
+        fill="#FFFFFF">
+    {{CHAPTER_NUMBER}}
+  </text>
+
+  <!-- Uppercase display title (Black) -->
+  <text x="672" y="348"
+        font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="52" font-weight="900"
+        letter-spacing="-0.52"
+        fill="#1A1A1A">
+    {{CHAPTER_TITLE}}
+  </text>
+
+  <!-- Korean subtitle in navy -->
+  <text x="672" y="392"
+        font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="24" font-weight="700"
+        fill="#012281">
+    {{CHAPTER_LABEL}}
+  </text>
+
+  <!-- Summary -->
+  <text x="672" y="440"
+        font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="15.2" font-weight="400"
+        fill="#595959">
+    {{CHAPTER_SUMMARY}}
+  </text>
+
+  <!-- Page number -->
+  <text x="1224" y="696"
+        font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif"
+        font-size="12.8" font-weight="400"
+        text-anchor="end"
+        fill="#666666">
+    {{PAGE_NUM}}
+  </text>
+</svg>
