@@ -79,6 +79,9 @@ else {
 }
 
 Write-Step '6/8 AI 사무실 켜기'
+# 새 코드·설정이 적용되도록 켜져 있던 AI 사무실은 껐다가 다시 켠다
+& (Join-Path $PSScriptRoot 'stop.ps1')
+Start-Sleep -Seconds 1
 & (Join-Path $PSScriptRoot 'start.ps1') -NoBrowser
 
 Write-Step '7/8 바로가기·자동 시작'
