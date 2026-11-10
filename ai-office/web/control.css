@@ -58,3 +58,5 @@ textarea.note { width: 100%; min-height: 54px; padding: 8px; border: 1px solid v
 .past { margin-top: 18px; } .past summary { cursor: pointer; color: var(--muted); font-weight: 700; }
 .empty { color: var(--muted); padding: 18px; text-align: center; background: #fff; border: 1px dashed var(--line); border-radius: 12px; }
 @media (max-width: 600px) { table.status th { width: 120px; } .bar h1 { font-size: 16px; } }
+.previews { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); margin: 6px 0 10px; }
+.previews img { width: 100%; border: 1px solid var(--line); border-radius: 8px; background: #fff; }

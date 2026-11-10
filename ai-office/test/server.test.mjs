@@ -115,6 +115,19 @@ test('TEAM3: 트렌드 → 초안(자동 연결) → 수정 요청 → 승인 �
   assert.match(r.json.outcome, /미연동/);
 });
 
+test('TEAM2: 강사풀 PPT 추가(데모) → 새 버전 확인 승인함', async () => {
+  const f = path.join(root, '신규강사.md'); fs.writeFileSync(f, '이름: 김신규');
+  const j = await call('POST', '/api/jobs', { type: 'instructor.deck_add', params: { file: f } });
+  assert.equal(j.status, 201, JSON.stringify(j.json));
+  assert.equal((await jobDone(j.json.id)).status, 'done');
+  const ap = await approvalOf('deck.update');
+  assert.ok(ap.files[0].includes('02_제안서_검토대기'));
+  const bad = await call('POST', '/api/jobs', { type: 'instructor.deck_add', params: { file: f, deck: '/etc/x.pptx' } });
+  assert.equal(bad.status, 400, '허용 폴더 밖의 PPT 는 거부');
+  const pv = await call('GET', `/api/preview?approvalId=${ap.id}&index=0`);
+  assert.equal(pv.status, 404, 'PNG 가 아닌 파일은 미리보기로 내보내지 않는다');
+});
+
 test('비서실장: 요청을 허용된 팀 작업으로 나눈다', async () => {
   const j = await call('POST', '/api/jobs', { type: 'chief.request', params: { text: '카드뉴스 주제 찾아줘' } });
   assert.equal((await jobDone(j.json.id)).status, 'done');

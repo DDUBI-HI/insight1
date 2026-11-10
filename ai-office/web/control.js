@@ -56,6 +56,7 @@
     "instructor.update": { ok: "강사풀에 반영", no: "반영 안 함" },
     "cardnews.approve": { ok: "승인하고 완성하기", no: "이 초안 쓰지 않음", revise: "수정 요청 보내기" },
     "instagram.publish": { ok: "게시 승인", no: "게시 안 함" },
+    "deck.update": { ok: "새 버전으로 저장", no: "저장 안 함" },
   };
   async function openFile(body) {
     try {
@@ -66,6 +67,19 @@
   function fileList(files, mk) {
     if (!files?.length) return null;
     return el("div", { class: "row" }, ...files.map((f, i) => el("button", { class: "btn link", type: "button", title: f, text: `📂 ${f.split(/[\\/]/).pop()}`, onclick: () => openFile(mk(i)) })));
+  }
+  // 승인함 미리보기 그림 — 토큰을 실어 받아 화면에 바로 보여 준다
+  function previews(a) {
+    const idx = (a.files || []).map((f, i) => (/\.png$/i.test(f) ? i : -1)).filter((i) => i >= 0);
+    if (!idx.length) return null;
+    const box = el("div", { class: "previews" });
+    for (const i of idx) {
+      const img = el("img", { alt: "미리보기", loading: "lazy" });
+      box.append(img);
+      fetch(`/api/preview?approvalId=${encodeURIComponent(a.id)}&index=${i}`, { headers: { "x-office-token": S.token || "" } })
+        .then((r) => (r.ok ? r.blob() : null)).then((b) => { if (b) img.src = URL.createObjectURL(b); else img.remove(); }).catch(() => img.remove());
+    }
+    return box;
   }
   function approvalCard(a) {
     const k = KIND[a.kind] || { ok: "승인", no: "반려" };
@@ -87,6 +101,7 @@
       el("h3", { text: a.title }),
       el("p", { class: "meta", text: `${workerName(a.worker)} · ${when(a.createdAt)} · 작업 ${a.jobId || "-"}` }),
       a.detail ? el("pre", { class: "detail", text: a.detail }) : null,
+      previews(a),
       fileList(a.files, (i) => ({ approvalId: a.id, index: i })),
       note, buttons);
   }
@@ -205,6 +220,8 @@
         ["인스타그램 게시", s.instagram.enabled ? ["warn", "n8n 흐름으로 넘김(실제 게시는 n8n 에서 확인)"] : ["warn", "미연동 — 승인 후 압축 파일로 직접 게시"]],
         ["고객사 메일 발송", ["ok", "자동 발송 없음(항상 사람이 직접 보냄)"]],
         ["작업 대기", [s.queue.running ? "ok" : "ok", s.queue.running ? `진행 중: ${s.queue.running.title} · 대기 ${s.queue.queued}건` : `쉬는 중 · 대기 ${s.queue.queued}건`]],
+        ["강사풀 PPT (새 강사 추가 기준)", s.instructorDeck.path ? (s.instructorDeck.exists ? ["ok", s.instructorDeck.path] : ["bad", `파일 없음 · ${s.instructorDeck.path}`]) : ["warn", "미설정 — config.json 의 instructorDeck"]],
+        ["폴더 감시", s.watch.length ? [s.watch.every((w) => w.exists) ? "ok" : "bad", s.watch.map((w) => `${w.enabled ? "켜짐" : "꺼짐"} · ${w.exists ? "" : "폴더 없음 · "}${w.folder}`).join(" / ")] : ["warn", "없음 — config.json 의 watch"]],
         ["내장 예약", s.schedule.length ? ["ok", s.schedule.map((x) => `${x.type} ${x.days?.join(",") || "매일"} ${x.time}`).join(" / ")] : ["warn", "없음(n8n 예약 흐름 사용 또는 설정 schedule)"]],
         ["데이터 폴더", ["ok", s.dataDir]],
         ["파일을 받을 수 있는 폴더", ["ok", s.inputRoots.join(", ")]],

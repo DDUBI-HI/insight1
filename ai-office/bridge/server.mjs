@@ -18,6 +18,8 @@ import { Runner } from './runner.mjs';
 import { registry } from './jobs/index.mjs';
 import { cardnewsState, slideSvgState, TEAMS, WORKERS } from './jobs/common.mjs';
 import { officeSnapshot } from './office.mjs';
+import { startWatch } from './watch.mjs';
+import { currentDeck } from './jobs/team2.mjs';
 import { claudeVersion } from './claude.mjs';
 import { ID_RE, InputError, isInside } from './util.mjs';
 
@@ -48,6 +50,7 @@ export function createApp(cfgIn) {
   const files = listWeb();
   const started = Date.now();
   const info = { lastDocker: null, claude: null, n8n: { at: 0, ok: null } };
+  const app = {};
   const allowedHosts = new Set([`127.0.0.1:${cfg.port}`, `localhost:${cfg.port}`, `host.docker.internal:${cfg.port}`, ...(cfg.extraHosts || []).map((h) => `${h}:${cfg.port}`)].map((h) => h.toLowerCase()));
 
   const send = (res, code, body, headers = {}) => {
@@ -130,6 +133,8 @@ export function createApp(cfgIn) {
         queue: { running: cur ? publicJob(cur) : null, queued: runner.queued().length },
         inputRoots: cfg.inputRoots,
         schedule: (cfg.schedule || []).filter((s) => s && s.enabled !== false).map((s) => ({ type: s.type, days: s.days, time: s.time })),
+        watch: (Array.isArray(cfg.watch) ? cfg.watch : []).filter((w) => w && w.folder).map((w) => ({ folder: w.folder, type: w.type, enabled: w.enabled !== false, exists: fs.existsSync(w.folder), last: app.watch?.status?.[w.folder] || null })),
+        instructorDeck: (() => { const d = currentDeck(cfg, paths); return { path: d, exists: !!d && fs.existsSync(d) }; })(),
         teams: TEAMS, workers: WORKERS,
       });
     }
@@ -162,6 +167,14 @@ export function createApp(cfgIn) {
       const b = await readBody(req);
       const note = String(b.note || '').slice(0, 2000);
       return send(res, 200, await runner.decideApproval(mm[1], String(b.decision || ''), note));
+    }
+    if (url.pathname === '/api/preview' && method === 'GET') {
+      // 승인함 미리보기 그림(PNG)만, 데이터 폴더 안의 파일만 보낸다
+      const a = store.approvals.get(String(url.searchParams.get('approvalId') || ''));
+      const f = a?.files?.[Number(url.searchParams.get('index')) || 0];
+      if (!f || !/\.png$/i.test(f) || !isInside(paths.root, f) || !fs.existsSync(f)) return send(res, 404, { error: '그림이 없습니다' });
+      res.writeHead(200, { 'content-type': 'image/png', 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' });
+      return res.end(fs.readFileSync(f));
     }
     if (url.pathname === '/api/open' && method === 'POST') {
       const b = await readBody(req);
@@ -197,7 +210,8 @@ export function createApp(cfgIn) {
     }
   });
 
-  return { cfg, paths, store, runner, server, token: () => token };
+  app.cfg = cfg; app.paths = paths; app.store = store; app.runner = runner; app.server = server; app.token = () => token;
+  return app;
 }
 
 async function main() {
@@ -206,6 +220,7 @@ async function main() {
   if (process.argv.includes('--port')) cfg.port = Number(process.argv[process.argv.indexOf('--port') + 1]);
   const app = createApp(cfg);
   app.runner.startScheduler();
+  app.watch = startWatch(app);
   const pidFile = path.join(app.paths.run, 'bridge.pid');
   app.server.on('error', (e) => {
     console.error(e.code === 'EADDRINUSE' ? `[ai-office] ${cfg.port} 포트를 이미 쓰고 있습니다. 이미 켜져 있는지 확인하세요.` : e);

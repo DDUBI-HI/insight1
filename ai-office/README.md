@@ -32,7 +32,7 @@ n8n (Docker, 새 워크플로만 추가)            업무 패널·3D 사무실 
 | 문의분석 | `inquiry.analyze` | 없음 — 카탈로그는 브리지가 프롬프트에 넣음 |
 | 제안서작성 | `proposal.draft`(승인 후), `proposal.generic`, `inquiry.queue` | slide-svg 스크립트(`_py.sh`), `output/**` 쓰기, (`inquiry.queue` 만) `n8n-local` 표 읽기 |
 | 프로필분석 | `instructor.intake` | 없음 — 글자 뽑기는 브리지가 slide-svg 변환기를 고정 인자로 실행 |
-| 강사풀관리 | `instructor.verify`, `instructor.redesign` | 사용 안 함 / slide-svg 스크립트 |
+| 강사풀관리 | `instructor.deck_add`(폴더 감시로도 시작), `instructor.verify`, `instructor.redesign` | 없음 — PPT 편집은 `tools/instructor_deck.py`(python-pptx, 기존 장 복제) / 사용 안 함 / slide-svg 스크립트 |
 | 트렌드리서치 | `trend.research` | WebSearch, WebFetch |
 | 카드뉴스 | `cardnews.draft`, `cardnews.revise`, `cardnews.render`(승인 후) | 초안: `cardnews/decks/**` 쓰기·build-deck 검증 / 완성: git·node 추가 |
 

@@ -20,6 +20,10 @@ const DEFAULTS = {
   // 설정 파일에 없으면 설치 스크립트가 만드는 기본 위치를 쓴다
   agents: IS_WIN ? { slideSvg: 'C:\\AI-OFFICE\\agents\\slide-svg', cardnews: 'C:\\AI-OFFICE\\agents\\insight1-cardnews' } : { slideSvg: '', cardnews: '' },
   inputRoots: [],
+  // 강사풀 PPT(새 강사 장을 추가할 원본). 원본은 고치지 않고 승인 후 새 버전 파일로 저장한다
+  instructorDeck: '',
+  // 폴더 감시: [{ enabled, folder, type, exts, intervalSec }] — 새 파일이 생기면 그 작업을 요청
+  watch: [],
   n8n: { baseUrl: 'http://localhost:5678', webhooks: { events: '', instagramPublish: '' } },
   instagram: { enabled: false },
   limits: { jobTimeoutMinutes: 90, lightJobTimeoutMinutes: 20 },
@@ -54,7 +58,10 @@ export function loadConfig(opts = {}) {
   if (process.env.AI_OFFICE_DEMO === '1') cfg.demo = true;
   cfg.dataDir = path.resolve(cfg.dataDir);
   if (!Array.isArray(cfg.inputRoots) || !cfg.inputRoots.length) cfg.inputRoots = [path.dirname(cfg.dataDir)];
-  cfg.inputRoots = cfg.inputRoots.map((p) => path.resolve(p));
+  // 감시 폴더와 강사풀 PPT 폴더의 파일도 받을 수 있게 한다
+  for (const w of Array.isArray(cfg.watch) ? cfg.watch : []) if (w && w.folder) cfg.inputRoots.push(w.folder);
+  if (cfg.instructorDeck) cfg.inputRoots.push(path.dirname(cfg.instructorDeck));
+  cfg.inputRoots = [...new Set(cfg.inputRoots.map((p) => path.resolve(p)))];
   cfg.configFile = fs.existsSync(file) ? file : null;
   return cfg;
 }

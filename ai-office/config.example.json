@@ -9,6 +9,8 @@
     "cardnews": "C:\\AI-OFFICE\\agents\\insight1-cardnews"
   },
   "inputRoots": ["C:\\AI-OFFICE"],
+  "instructorDeck": "",
+  "watch": [],
   "n8n": {
     "baseUrl": "http://localhost:5678",
     "webhooks": {

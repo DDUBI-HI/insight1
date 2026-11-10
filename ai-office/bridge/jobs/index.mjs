@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { chiefJobs } from './chief.mjs';
 import { team1Jobs } from './team1.mjs';
-import { team2Jobs } from './team2.mjs';
+import { team2Jobs, setCurrentDeck } from './team2.mjs';
 import { team3Jobs } from './team3.mjs';
 import { TEAMS, WORKERS } from './common.mjs';
 import { applyUpdate } from '../instructors.mjs';
@@ -54,6 +54,14 @@ export async function decide(approval, decision, note, { cfg, paths, postN8n }) 
     if (!approve) return { outcome: `반영하지 않음 — ${note || '의견 없음'}` };
     const r = applyUpdate(paths.instructorPool, paths.backups, approval.data.plan);
     return { outcome: `강사풀에 반영했습니다(${r.id}, 전체 ${r.count}명). ${r.backup ? `반영 전 파일 백업: ${r.backup}` : '새 강사풀 파일을 만들었습니다'}` };
+  }
+  if (k === 'deck.update') {
+    if (!approve) return { outcome: `저장하지 않음 — ${note || '의견 없음'} (검토대기 폴더의 파일은 남아 있습니다)` };
+    if (!approval.data?.out || !fs.existsSync(approval.data.out)) return { outcome: '새 버전 파일을 찾지 못했습니다' };
+    if (!approval.data.deck || !fs.existsSync(approval.data.deck)) return { outcome: '(데모) 승인 처리만 했습니다' };
+    const target = copyNoOverwrite(approval.data.out, path.join(path.dirname(approval.data.deck), path.basename(approval.data.out)));
+    setCurrentDeck(paths, target);
+    return { outcome: `새 버전을 원본 옆에 저장했습니다: ${target} (원본은 그대로). 다음 강사는 이 파일에 이어서 추가합니다.`, files: [target] };
   }
   if (k === 'cardnews.approve') {
     if (approve) return { outcome: '카드뉴스 완성 작업을 시작합니다', enqueue: [{ type: 'cardnews.render', params: { draftJobId: approval.data.draftJobId } }] };

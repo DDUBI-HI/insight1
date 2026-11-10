@@ -136,3 +136,19 @@ test('작업 허용 목록: 모든 작업에 검증·실행·제목이 있고 �
   assert.equal(registry.get('rm -rf'), undefined);
   assert.equal(registry.get('__proto__'), undefined);
 });
+
+test('폴더 감시: 처음 있던 파일은 건너뛰고, 새 파일은 크기가 두 번 같을 때만 요청', async () => {
+  const { step } = await import('../bridge/watch.mjs');
+  const d = tmp();
+  fs.writeFileSync(path.join(d, '기존.pdf'), 'a');
+  const st = {};
+  const w = { folder: d, exts: ['.pdf', '.pptx'] };
+  assert.equal(step(st, w).baseline, 1, '처음엔 기준만 잡는다');
+  fs.writeFileSync(path.join(d, '신규.pdf'), 'abc');
+  fs.writeFileSync(path.join(d, '~$임시.pptx'), 'x');
+  fs.writeFileSync(path.join(d, '메모.txt'), 'x');
+  assert.deepEqual(step(st, w).files, [], '처음 본 크기 — 아직 동기화 중일 수 있다');
+  assert.deepEqual(step(st, w).files.map((f) => path.basename(f)), ['신규.pdf']);
+  assert.deepEqual(step(st, w).files, [], '한 번만 요청');
+  assert.equal(step(st, { folder: path.join(d, '없음') }).missing, true);
+});
