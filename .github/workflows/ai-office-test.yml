@@ -1,0 +1,56 @@
+name: AI 사무실 시험
+
+on:
+  push:
+    paths:
+      - "ai-office/**"
+      - ".github/workflows/ai-office-test.yml"
+  pull_request:
+    paths:
+      - "ai-office/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: ai-office
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: 단위·통합 시험 (데모 모드, Claude 사용 안 함)
+        run: npm test
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 강사풀 PPT 도구 시험 (python-pptx)
+        run: |
+          python -m pip install --quiet python-pptx==1.0.2 pillow==11.3.0
+          python -m unittest discover -s test -p "test_*.py" -v
+      - name: PowerShell 스크립트 문법 검사 (Windows PowerShell 5.1)
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          $bad = 0
+          Get-ChildItem scripts\*.ps1 | ForEach-Object {
+            $errs = $null; $tokens = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$tokens, [ref]$errs) | Out-Null
+            if ($errs.Count) { $bad++; $errs | ForEach-Object { Write-Host "$($_.Extent.File):$($_.Extent.StartLineNumber) $($_.Message)" } }
+            else { Write-Host "OK $($_.Name)" }
+          }
+          if ($bad) { exit 1 }
+      - name: n8n 워크플로 JSON 검사
+        if: runner.os == 'Linux'
+        run: |
+          for f in n8n/*.json; do node -e "const w=JSON.parse(require('fs').readFileSync(process.argv[1],'utf8')); if(!w.name||!Array.isArray(w.nodes)||w.active!==false) process.exit(1); for (const [from,c] of Object.entries(w.connections)) for (const outs of c.main) for (const o of outs) if(!w.nodes.some(n=>n.name===o.node)||!w.nodes.some(n=>n.name===from)) {console.error('연결 오류',from,o.node); process.exit(1)} console.log('OK', w.name)" "$f"; done

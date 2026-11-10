@@ -1,0 +1,82 @@
+{
+  "name": "AI-OFFICE | 인사쟁이 작업대기 처리",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# AI-OFFICE · 인사쟁이 작업대기 처리\n기존 워크플로 '인사쟁이 교육문의 메일 알림'이 데이터 표 `제안서_작업대기`에 넣은 건을, AI 사무실 교육문의·제안팀이 기존 예약 작업 프롬프트 그대로 처리합니다.\n\n⚠ Claude 데스크톱 앱의 예약 작업(09:10/12:10/15:10/18:10)을 계속 쓴다면 **이 워크플로는 켜지 마세요** — 같은 건을 두 번 처리할 수 있습니다. 둘 중 하나만 씁니다.\n\n## 처음 한 번 할 일\n1. 오른쪽 HTTP 노드를 열고 **Credential** 에서 *Create New* → **Header Auth**\n   - Name: `X-Office-Token`\n   - Value: AI 사무실 토큰 (`COPY-TOKEN.bat` 을 실행하면 클립보드에 복사됩니다)\n   - 자격증명 이름: `AI-OFFICE 브리지 토큰`\n2. 저장 후 **Test workflow** 로 한 번 실행 → AI 사무실 업무 패널 '작업 현황'에 작업이 보이면 성공\n3. 확인했으면 오른쪽 위 **Active** 를 켭니다.\n\n이 워크플로는 새로 추가하는 것이며 기존 워크플로를 바꾸지 않습니다.",
+        "height": 470,
+        "width": 540
+      },
+      "id": "b3fdafeb-20de-4eeb-b9ce-33674e673c32",
+      "name": "설명",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        -300
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "40 9,12,15,18 * * *"
+            }
+          ]
+        }
+      },
+      "id": "c5c719ec-37d1-468e-9fca-e880d25c1e4a",
+      "name": "하루 4회 (:40)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        460,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8765/api/jobs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"type\": \"inquiry.queue\", \"params\": {}, \"source\": \"n8n\"}",
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "id": "e0829c0f-ce56-4660-86f6-cc87596fef44",
+      "name": "AI 사무실에 작업대기 처리 요청",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        700,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "하루 4회 (:40)": {
+      "main": [
+        [
+          {
+            "node": "AI 사무실에 작업대기 처리 요청",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Seoul"
+  },
+  "pinData": {},
+  "tags": []
+}

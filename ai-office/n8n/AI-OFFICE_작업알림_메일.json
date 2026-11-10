@@ -1,0 +1,125 @@
+{
+  "name": "AI-OFFICE | 작업 알림 → 담당자 메일",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# AI-OFFICE · 작업 알림 → 담당자 메일\nAI 사무실이 작업을 끝내거나 실패하면 이 웹훅을 부릅니다. 승인할 일이 생겼거나 실패했을 때만 내부 담당자(kjy@insighthrd.com)에게 메일을 보냅니다. **고객사에는 보내지 않습니다.**\n\n## 처음 한 번 할 일\n1. Webhook 노드 → Credential → *Create New* → **Header Auth**\n   - Name: `X-Office-Secret`\n   - Value: `C:\\AI-OFFICE\\office-data\\secret\\n8n-webhook-secret.txt` 의 내용(`COPY-TOKEN.bat n8n` 으로 복사)\n2. Gmail 노드의 자격증명이 기존 `Gmail account` 인지 확인\n3. Active 를 켠 뒤 Webhook 노드의 **Production URL** 을 복사해 AI 사무실 `config.json` 의 `n8n.webhooks.events` 에 넣고 AI 사무실을 다시 켭니다.\n   (주소의 localhost 는 그대로 둡니다 — AI 사무실은 Windows 에서 돌기 때문)",
+        "height": 500,
+        "width": 560
+      },
+      "id": "bcd45a8c-fa9b-49d5-a084-a95c2f9b02a7",
+      "name": "설명",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        -340
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-office-events",
+        "authentication": "headerAuth",
+        "options": {}
+      },
+      "id": "2a628cd2-9beb-4366-b183-e72d7bdb2a58",
+      "name": "AI 사무실 알림 받기",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "webhookId": "bdff418a-d544-4b74-a378-1cb9fa999028"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "df9b0d9b-221b-4361-a6ba-4654f1fa717b",
+              "leftValue": "={{ $json.body.status === 'failed' || (($json.body.approvals || []).length > 0) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "710fdd0d-3b06-4b6b-a2b4-530ff773dc8d",
+      "name": "승인 필요·실패만",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        680,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "kjy@insighthrd.com",
+        "subject": "={{ '[AI 사무실] ' + ($json.body.status === 'failed' ? '실패: ' : '승인 요청: ') + $json.body.title }}",
+        "emailType": "text",
+        "message": "={{ '팀: ' + $json.body.team + '\\n작업: ' + $json.body.title + '\\n상태: ' + $json.body.status + '\\n요약: ' + ($json.body.summary || $json.body.error || '') + '\\n\\n승인할 일: ' + (($json.body.approvals || []).join(', ') || '없음') + '\\n\\nAI 사무실 업무 패널: http://127.0.0.1:8765/control.html (AI 사무실 PC 에서 열기)' }}",
+        "options": {}
+      },
+      "id": "0ccd98fd-7a35-4720-97f8-dbfc353c6c2e",
+      "name": "담당자에게 메일",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        920,
+        -100
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Ri1BzrEUyZZmx4Jr",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "AI 사무실 알림 받기": {
+      "main": [
+        [
+          {
+            "node": "승인 필요·실패만",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "승인 필요·실패만": {
+      "main": [
+        [
+          {
+            "node": "담당자에게 메일",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Seoul"
+  },
+  "pinData": {},
+  "tags": []
+}

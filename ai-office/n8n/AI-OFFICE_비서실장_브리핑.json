@@ -1,0 +1,82 @@
+{
+  "name": "AI-OFFICE | 비서실장 업무 브리핑",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# AI-OFFICE · 비서실장 업무 브리핑\n평일 17:50 에 비서실장이 하루 작업과 승인 대기 목록을 보고서로 정리합니다(Claude 사용량 없음).\n\n## 처음 한 번 할 일\n1. 오른쪽 HTTP 노드를 열고 **Credential** 에서 *Create New* → **Header Auth**\n   - Name: `X-Office-Token`\n   - Value: AI 사무실 토큰 (`COPY-TOKEN.bat` 을 실행하면 클립보드에 복사됩니다)\n   - 자격증명 이름: `AI-OFFICE 브리지 토큰`\n2. 저장 후 **Test workflow** 로 한 번 실행 → AI 사무실 업무 패널 '작업 현황'에 작업이 보이면 성공\n3. 확인했으면 오른쪽 위 **Active** 를 켭니다.\n\n이 워크플로는 새로 추가하는 것이며 기존 워크플로를 바꾸지 않습니다.",
+        "height": 400,
+        "width": 520
+      },
+      "id": "169ea3f5-5ad6-4f4a-bb45-b0aafcccbfdb",
+      "name": "설명",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        -260
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "50 17 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "cffdda01-81b4-4990-bc07-63417b82acf8",
+      "name": "평일 17:50",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8765/api/jobs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"type\": \"chief.briefing\", \"params\": {}, \"source\": \"n8n\"}",
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "id": "88ef1309-4c62-4f47-9993-aaeb0e8744f0",
+      "name": "AI 사무실에 브리핑 요청",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        680,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "평일 17:50": {
+      "main": [
+        [
+          {
+            "node": "AI 사무실에 브리핑 요청",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Seoul"
+  },
+  "pinData": {},
+  "tags": []
+}

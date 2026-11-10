@@ -1,0 +1,67 @@
+{
+  "name": "AI-OFFICE | 연결 테스트",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# AI-OFFICE · 연결 테스트\n**Test workflow** 를 누르면 n8n(Docker) 에서 Windows 의 AI 사무실로 접속되는지 확인합니다.\n결과에 `\"ok\": true, \"app\": \"ai-office\"` 가 보이면 성공입니다. 토큰이 필요 없는 보기 전용 주소만 부릅니다.\n\n실패하면: AI 사무실이 켜져 있는지(START-AI-OFFICE.bat), 사용 설명서의 '연결이 안 될 때'를 보세요.",
+        "height": 300,
+        "width": 480
+      },
+      "id": "f172b42c-924a-4b65-8678-c09bfa9419c1",
+      "name": "설명",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        -260
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "6551f533-6226-48de-be41-7514dc9b6108",
+      "name": "직접 실행",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        420,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:8765/api/health",
+        "options": {
+          "timeout": 5000
+        }
+      },
+      "id": "3fe36c58-9211-484c-8c7c-52d194b8ca67",
+      "name": "AI 사무실 상태 확인",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "직접 실행": {
+      "main": [
+        [
+          {
+            "node": "AI 사무실 상태 확인",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Seoul"
+  },
+  "pinData": {},
+  "tags": []
+}
