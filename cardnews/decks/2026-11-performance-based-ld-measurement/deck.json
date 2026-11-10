@@ -1,0 +1,164 @@
+{
+  "slug": "2026-11-performance-based-ld-measurement",
+  "title": "수료율로 평가하는 교육, 이제 그만",
+  "topic": "우리 회사 교육, 아직 '수료율'로 평가하나요? — 성과 기반 L&D 측정 전환",
+  "audience": "기업 L&D·교육 담당자",
+  "sources": [
+    { "claim": "교육 효과 4단계(반응·학습·행동·결과)", "source": "Kirkpatrick 4단계 평가 모델" },
+    { "claim": "교육 투자 수익(ROI) 측정", "source": "Phillips ROI Methodology (5단계)" }
+  ],
+  "caption": {
+    "body": [
+      "교육이 끝나면, 우리는 무엇을 확인하고 있나요?",
+      "",
+      "수료율은 교육이 '끝났다'는 것만 말해 줍니다.",
+      "이제 L&D는 교육 뒤 현업에서 무엇이 달라졌는지를 성과로 측정합니다.",
+      "",
+      "카드뉴스로 정리한 성과 기반 측정 전환 5가지입니다.",
+      "",
+      "01 성과 목표부터 — 설계 전에 달성할 성과 목표를 정합니다",
+      "02 4단계로 평가 — 반응·학습을 넘어 행동·결과까지 측정합니다",
+      "03 행동 변화 추적 — 교육 후 현업에서 달라진 행동을 확인합니다",
+      "04 데이터로 증명 — 학습 데이터와 성과 지표로 효과를 증명합니다",
+      "05 개선 루프 — 측정 결과를 다음 교육 설계에 반영합니다",
+      "",
+      "10번째 장의 셀프 점검으로 우리 회사 측정도 확인해 보세요.",
+      "",
+      "수료율을 넘어 성과로 증명하는 교육이 필요하시다면 인싸이트러닝이 함께합니다.",
+      "문의는 프로필 링크에서 남겨 주세요."
+    ],
+    "hashtags": [
+      "기업교육",
+      "성과측정",
+      "HRD",
+      "L&D",
+      "교육ROI",
+      "교육효과측정",
+      "커크패트릭",
+      "수료율",
+      "인재개발",
+      "인사담당자",
+      "교육담당자",
+      "인싸이트러닝"
+    ]
+  },
+  "cards": [
+    {
+      "template": "cn-cover", "name": "cover",
+      "pill": "L&D 담당자 필독",
+      "title": ["아직 '수료율'로", "평가하고 있나요?"],
+      "subtitle": "교육 성과를 증명하는 측정으로",
+      "photo": { "file": "cover.jpg", "unsplash": "N3Bf0ArT5J0", "query": "team collaborating on laptops in modern office", "page": "https://unsplash.com/photos/team-collaborating-on-laptops-in-modern-office-N3Bf0ArT5J0", "alt": "현대식 사무실에서 노트북으로 협업하는 팀" }
+    },
+    {
+      "template": "cn-intro", "name": "intro",
+      "eyebrow": "성과 기반 L&D 측정",
+      "title": ["수료율은 '끝'만", "말해 줍니다"],
+      "point": "수료율 다음, 현업의 변화를 봐야 합니다",
+      "photo": { "file": "intro.jpg", "unsplash": "20WoowHnS5k", "query": "a man sitting at a desk looking at a computer screen", "page": "https://unsplash.com/photos/a-man-sitting-at-a-desk-looking-at-a-computer-screen-20WoowHnS5k", "alt": "책상에서 컴퓨터 화면을 바라보는 사람" }
+    },
+    {
+      "template": "cn-compare", "name": "before-after",
+      "kicker": "WHAT'S CHANGED",
+      "title": ["교육 평가의 기준이", "바뀌고 있습니다"],
+      "before_label": "수료율 중심",
+      "after_label": "성과 중심",
+      "rows": [
+        { "before": "끝까지 들었는가", "after": "현업이 달라졌는가" },
+        { "before": "만족도로 평가", "after": "행동 변화로 평가" },
+        { "before": "교육팀의 숙제", "after": "조직 성과의 지표" },
+        { "before": "수료율 리포트", "after": "성과 데이터 리포트" }
+      ]
+    },
+    {
+      "template": "cn-summary", "name": "five-shifts", "label": "한눈에 보기",
+      "kicker": "5 SHIFTS",
+      "title": ["수료율을 넘어", "성과를 측정하는 법"],
+      "rows": [
+        { "title": "성과 목표부터", "desc": "설계 전에 달성할 성과 목표부터 정합니다" },
+        { "title": "4단계로 평가", "desc": "반응·학습을 넘어 행동·결과까지 측정합니다" },
+        { "title": "행동 변화 추적", "desc": "교육 후 현업에서 달라진 행동을 확인합니다" },
+        { "title": "데이터로 증명", "desc": "학습 데이터와 성과 지표로 효과를 증명합니다" },
+        { "title": "개선 루프", "desc": "측정 결과를 다음 교육 설계에 반영합니다" }
+      ]
+    },
+    {
+      "template": "cn-feature", "name": "shift1-goal", "label": "SHIFT 01",
+      "kicker": "SHIFT 01",
+      "title": ["교육 전에 먼저", "*성과 목표를 정한다*"],
+      "desc": ["막연한 '역량 강화'가 아니라", "숫자로 확인할 목표를 세웁니다"],
+      "photo": { "file": "goal.jpg", "unsplash": "CdTQI-Nh7J4", "query": "team collaborating around a whiteboard in an office", "page": "https://unsplash.com/photos/team-collaborating-around-a-whiteboard-in-an-office-CdTQI-Nh7J4", "alt": "화이트보드 앞에서 함께 논의하는 팀" }
+    },
+    {
+      "template": "cn-grid", "name": "shift2-four-levels", "label": "SHIFT 02",
+      "kicker": "SHIFT 02",
+      "title": ["수료율을 넘어", "4단계로 평가합니다"],
+      "sub": "Kirkpatrick 4단계 평가 모델",
+      "tiles": [
+        { "title": "반응", "desc": "교육에 만족했는가" },
+        { "title": "학습", "desc": "지식·기술을 익혔는가" },
+        { "title": "행동", "desc": "현업 행동이 바뀌었는가", "point": true },
+        { "title": "결과", "desc": "조직 성과로 이어졌는가", "point": true }
+      ],
+      "note": "수료율에서 멈추지 않고 **3·4단계**까지 봅니다"
+    },
+    {
+      "template": "cn-story", "name": "shift3-behavior", "label": "SHIFT 03",
+      "eyebrow": "SHIFT 03",
+      "title": "현업의 행동 변화를 추적합니다",
+      "body": "교육이 끝난 뒤가 진짜 시작입니다. 한 달 뒤 현업에서 무엇이 달라졌는지 확인합니다. 리더의 관찰과 현업 적용 과제로 배운 것을 실제로 쓰는지 추적합니다.",
+      "photo": { "file": "behavior.jpg", "query": "manager giving feedback to employee at workplace", "alt": "현업에서 직원에게 피드백을 주는 리더" }
+    },
+    {
+      "template": "cn-split", "name": "shift4-data", "label": "SHIFT 04",
+      "kicker": "SHIFT 04",
+      "title": ["교육 효과를", "*데이터로 증명한다*"],
+      "checks": [
+        "학습 데이터와 성과 지표를 함께 봅니다",
+        "교육 전후 성과를 비교해 변화를 봅니다",
+        "ROI까지 측정해 투자 가치를 증명합니다"
+      ],
+      "photo": { "file": "data.jpg", "unsplash": "EL16ACtwLxg", "query": "someone analyzes financial data on a tablet", "page": "https://unsplash.com/photos/someone-analyzes-financial-data-on-a-tablet-EL16ACtwLxg", "alt": "태블릿으로 데이터를 분석하는 사람" }
+    },
+    {
+      "template": "cn-steps", "name": "shift5-loop", "label": "SHIFT 05",
+      "kicker": "SHIFT 05",
+      "title": ["측정을", "개선 루프로 잇습니다"],
+      "steps": [
+        { "label": "STEP 1 · MEASURE", "title": "성과를 측정", "desc": "정한 목표 기준으로 교육 효과를 측정합니다" },
+        { "label": "STEP 2 · ANALYZE", "title": "결과를 분석", "desc": "무엇이 효과 있었고 부족했는지 찾습니다" },
+        { "label": "STEP 3 · IMPROVE", "title": "설계에 반영", "desc": "다음 교육의 내용과 방식을 개선합니다", "point": true },
+        { "label": "STEP 4 · REPEAT", "title": "다시 측정", "desc": "개선한 교육을 다시 측정해 효과를 쌓습니다" }
+      ]
+    },
+    {
+      "template": "cn-checklist", "name": "self-check", "label": "셀프 점검",
+      "title": "우리 회사 측정, 점검해 보세요",
+      "items": [
+        { "num": "Q1", "title": "성과 목표를 먼저 정하나요?", "desc": ["'무엇을 바꿀지' 없이 시작하면", "측정할 기준도 없습니다"] },
+        { "num": "Q2", "title": "수료율 말고 무엇을 보나요?", "desc": ["완료 여부만으로는 교육 효과를", "설명하기 어렵습니다"] },
+        { "num": "Q3", "title": "현업 변화를 확인하나요?", "desc": ["교육 후 행동과 성과까지", "확인하는 장치가 필요합니다"] }
+      ]
+    },
+    {
+      "template": "cn-faq", "name": "faq",
+      "title": ["L&D 담당자가 자주", "묻는 질문"],
+      "question": ["측정을 어디서부터", "시작해야 하나요?"],
+      "answer": ["한 과정을 골라 성과 목표와", "측정 지표부터 정해 보세요"],
+      "photo": { "file": "faq.jpg", "unsplash": "MhqUBTxQ3Hw", "query": "two people reviewing documents at a table", "page": "https://unsplash.com/photos/two-people-reviewing-documents-at-a-table-MhqUBTxQ3Hw", "alt": "테이블에서 문서를 함께 검토하는 두 사람" }
+    },
+    {
+      "template": "cn-statement", "name": "statement",
+      "kicker": "KEY MESSAGE",
+      "title": ["교육의 가치는", "수료율이 아니라", "*성과*로 증명됩니다"],
+      "desc": ["끝났는지가 아니라", "무엇이 달라졌는지를 봅니다"],
+      "foot": "INSIGHT LEARNING"
+    },
+    {
+      "template": "cn-closing", "name": "closing",
+      "lead": ["수료율을 넘어", "성과로 증명하고 싶다면"],
+      "title": "인싸이트러닝이 함께합니다",
+      "photo": { "file": "closing.jpg", "unsplash": "MC-a6-nusL0", "query": "a modern interior features windows and geometric accents", "page": "https://unsplash.com/photos/a-modern-interior-features-windows-and-geometric-accents-MC-a6-nusL0", "alt": "창과 기하학적 구조가 있는 밝은 현대식 실내" }
+    }
+  ]
+}
