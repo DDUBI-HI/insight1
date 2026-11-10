@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "# AI-OFFICE · 인스타그램 게시\nAI 사무실 승인함에서 [게시 승인]을 누르면 AI 사무실이 카드를 4:5 JPEG 로 바꿔 GitHub 공개 주소에 올리고 이 웹훅을 부릅니다. 이 워크플로는 사진마다 컨테이너를 만들고 → 캐러셀로 묶고 → 60초 기다린 뒤 → 게시하고 → 게시물 주소를 AI 사무실에 돌려줍니다.\n\n## 처음 한 번 할 일\n1. **Webhook 노드** → Credential → Create New → **Header Auth**\n   - Name: `X-Office-Secret` / Value: `COPY-TOKEN.bat n8n` 으로 복사한 값 (작업 알림 워크플로와 같은 자격증명을 골라도 됩니다)\n2. **HTTP 노드 5개** → Credential → Create New → **Header Auth** (하나 만들고 나머지는 고르기만)\n   - Name: `Authorization` / Value: `Bearer ` + 인스타그램 액세스 토큰 (사용 설명서 '인스타그램 연동' 참고)\n   - 자격증명 이름: `Instagram 게시 토큰`\n3. 저장 후 오른쪽 위 **Publish(Active)** 를 켜고, Webhook 노드의 **Production URL** 을 AI 사무실 `config.json` 의 `n8n.webhooks.instagramPublish` 에 넣습니다(`set-config.mjs --instagram <주소>`).\n\n⚠ 실제 공개 게시입니다. 토큰은 60일마다 새로 받아 이 자격증명에 바꿔 넣어야 합니다.",
+        "content": "# AI-OFFICE · 인스타그램 게시\nAI 사무실 승인함에서 [게시 승인]을 누르면 AI 사무실이 카드를 4:5 JPEG 로 바꿔 GitHub 공개 주소에 올리고 이 웹훅을 부릅니다. 이 워크플로는 사진마다 컨테이너를 만들고 → 캐러셀로 묶고 → 60초 기다린 뒤 → 게시하고 → 게시물 주소를 AI 사무실에 돌려줍니다.\n\n## 처음 한 번 할 일\n1. **Webhook 노드** → Credential → Create New → **Header Auth**\n   - Name: `X-Office-Secret` / Value: `COPY-TOKEN.bat n8n` 으로 복사한 값 (작업 알림 워크플로와 같은 자격증명을 골라도 됩니다)\n2. **HTTP 노드 4개** → Credential → Create New → **Header Auth** (하나 만들고 나머지는 고르기만)\n   - Name: `Authorization` / Value: `Bearer ` + 인스타그램 액세스 토큰 (사용 설명서 '인스타그램 연동' 참고)\n   - 자격증명 이름: `Instagram 게시 토큰`\n3. 저장 후 오른쪽 위 **Publish(Active)** 를 켜고, Webhook 노드의 **Production URL** 을 AI 사무실 `config.json` 의 `n8n.webhooks.instagramPublish` 에 넣습니다(`set-config.mjs --instagram <주소>`).\n\n⚠ 실제 공개 게시입니다. 토큰은 60일마다 새로 받아 이 자격증명에 바꿔 넣어야 합니다.",
         "height": 560,
         "width": 600
       },
