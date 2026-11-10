@@ -37,8 +37,11 @@ export function toolAct(name, input = {}) {
 
 /** claude 실행 파일 찾기: 설정값 그대로 → Windows 면 where.exe 로 실제 경로 */
 export function resolveClaude(cfg) {
-  const p = cfg.claudePath || 'claude';
-  if (path.isAbsolute(p)) return fs.existsSync(p) ? p : null;
+  let p = cfg.claudePath || 'claude';
+  if (path.isAbsolute(p)) {
+    if (fs.existsSync(p)) return p;
+    p = 'claude'; // 설정 경로가 틀렸으면(이름 바뀜·글자 깨짐) 아래에서 다시 찾는다
+  }
   if (IS_WIN) {
     const r = spawnSync('where.exe', [p], { encoding: 'utf8', windowsHide: true });
     const lines = (r.stdout || '').split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
