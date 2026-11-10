@@ -2,6 +2,8 @@
 // config.json 의 강사풀 PPT·폴더 감시 설정을 바꾼다(바꾸기 전 config.json.bak-<시각> 으로 백업).
 //   node bridge/set-config.mjs --deck "C:\...\강사풀.pptx" --watch "C:\...\05. AI.AX.DX 신규 강사"
 //   node bridge/set-config.mjs --watch-off        (폴더 감시 끄기)
+//   node bridge/set-config.mjs --instagram "http://localhost:5678/webhook/ai-office-instagram"   (인스타그램 게시 켜기)
+//   node bridge/set-config.mjs --instagram-off
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT } from './config.mjs';
@@ -26,6 +28,19 @@ if (watch !== undefined) {
   const list = (Array.isArray(cfg.watch) ? cfg.watch : []).filter((w) => w.type !== 'instructor.deck_add');
   list.push({ enabled: true, folder: p, type: 'instructor.deck_add', exts: ['.pdf', '.pptx', '.docx'], intervalSec: 120 });
   cfg.watch = list; msgs.push(`폴더 감시(2분마다): ${p}`);
+}
+const ig = arg('--instagram');
+if (ig !== undefined) {
+  const u = clean(ig);
+  if (!/^https?:\/\/[^\s]+\/webhook\/[^\s]+$/.test(u)) { console.error(`[실패] n8n 웹훅 Production URL 형식이 아닙니다(…/webhook/…): ${u}`); process.exit(1); }
+  cfg.n8n = cfg.n8n || {}; cfg.n8n.webhooks = cfg.n8n.webhooks || {};
+  cfg.n8n.webhooks.instagramPublish = u;
+  cfg.instagram = { ...(cfg.instagram || {}), enabled: true };
+  msgs.push(`인스타그램 게시 켬: ${u}`);
+}
+if (process.argv.includes('--instagram-off')) {
+  cfg.instagram = { ...(cfg.instagram || {}), enabled: false };
+  msgs.push('인스타그램 게시를 껐습니다(승인해도 자동 게시 안 함)');
 }
 if (process.argv.includes('--watch-off')) {
   cfg.watch = (Array.isArray(cfg.watch) ? cfg.watch : []).map((w) => (w.type === 'instructor.deck_add' ? { ...w, enabled: false } : w));

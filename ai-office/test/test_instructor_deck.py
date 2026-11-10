@@ -133,3 +133,22 @@ class DeckTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class InstagramImagesTest(unittest.TestCase):
+    def test_convert_and_pick(self):
+        from PIL import Image
+        d = Path(tempfile.mkdtemp())
+        src = d / "out"; src.mkdir()
+        for i in range(1, 14):
+            Image.new("RGB", (1080, 1440), (10, 20, 30)).save(src / f"{i:02d}-card.png")
+        Image.new("RGB", (100, 100)).save(src / "overview.png")
+        tool = Path(__file__).resolve().parents[1] / "tools" / "instagram_images.py"
+        r = subprocess.run([sys.executable, str(tool), str(src), str(d / "ig")], capture_output=True, text=True, encoding="utf-8")
+        res = json.loads(r.stdout)
+        self.assertTrue(res["ok"])
+        self.assertEqual((res["total"], res["used"]), (13, 10))
+        self.assertTrue(res["files"][-1].endswith("13-card.jpg"), "마지막 장(마무리)은 남긴다")
+        self.assertEqual(res["dropped"], ["10-card.png", "11-card.png", "12-card.png"])
+        im = Image.open(res["files"][0])
+        self.assertEqual((im.size, im.format), ((1080, 1350), "JPEG"))

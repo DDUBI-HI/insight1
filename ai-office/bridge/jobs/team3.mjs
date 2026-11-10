@@ -4,6 +4,8 @@
 // 인스타그램 게시는 이 서버가 직접 하지 않는다(미연동). 승인하면 n8n 흐름이 설정된 경우에만 넘긴다.
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawn } from 'node:child_process';
+import { ROOT, loadN8nSecret } from '../config.mjs';
 import { asData, cleanInt, cleanText, copyNoOverwrite, extractJson, InputError, today, writeNoOverwrite } from '../util.mjs';
 import { cardnewsState, COMMON_RULES, lineValue, requireAgent } from './common.mjs';
 
@@ -33,6 +35,19 @@ function draftSource(store, id) {
   if (!j || !['cardnews.draft', 'cardnews.revise'].includes(j.type) || j.status !== 'done' || !j.result?.sessionId) throw new InputError('끝난 카드뉴스 초안 작업 번호가 필요합니다');
   return j;
 }
+
+// git 을 정해진 인자로만 실행(셸 없음)
+function git(cwd, args, timeoutMin = 5) {
+  return new Promise((resolve) => {
+    const c = spawn('git', args, { cwd, windowsHide: true, shell: false });
+    let out = ''; let err = '';
+    c.stdout.on('data', (d) => { out += d; }); c.stderr.on('data', (d) => { err += d; });
+    const t = setTimeout(() => c.kill(), timeoutMin * 60000);
+    c.on('error', (e) => { err += e.message; });
+    c.on('close', (code) => { clearTimeout(t); resolve({ code, out: out.trim(), err: err.trim() }); });
+  });
+}
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export const team3Jobs = [
   {
@@ -121,6 +136,75 @@ export const team3Jobs = [
     },
   },
   {
+    type: 'instagram.publish',
+    team: 'team3', worker: 't3-editor', label: '인스타그램 게시', heavy: false, chiefCallable: false,
+    desc: '승인된 카드뉴스를 인스타그램 게시용 JPEG(4:5)로 바꿔 GitHub 공개 주소에 올리고, n8n 인스타그램 흐름으로 캐러셀 게시합니다. 승인함에서 "게시 승인"을 눌렀을 때만 시작합니다.',
+    fields: [{ name: 'slug', label: '덱 이름', kind: 'text', required: true }],
+    validate: (p) => { const slug = cleanText(p.slug, { max: 80, required: true, label: '덱 이름', multiline: false }); if (!SLUG_RE.test(slug)) throw new InputError('덱 이름 형식이 아닙니다'); return { slug }; },
+    title: (p) => `인스타그램 게시: ${p.slug}`,
+    async run(ctx) {
+      const { slug } = ctx.job.params;
+      const hook = ctx.cfg.n8n?.webhooks?.instagramPublish;
+      if (ctx.cfg.demo) {
+        await ctx.claude({ prompt: 'demo', cwd: ctx.emptyDir(), mockTag: 'cardnews.render', allow: [], timeoutMin: 5 });
+        return { summary: '(데모) 인스타그램 게시를 흉내 냈습니다 — 실제로 올리지 않았습니다', result: { slug, permalink: null } };
+      }
+      if (!ctx.cfg.instagram?.enabled || !hook) throw new Error('인스타그램 미연동 — config.json 의 instagram.enabled 와 n8n.webhooks.instagramPublish 를 먼저 설정하세요');
+      requireAgent(cardnewsState(ctx.cfg), ctx.cfg);
+      const repo = ctx.cfg.agents.cardnews;
+      const branch = `cardnews/${slug}`;
+      const deckDir = path.join(repo, 'cardnews', 'decks', slug);
+      const outDir = path.join(deckDir, 'out');
+      const igDir = path.join(outDir, 'instagram');
+      const step = async (label, args) => { ctx.log(`git ${args.join(' ')}`); ctx.act({ k: 'bash', a: label }); const r = await git(repo, args); if (r.code !== 0) throw new Error(`${label} 실패: ${(r.err || r.out).slice(-300)}`); return r; };
+      await step('브랜치 이동', ['switch', branch]);
+      await step('렌더 결과 받기', ['pull', '--ff-only', 'origin', branch]);
+      if (!fs.existsSync(outDir)) throw new Error(`렌더된 카드가 없습니다: ${outDir}`);
+      // 1) JPEG(4:5) 변환
+      ctx.act({ k: 'bash', a: 'JPEG 변환' });
+      const max = Number(ctx.cfg.instagram.maxImages) || 10;
+      const conv = await ctx.python([path.join(ROOT, 'tools', 'instagram_images.py'), outDir, igDir, '--max', String(max), '--size', String(ctx.cfg.instagram.size || '1080x1350')]);
+      let info = null; try { info = JSON.parse(conv.stdout); } catch { /* 아래 */ }
+      if (!info?.ok) throw new Error(`JPEG 변환 실패: ${(info?.error || conv.stderr || conv.stdout).slice(-300)}`);
+      // 2) 공개 주소에 올리기(같은 카드뉴스 브랜치, out/ 아래라 렌더 워크플로는 다시 돌지 않는다)
+      await step('JPEG 올리기 준비', ['add', '--', path.relative(repo, igDir)]);
+      const st = await git(repo, ['diff', '--cached', '--quiet']);
+      if (st.code !== 0) await step('JPEG 커밋', ['commit', '-m', `cardnews: ${slug} instagram jpeg [skip ci]`]);
+      await step('GitHub 에 올리기', ['push', 'origin', branch]);
+      const remote = (await git(repo, ['remote', 'get-url', 'origin'])).out;
+      const m = remote.match(/github\.com[/:]([^/]+)\/([^/.]+)(?:\.git)?$/);
+      if (!m) throw new Error(`GitHub 저장소 주소를 알 수 없습니다: ${remote}`);
+      const enc = (p) => p.split('/').map(encodeURIComponent).join('/');
+      const urls = info.files.map((f) => `https://raw.githubusercontent.com/${m[1]}/${m[2]}/${enc(branch)}/${enc(path.relative(repo, f).split(path.sep).join('/'))}`);
+      // 3) 공개 주소가 열리는지 확인(최대 3분)
+      ctx.act({ k: 'fetch', a: 'raw.githubusercontent.com' });
+      for (let i = 0; ; i++) {
+        const ok = await Promise.all(urls.map((u) => fetch(u, { method: 'HEAD', signal: AbortSignal.timeout(10000) }).then((r) => r.ok).catch(() => false)));
+        if (ok.every(Boolean)) break;
+        if (i >= 18) throw new Error('GitHub 공개 주소에서 사진을 열 수 없습니다(저장소가 비공개인지 확인)');
+        await sleep(10000);
+      }
+      // 4) 인스타그램 문구
+      const capFile = path.join(deckDir, 'caption.txt');
+      const caption = fs.existsSync(capFile) ? fs.readFileSync(capFile, 'utf8').trim() : '';
+      if (!caption) throw new Error('인스타그램 문구(caption.txt)가 없습니다');
+      if (caption.length > 2200) throw new Error(`인스타그램 문구가 2,200자를 넘습니다(${caption.length}자)`);
+      if ((caption.match(/#[^\s#]+/g) || []).length > 30) throw new Error('해시태그가 30개를 넘습니다');
+      // 5) n8n 인스타그램 흐름 호출(토큰은 n8n 자격증명에만 있다)
+      ctx.act({ k: 'mcp', a: 'n8n 인스타그램 게시' });
+      ctx.log(`n8n 게시 요청: 사진 ${urls.length}장${info.dropped.length ? ` (빠진 카드: ${info.dropped.join(', ')})` : ''}`);
+      let body = null;
+      try {
+        const res = await fetch(hook, { method: 'POST', headers: { 'content-type': 'application/json', 'x-office-secret': loadN8nSecret(ctx.cfg) }, body: JSON.stringify({ slug, caption, image_urls: urls }), signal: AbortSignal.timeout(6 * 60000) });
+        const t = await res.text();
+        try { body = JSON.parse(t); } catch { body = { ok: false, error: t.slice(0, 300) }; }
+        if (!res.ok && body.ok !== false) body = { ok: false, error: `HTTP ${res.status} ${t.slice(0, 200)}` };
+      } catch (e) { throw new Error(`n8n 인스타그램 흐름에 닿지 못했습니다: ${e.message}`); }
+      if (!body?.ok || !body.permalink) throw new Error(`인스타그램 게시 실패: ${body?.error || JSON.stringify(body).slice(0, 300)}`);
+      return { summary: `인스타그램에 게시했습니다(${urls.length}장): ${body.permalink}`, outputs: [igDir], result: { slug, permalink: body.permalink, id: body.id, images: urls.length, dropped: info.dropped } };
+    },
+  },
+  {
     type: 'cardnews.render',
     team: 'team3', worker: 't3-editor', label: '카드뉴스 완성(사진·렌더·압축)', heavy: true, chiefCallable: false,
     desc: '승인된 초안을 이어서 사진 선정 → GitHub Actions 렌더 → 검수 → 압축까지 하고, 결과를 콘텐츠 폴더에 모읍니다.',
@@ -162,7 +246,7 @@ export const team3Jobs = [
         outputs: [dest, ...files],
         approvals: [{
           kind: 'instagram.publish', worker: 't3-editor', title: `인스타그램 게시 승인 — ${slug}`, files,
-          detail: `${caption}\n\n${r.ok ? '' : `주의: 작업이 정상 종료되지 않았습니다 — ${r.error}\n`}승인해도 인스타그램 계정 연동 전에는 자동 게시하지 않습니다. 압축 파일로 직접 올려 주세요.`,
+          detail: `${caption}\n\n${r.ok ? '' : `주의: 작업이 정상 종료되지 않았습니다 — ${r.error}\n`}${ctx.cfg.instagram?.enabled && ctx.cfg.n8n?.webhooks?.instagramPublish ? `승인하면 바로 인스타그램에 캐러셀로 게시합니다(4:5 JPEG, 최대 ${Number(ctx.cfg.instagram.maxImages) || 10}장 — 넘으면 앞 장들과 마지막 장). 공개 게시라 되돌리려면 인스타그램에서 직접 지워야 합니다.` : '인스타그램 미연동 — 승인해도 자동 게시하지 않습니다. 압축 파일로 직접 올려 주세요.'}`,
           data: { slug, dest },
         }],
         result: { slug },

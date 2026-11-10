@@ -112,7 +112,13 @@ test('TEAM3: 트렌드 → 초안(자동 연결) → 수정 요청 → 승인 �
   await call('POST', `/api/approvals/${a2.id}`, { decision: 'approve' });
   const pub = await approvalOf('instagram.publish');
   const r = await call('POST', `/api/approvals/${pub.id}`, { decision: 'approve' });
-  assert.match(r.json.outcome, /미연동/);
+  assert.match(r.json.outcome, /게시 작업/, '데모에서는 게시 흐름을 흉내 낸다');
+  const list = (await call('GET', '/api/jobs?limit=100')).json;
+  const ig = list.find((j) => j.type === 'instagram.publish');
+  assert.ok(ig, '승인 후에만 게시 작업이 생긴다');
+  assert.match((await jobDone(ig.id)).summary, /데모/);
+  const direct = await call('POST', '/api/jobs', { type: 'instagram.publish', params: { slug: '../../etc' } });
+  assert.equal(direct.status, 400, '덱 이름 형식 검사');
 });
 
 test('TEAM2: 강사풀 PPT 추가(데모) → 새 버전 확인 승인함', async () => {

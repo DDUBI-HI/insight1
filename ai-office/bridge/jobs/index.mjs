@@ -73,10 +73,8 @@ export async function decide(approval, decision, note, { cfg, paths, postN8n }) 
   if (k === 'instagram.publish') {
     if (!approve) return { outcome: `게시하지 않음 — ${note || '의견 없음'}` };
     const hook = cfg.n8n?.webhooks?.instagramPublish;
-    if (cfg.instagram?.enabled && hook) {
-      const files = (approval.files || []).filter((f) => isInside(paths.root, f));
-      const r = await postN8n(hook, { action: 'instagram.publish', slug: approval.data.slug, caption: approval.detail, files });
-      return { outcome: r.ok ? 'n8n 인스타그램 흐름에 넘겼습니다(게시 결과는 n8n 실행 기록에서 확인)' : `n8n 전달 실패: ${r.error}` };
+    if ((cfg.instagram?.enabled && hook) || cfg.demo) {
+      return { outcome: '인스타그램 게시 작업을 시작합니다 — 끝나면 작업 현황에 게시물 주소가 나옵니다', enqueue: [{ type: 'instagram.publish', params: { slug: approval.data.slug } }] };
     }
     return { outcome: '인스타그램 미연동 — 자동 게시하지 않았습니다. 콘텐츠 폴더의 압축 파일로 직접 올려 주세요.' };
   }

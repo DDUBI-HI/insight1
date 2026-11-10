@@ -25,7 +25,7 @@ const DEFAULTS = {
   // 폴더 감시: [{ enabled, folder, type, exts, intervalSec }] — 새 파일이 생기면 그 작업을 요청
   watch: [],
   n8n: { baseUrl: 'http://localhost:5678', webhooks: { events: '', instagramPublish: '' } },
-  instagram: { enabled: false },
+  instagram: { enabled: false, maxImages: 10, size: '1080x1350' },
   limits: { jobTimeoutMinutes: 90, lightJobTimeoutMinutes: 20 },
   schedule: [],
   demo: false,
