@@ -40,6 +40,28 @@ export function currentDeck(cfg, paths) {
 }
 export function setCurrentDeck(paths, p) { writeJsonAtomic(currentDeckFile(paths), { path: p, at: new Date().toISOString() }); }
 
+// 버전 이름: '…전문강사풀_v6' → '…전문강사풀_v7'. 번호가 없으면 '_v2' 를 붙인다.
+const VER_RE = /_v(\d+)(?:[._-]\d+)*$/i;
+export const deckBase = (name) => path.parse(String(name)).name.replace(/_강사추가_\d{6}.*$/, '').replace(VER_RE, '').trim().toLowerCase();
+export function nextVersionPath(deck, dir = path.dirname(deck)) {
+  const stem = path.parse(deck).name.replace(/_강사추가_\d{6}.*$/, '');
+  const m = stem.match(VER_RE);
+  const base = m ? stem.slice(0, m.index) : stem;
+  let n = m ? Number(m[1]) + 1 : 2;
+  // 폴더에 이미 더 높은 번호가 있으면 그다음 번호로
+  try {
+    for (const f of fs.readdirSync(dir)) {
+      const p = path.parse(f);
+      if (p.ext.toLowerCase() !== '.pptx') continue;
+      const mm = p.name.match(VER_RE);
+      if (mm && p.name.slice(0, mm.index) === base) n = Math.max(n, Number(mm[1]) + 1);
+    }
+  } catch { /* 폴더 없음 */ }
+  let target = path.join(dir, `${base}_v${n}.pptx`);
+  while (fs.existsSync(target)) target = path.join(dir, `${base}_v${++n}.pptx`);
+  return target;
+}
+
 async function deckTool(ctx, args) {
   const r = await ctx.python([DECK_TOOL, ...args], { timeoutMin: 15 });
   let j = null;
@@ -153,8 +175,8 @@ export const team2Jobs = [
         if (res.code === 'exists') return { summary: res.error + ' — 추가하지 않았습니다(갱신은 직접 확인)', result: { name: prof.name, exists: true } };
         throw new Error(`${res.error}${res.problems ? ': ' + res.problems.join(' / ') : ''}`);
       }
-      const stem = path.parse(deck).name.replace(/_강사추가_\d{6}.*$/, '');
-      const saved = copyNoOverwrite(res.out, path.join(ctx.paths.review, `${stem}_강사추가_${today()}.pptx`));
+      const nextName = path.basename(nextVersionPath(deck));
+      const saved = copyNoOverwrite(res.out, path.join(ctx.paths.review, nextName));
       // 강사별 폴더 정리 + 강사풀(CSV) 반영안도 함께
       const folder = path.join(ctx.paths.instructorDirs, safeName(prof.name, 40));
       fs.mkdirSync(folder, { recursive: true });
@@ -167,7 +189,7 @@ export const team2Jobs = [
         files: [saved, ...previews],
         detail: [`기준 파일: ${deck}`, `새 장: ${res.new_slide}장 (${prof.name}) · 전체 ${res.count}명`, `${res.summary} · 인원 수를 고친 장: ${res.count_changed_slides.join(', ')} · 쪽 번호 ${res.renumbered}곳`,
           previews.length ? '미리보기 그림을 눌러 디자인을 확인하세요.' : '미리보기를 만들지 못했습니다 — PPTX 를 열어 확인하세요.',
-          '', '승인하면 원본 옆에 새 버전 파일로 저장합니다(원본은 그대로). 다음 강사는 이 새 버전에 이어서 추가합니다.'].join('\n'),
+          '', `승인하면 같은 폴더에 새 버전 ${nextName} 으로 저장합니다(원본은 그대로). 다음 강사는 이 새 버전에 이어서 추가합니다.`].join('\n'),
         data: { out: saved, deck },
       }];
       if (plan.action !== 'same') approvals.push({ kind: 'instructor.update', worker: 't2-keeper', title: `강사풀 반영 — ${prof.name}`, detail: diffTable(plan) + '\n\n승인하면 강사풀.csv 를 백업한 뒤 반영합니다.', data: { plan }, files: [copied] });

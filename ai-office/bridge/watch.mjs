@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { readJsonSafe, writeJsonAtomic } from './util.mjs';
+import { currentDeck, deckBase } from './jobs/team2.mjs';
 
 const SKIP = /^(~\$|\.|desktop\.ini$|thumbs\.db$)/i;
 
@@ -21,8 +22,9 @@ export function scanFolder(folder, exts) {
 }
 
 /** 한 번 살펴보기. state: { [folder]: { seen: {name: size}, pending: {name: size} } } → 새로 요청할 파일 목록 */
-export function step(state, w) {
+export function step(state, w, ignore = () => false) {
   const now = scanFolder(w.folder, w.exts);
+  if (now) for (const n of Object.keys(now)) if (ignore(n)) delete now[n];
   if (now === null) return { files: [], missing: true };
   const key = path.resolve(w.folder);
   if (!state[key]) { state[key] = { seen: now, pending: {}, startedAt: new Date().toISOString() }; return { files: [], baseline: Object.keys(now).length }; }
@@ -45,7 +47,9 @@ export function startWatch({ cfg, paths, runner, store }) {
   const status = {};
   const tick = () => {
     for (const w of list) {
-      const r = step(state, w);
+      // 강사풀 PPT 자신과 그 버전들(…_v6, …_v7)은 강사 프로필이 아니다 → 감시에서 뺀다
+      const base = w.type === 'instructor.deck_add' ? deckBase(path.basename(currentDeck(cfg, paths) || '')) : '';
+      const r = step(state, w, (n) => !!base && path.extname(n).toLowerCase() === '.pptx' && deckBase(n) === base);
       status[w.folder] = { at: new Date().toISOString(), missing: !!r.missing, baseline: r.baseline };
       if (r.baseline !== undefined) store.event('chief', 'text', `폴더 감시 시작 — 기존 파일 ${r.baseline}개는 건너뜀`);
       for (const f of r.files) {

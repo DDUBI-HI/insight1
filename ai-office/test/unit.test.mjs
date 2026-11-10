@@ -152,3 +152,24 @@ test('폴더 감시: 처음 있던 파일은 건너뛰고, 새 파일은 크기�
   assert.deepEqual(step(st, w).files, [], '한 번만 요청');
   assert.equal(step(st, { folder: path.join(d, '없음') }).missing, true);
 });
+
+test('강사풀 PPT 버전: v6 → v7, 폴더에 더 높은 번호가 있으면 그다음, 감시에서 버전 파일 제외', async () => {
+  const { nextVersionPath, deckBase } = await import('../bridge/jobs/team2.mjs');
+  const { step } = await import('../bridge/watch.mjs');
+  const d = tmp();
+  const v6 = path.join(d, '인싸이트러닝_MindAILab_AI-AX_전문강사풀_v6.pptx');
+  fs.writeFileSync(v6, 'x');
+  assert.equal(path.basename(nextVersionPath(v6)), '인싸이트러닝_MindAILab_AI-AX_전문강사풀_v7.pptx');
+  fs.writeFileSync(path.join(d, '인싸이트러닝_MindAILab_AI-AX_전문강사풀_v8.pptx'), 'x');
+  assert.equal(path.basename(nextVersionPath(v6)), '인싸이트러닝_MindAILab_AI-AX_전문강사풀_v9.pptx');
+  assert.equal(path.basename(nextVersionPath(path.join(d, '강사풀.pptx'))), '강사풀_v2.pptx');
+  assert.equal(deckBase('인싸이트러닝_MindAILab_AI-AX_전문강사풀_v12.pptx'), deckBase(v6));
+  const st = {};
+  const ignore = (n) => deckBase(n) === deckBase(v6);
+  step(st, { folder: d, exts: ['.pptx', '.pdf'] }, ignore);
+  fs.writeFileSync(path.join(d, '인싸이트러닝_MindAILab_AI-AX_전문강사풀_v9.pptx'), 'x');
+  fs.writeFileSync(path.join(d, '홍길동 프로필.pdf'), 'abc');
+  step(st, { folder: d, exts: ['.pptx', '.pdf'] }, ignore);
+  const r = step(st, { folder: d, exts: ['.pptx', '.pdf'] }, ignore);
+  assert.deepEqual(r.files.map((f) => path.basename(f)), ['홍길동 프로필.pdf'], '새 버전 PPT 는 강사 프로필로 보지 않는다');
+});
