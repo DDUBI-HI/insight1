@@ -221,7 +221,7 @@
         ["고객사 메일 발송", ["ok", "자동 발송 없음(항상 사람이 직접 보냄)"]],
         ["작업 대기", [s.queue.running ? "ok" : "ok", s.queue.running ? `진행 중: ${s.queue.running.title} · 대기 ${s.queue.queued}건` : `쉬는 중 · 대기 ${s.queue.queued}건`]],
         ["강사풀 PPT (새 강사 추가 기준)", s.instructorDeck.path ? (s.instructorDeck.exists ? ["ok", s.instructorDeck.path] : ["bad", `파일 없음 · ${s.instructorDeck.path}`]) : ["warn", "미설정 — config.json 의 instructorDeck"]],
-        ["폴더 감시", s.watch.length ? [s.watch.every((w) => w.exists) ? "ok" : "bad", s.watch.map((w) => `${w.enabled ? "켜짐" : "꺼짐"} · ${w.exists ? "" : "폴더 없음 · "}${w.folder}`).join(" / ")] : ["warn", "없음 — config.json 의 watch"]],
+        ["폴더 감시", s.watch.length ? [s.watch.every((w) => w.exists) ? "ok" : "bad", s.watch.map((w) => `${w.enabled ? "켜짐" : "꺼짐"} · ${w.exists ? "" : "폴더 없음 · "}${w.folder}${w.last ? ` · 마지막 확인 ${when(w.last.at)}${w.last.waiting ? ` · 크기 확인 중 ${w.last.waiting}개` : ""}` : ""}`).join(" / ")] : ["warn", "없음 — config.json 의 watch"]],
         ["내장 예약", s.schedule.length ? ["ok", s.schedule.map((x) => `${x.type} ${x.days?.join(",") || "매일"} ${x.time}`).join(" / ")] : ["warn", "없음(n8n 예약 흐름 사용 또는 설정 schedule)"]],
         ["데이터 폴더", ["ok", s.dataDir]],
         ["파일을 받을 수 있는 폴더", ["ok", s.inputRoots.join(", ")]],

@@ -141,6 +141,7 @@ test('폴더 감시: 처음 있던 파일은 건너뛰고, 새 파일은 크기�
   const { step } = await import('../bridge/watch.mjs');
   const d = tmp();
   fs.writeFileSync(path.join(d, '기존.pdf'), 'a');
+  const old = (Date.now() - 3 * 3600 * 1000) / 1000; fs.utimesSync(path.join(d, '기존.pdf'), old, old);
   const st = {};
   const w = { folder: d, exts: ['.pdf', '.pptx'] };
   assert.equal(step(st, w).baseline, 1, '처음엔 기준만 잡는다');
@@ -172,4 +173,16 @@ test('강사풀 PPT 버전: v6 → v7, 폴더에 더 높은 번호가 있으면 
   step(st, { folder: d, exts: ['.pptx', '.pdf'] }, ignore);
   const r = step(st, { folder: d, exts: ['.pptx', '.pdf'] }, ignore);
   assert.deepEqual(r.files.map((f) => path.basename(f)), ['홍길동 프로필.pdf'], '새 버전 PPT 는 강사 프로필로 보지 않는다');
+});
+
+test('폴더 감시: 감시를 켜기 직전 1시간 안에 넣은 파일은 새 파일로 처리', async () => {
+  const { step } = await import('../bridge/watch.mjs');
+  const d = tmp();
+  const old = path.join(d, '예전.pdf'); fs.writeFileSync(old, 'a');
+  const t = (Date.now() - 3 * 3600 * 1000) / 1000; fs.utimesSync(old, t, t);
+  fs.writeFileSync(path.join(d, '방금.pdf'), 'abc');
+  const st = {};
+  const r0 = step(st, { folder: d, exts: ['.pdf'] });
+  assert.equal(r0.baseline, 1); assert.equal(r0.recent, 1);
+  assert.deepEqual(step(st, { folder: d, exts: ['.pdf'] }).files.map((f) => path.basename(f)), ['방금.pdf']);
 });
