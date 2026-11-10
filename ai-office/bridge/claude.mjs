@@ -42,7 +42,16 @@ export function resolveClaude(cfg) {
   if (IS_WIN) {
     const r = spawnSync('where.exe', [p], { encoding: 'utf8', windowsHide: true });
     const lines = (r.stdout || '').split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
-    return lines.find((l) => /\.exe$/i.test(l)) || lines.find((l) => /\.(cmd|bat)$/i.test(l)) || null;
+    const found = lines.find((l) => /\.exe$/i.test(l)) || lines.find((l) => /\.(cmd|bat)$/i.test(l));
+    if (found) return found;
+    // 바탕 화면에서 켜면 PATH 가 예전 값일 수 있다 → Claude Code 가 보통 깔리는 자리를 직접 찾는다
+    const home = process.env.USERPROFILE || '';
+    const known = [
+      path.join(home, '.local', 'bin', 'claude.exe'),
+      path.join(process.env.APPDATA || path.join(home, 'AppData', 'Roaming'), 'npm', 'claude.cmd'),
+      path.join(process.env.LOCALAPPDATA || path.join(home, 'AppData', 'Local'), 'Programs', 'claude', 'claude.exe'),
+    ];
+    return known.find((k) => fs.existsSync(k)) || null;
   }
   const r = spawnSync('which', [p], { encoding: 'utf8' });
   return r.status === 0 ? r.stdout.trim() : null;

@@ -17,7 +17,8 @@ const DEFAULTS = {
   extraHosts: [],
   dataDir: IS_WIN ? 'C:\\AI-OFFICE\\office-data' : path.join(ROOT, '.office-data'),
   claudePath: 'claude',
-  agents: { slideSvg: '', cardnews: '' },
+  // 설정 파일에 없으면 설치 스크립트가 만드는 기본 위치를 쓴다
+  agents: IS_WIN ? { slideSvg: 'C:\\AI-OFFICE\\agents\\slide-svg', cardnews: 'C:\\AI-OFFICE\\agents\\insight1-cardnews' } : { slideSvg: '', cardnews: '' },
   inputRoots: [],
   n8n: { baseUrl: 'http://localhost:5678', webhooks: { events: '', instagramPublish: '' } },
   instagram: { enabled: false },

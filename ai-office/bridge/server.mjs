@@ -118,7 +118,7 @@ export function createApp(cfgIn) {
     if (!tokenOk(req)) return send(res, 401, { error: '토큰이 없거나 틀렸습니다' });
 
     if (url.pathname === '/api/status' && method === 'GET') {
-      if (!info.claude) info.claude = claudeVersion(cfg);
+      if (!info.claude?.ok) info.claude = claudeVersion(cfg); // 못 찾았으면 매번 다시 찾는다
       const cur = runner.current ? store.jobs.get(runner.current.jobId) : null;
       return send(res, 200, {
         app: APP, version: VERSION, demo: !!cfg.demo, dataDir: paths.root, configFile: cfg.configFile, uptimeSec: Math.round((Date.now() - started) / 1000),
