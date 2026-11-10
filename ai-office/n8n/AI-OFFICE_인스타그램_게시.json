@@ -177,7 +177,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// ▼ 여기 두 줄만 바꿉니다\n// 토큰이 EA… 로 시작하면(통합 로그인·페이스북 방식): BASE = 'https://graph.facebook.com', IG_ID = 인스타그램 계정 번호(개발자 화면의 1784… 숫자)\n// 토큰이 IG… 로 시작하면(인스타그램 로그인 방식): BASE = 'https://graph.instagram.com', IG_ID = 'me'\nconst BASE = 'https://graph.facebook.com';\nconst IG_ID = '여기에_인스타그램_계정_번호';\n// ▲\nif (!/^(me|\\d{6,})$/.test(IG_ID)) throw new Error('설정 노드의 IG_ID 에 인스타그램 계정 번호(숫자)를 넣어 주세요');\nreturn $input.all().map(i => ({ json: { ...i.json, base: BASE, igId: IG_ID } }));"
+        "jsCode": "// ▼ 여기 두 줄만 바꿉니다\n// 토큰이 EA… 로 시작하면(통합 로그인·페이스북 방식·시스템 사용자 토큰): BASE = 'https://graph.facebook.com/v23.0', IG_ID = 인스타그램 계정 번호(1784… 숫자)\n// 토큰이 IG… 로 시작하면(인스타그램 로그인 방식): BASE = 'https://graph.instagram.com/v23.0', IG_ID = 'me'\nconst BASE = 'https://graph.facebook.com/v23.0';\nconst IG_ID = '여기에_인스타그램_계정_번호';\n// ▲\nif (!/^(me|\\d{6,})$/.test(IG_ID)) throw new Error('설정 노드의 IG_ID 에 인스타그램 계정 번호(숫자)를 넣어 주세요');\nreturn $input.all().map(i => ({ json: { ...i.json, base: BASE, igId: IG_ID } }));"
       },
       "id": "62570b15-facb-4fd0-a43d-6df0c324eedb",
       "name": "설정 (주소·계정 번호)",
