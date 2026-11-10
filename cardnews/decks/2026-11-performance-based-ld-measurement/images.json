@@ -6,48 +6,63 @@
       "card": "01-cover",
       "query": "team collaborating on laptops in modern office",
       "unsplash": "N3Bf0ArT5J0",
-      "page": "https://unsplash.com/photos/team-collaborating-on-laptops-in-modern-office-N3Bf0ArT5J0"
+      "page": "https://unsplash.com/photos/team-collaborating-on-laptops-in-modern-office-N3Bf0ArT5J0",
+      "author": "Fiqih Alfarish",
+      "author_url": "https://unsplash.com/@fiqihalfarish"
     },
     {
       "file": "intro.jpg",
       "card": "02-intro",
       "query": "a man sitting at a desk looking at a computer screen",
       "unsplash": "20WoowHnS5k",
-      "page": "https://unsplash.com/photos/a-man-sitting-at-a-desk-looking-at-a-computer-screen-20WoowHnS5k"
+      "page": "https://unsplash.com/photos/a-man-sitting-at-a-desk-looking-at-a-computer-screen-20WoowHnS5k",
+      "author": "charlesdeluvio",
+      "author_url": "https://unsplash.com/@charlesdeluvio"
     },
     {
       "file": "goal.jpg",
       "card": "05-shift1-goal",
       "query": "team collaborating around a whiteboard in an office",
       "unsplash": "CdTQI-Nh7J4",
-      "page": "https://unsplash.com/photos/team-collaborating-around-a-whiteboard-in-an-office-CdTQI-Nh7J4"
+      "page": "https://unsplash.com/photos/team-collaborating-around-a-whiteboard-in-an-office-CdTQI-Nh7J4",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
     },
     {
       "file": "behavior.jpg",
       "card": "07-shift3-behavior",
       "query": "manager giving feedback to employee at workplace",
-      "unsplash": ""
+      "unsplash": "9TF9pMrCFMo",
+      "page": "https://unsplash.com/photos/9TF9pMrCFMo",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
     },
     {
       "file": "data.jpg",
       "card": "08-shift4-data",
       "query": "someone analyzes financial data on a tablet",
       "unsplash": "EL16ACtwLxg",
-      "page": "https://unsplash.com/photos/someone-analyzes-financial-data-on-a-tablet-EL16ACtwLxg"
+      "page": "https://unsplash.com/photos/someone-analyzes-financial-data-on-a-tablet-EL16ACtwLxg",
+      "author": "Jakub Żerdzicki",
+      "author_url": "https://unsplash.com/@jakubzerdzicki"
     },
     {
       "file": "faq.jpg",
       "card": "11-faq",
       "query": "two people reviewing documents at a table",
       "unsplash": "MhqUBTxQ3Hw",
-      "page": "https://unsplash.com/photos/two-people-reviewing-documents-at-a-table-MhqUBTxQ3Hw"
+      "page": "https://unsplash.com/photos/two-people-reviewing-documents-at-a-table-MhqUBTxQ3Hw",
+      "author": "Olena Kholina",
+      "author_url": "https://unsplash.com/@sixtynice"
     },
     {
       "file": "closing.jpg",
       "card": "13-closing",
       "query": "a modern interior features windows and geometric accents",
       "unsplash": "MC-a6-nusL0",
-      "page": "https://unsplash.com/photos/a-modern-interior-features-windows-and-geometric-accents-MC-a6-nusL0"
+      "page": "https://unsplash.com/photos/a-modern-interior-features-windows-and-geometric-accents-MC-a6-nusL0",
+      "author": "Albert Stoynov",
+      "author_url": "https://unsplash.com/@albertstoynov"
     }
   ]
 }
