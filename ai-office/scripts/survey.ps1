@@ -6,6 +6,14 @@ $ErrorActionPreference = 'Continue'
 
 $lines = New-Object System.Collections.Generic.List[string]
 function Add([string]$s) { $lines.Add($s) | Out-Null; if (-not $Quiet) { Write-Host $s } }
+# 오래 걸리거나 응답 없이 기다리는 명령은 별도 작업으로 돌리고 제한 시간이 지나면 건너뛴다
+function Invoke-Timed([scriptblock]$sb, [int]$sec, [object[]]$argList) {
+  if ($argList -and $argList.Count) { $j = Start-Job -ScriptBlock $sb -ArgumentList $argList } else { $j = Start-Job -ScriptBlock $sb }
+  $out = $null
+  if (Wait-Job $j -Timeout $sec) { $out = Receive-Job $j 2>&1 | Out-String } else { Stop-Job $j }
+  Remove-Job $j -Force
+  return $out
+}
 function Ver([string]$cmd, [string[]]$a) {
   if (-not (Test-Cmd $cmd)) { return '없음' }
   try { $o = & $cmd @a 2>&1 | Select-Object -First 1; return ([string]$o).Trim() } catch { return '확인 실패' }
@@ -51,7 +59,9 @@ if (Test-Path $sched) {
 }
 if ($claude) {
   try {
-    $mcp = & claude mcp list 2>&1 | Out-String
+    if (-not $Quiet) { Write-Host '  (Claude 연결 목록 확인 중 — 최대 25초)' }
+    $mcp = Invoke-Timed { & claude mcp list 2>&1 } 25 @()
+    if ($null -eq $mcp) { throw '시간 초과' }
     $names = @($mcp -split "`r?`n" | Where-Object { $_ -match '^\S+:' } | ForEach-Object { ($_ -split ':')[0] }) -join ', '
     Add "- Claude MCP 서버: $(if ($names) { $names } else { '없음 또는 확인 실패' })"
   } catch { Add '- Claude MCP 서버: 확인 실패' }
@@ -63,13 +73,18 @@ $c = Get-N8nContainer
 if ($c) {
   Add "- 컨테이너: $c"
   Add "- 이미지: $(& docker inspect -f '{{.Config.Image}}' $c 2>$null)"
-  Add "- n8n 버전: $(& docker exec $c n8n --version 2>$null | Select-Object -Last 1)"
+  $nv = Invoke-Timed { param($name) & docker exec $name n8n --version 2>$null } 30 @($c)
+  Add "- n8n 버전: $(if ($nv) { ($nv.Trim() -split "`r?`n")[-1] } else { '확인 못 함(시간 초과)' })"
   Add "- 포트: $((& docker port $c 2>$null) -join ', ')"
   Add "- 연결 폴더: $(& docker inspect -f '{{range .Mounts}}{{.Source}} -> {{.Destination}}; {{end}}' $c 2>$null)"
   try {
-    $wf = & docker exec $c n8n list:workflow 2>$null
-    Add '- 워크플로 목록(이름만 읽음, 바꾸지 않음):'
-    foreach ($w in $wf) { if ($w -match '\|') { Add "  - $w" } }
+    if (-not $Quiet) { Write-Host '  (n8n 워크플로 목록 읽는 중 — 최대 60초)' }
+    $wf = Invoke-Timed { param($name) & docker exec $name n8n list:workflow 2>$null } 60 @($c)
+    if ($null -eq $wf) { Add '- 워크플로 목록: 시간 초과로 건너뜀' }
+    else {
+      Add '- 워크플로 목록(이름만 읽음, 바꾸지 않음):'
+      foreach ($w in ($wf -split "`r?`n")) { if ($w -match '\|') { Add "  - $w" } }
+    }
   } catch { Add '- 워크플로 목록: 읽기 실패' }
 } else { Add '- n8n 컨테이너를 찾지 못했습니다(Docker Desktop 이 켜져 있는지 확인)' }
 try { $h = Invoke-WebRequest -Uri 'http://localhost:5678/healthz' -UseBasicParsing -TimeoutSec 3; Add "- http://localhost:5678 응답: $($h.StatusCode)" } catch { Add '- http://localhost:5678 응답 없음' }

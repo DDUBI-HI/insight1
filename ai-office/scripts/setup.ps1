@@ -16,6 +16,7 @@ Write-Host '   기존 n8n 워크플로·Claude 에이전트는 바꾸지 않습�
 Write-Host '==============================================' -ForegroundColor Cyan
 
 Write-Step '1/8 설치 환경 조사(읽기 전용)'
+Write-Host '  1~2분 걸릴 수 있습니다. 화면이 멈춘 것처럼 보여도 기다려 주세요.'
 & (Join-Path $PSScriptRoot 'survey.ps1') -Quiet
 
 Write-Step '2/8 Node.js 확인'
