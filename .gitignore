@@ -11,3 +11,7 @@ cardnews/dist/
 # 슬라이드 엔진 산출물 (고객사 자료가 들어가므로 커밋 금지)
 output/
 .claude/skills/generic-redesign/contacts.local.txt
+
+# ppt-master 작업 공간 (고객사 자료가 들어가므로 커밋 금지)
+projects/*
+!projects/README.md

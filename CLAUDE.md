@@ -7,8 +7,9 @@
 | `/cardnews` | `"카드뉴스 만들어줘"` | `.claude/skills/cardnews/SKILL.md` |
 | `/generic-redesign` | `"범용으로 바꿔"`, `"범용 과정으로 만들어"`, `"고객사 이름 빼고 리디자인"` | `.claude/skills/generic-redesign/SKILL.md` — 고객사 제안서 → 범용 과정 PPTX |
 | `/slide` · `/slide-plan` | `"슬라이드 만들어"`, `"기획부터"` | `.claude/skills/slide/SKILL.md`, `.claude/skills/slide-plan/SKILL.md` |
+| `/ppt-master` · `/ppt-template-fill` · `/native-enhance-pptx` · `/codex-image` | `"ppt-master로 만들어"`, `"이 템플릿에 내용 채워줘"`, `"완성 PPT에 노트·음성 넣어"` | `.claude/skills/ppt-master/workflows/routing.md` 먼저 → 선택된 스킬의 `SKILL.md` (slide-master에서 가져옴, 아래 절 참고) |
 
-> ⚠️ **이 저장소는 공개 저장소다.** 고객사 원본·생성된 덱(`output/`)·담당자 연락처(`contacts.local.txt`)는 커밋하지 않는다 (`.gitignore` 처리됨). 결과 파일은 세션의 파일 전달로 사용자에게 넘긴다.
+> ⚠️ **이 저장소는 공개 저장소다.** 고객사 원본·생성된 덱(`output/`, `projects/`)·담당자 연락처(`contacts.local.txt`)는 커밋하지 않는다 (`.gitignore` 처리됨). 결과 파일은 세션의 파일 전달로 사용자에게 넘긴다.
 
 ---
 
@@ -58,6 +59,18 @@ pip install -r .claude/skills/slide/requirements.txt
 - 납품: 클라우드 세션은 `output/_deliver/`에 저장 후 사용자에게 전달
 - 엔딩 연락처는 `GR_CONTACTS` 환경변수 또는 `contacts.local.txt` — 없으면 사용자에게 묻는다
 
+## PPT Master 스킬 (`.claude/skills/ppt-master` 외 3개)
+
+[byungjunjang/slide-master](https://github.com/byungjunjang/slide-master)(MIT, hugohe3/ppt-master 기반)에서 가져온 **별도 엔진**이다. 위 슬라이드 엔진과 규칙이 다르므로 섞지 않는다.
+
+- **라우팅 먼저**: 요청을 받으면 `.claude/skills/ppt-master/workflows/routing.md`부터 읽고 경로를 고른 뒤, 선택된 스킬 문서만 전부 읽는다. 게이트·후처리·검증은 그 문서가 정한다 (예: ppt-master는 `svg_to_pptx.py`에 `-s final`을 쓰지 않는다. 위 "후처리 규율"은 `/slide` 전용).
+- **활성 테마 미적용**: ppt-master는 Insightlearning 테마를 자동으로 쓰지 않는다. 브랜드 프리셋(`templates/brands/`)에 Insightlearning이 없으므로 회사 덱은 `/slide`·`/generic-redesign`을 쓰고, ppt-master는 템플릿 채우기·노트/음성 추가·기타 스타일 덱에 쓴다.
+- **작업 폴더**: `projects/` (`.gitignore` 처리 — 커밋 금지).
+- **처음 한 번**: `pip install -r .claude/skills/ppt-master/requirements.txt` 후 `python3 .claude/skills/ppt-master/scripts/preflight.py`.
+- **Codex 연동**: `AGENTS.md`와 `.codex/skills/` 스텁. 어떤 `SKILL.md`든 frontmatter를 고치면 `python3 .claude/skills/ppt-master/scripts/sync_codex_stubs.py`를 다시 돌린다 (안 하면 preflight 실패).
+- 선택 도구: OfficeCLI(`npm install -g @officecli/officecli@1.0.135`, 납품 PPTX 검증), Codex CLI(AI 이미지). 없어도 경고만 난다.
+- 사용자 문서: `docs/` (설치·FAQ·템플릿 가이드 등, slide-master 원문).
+
 ### 출처
 
-슬라이드 엔진은 slide-svg (MIT, Byungjun Jang) · ppt-master (MIT) · diagram-design (MIT)에서 가져왔다. 고지문: `.claude/skills/LICENSES/`.
+슬라이드 엔진은 slide-svg (MIT, Byungjun Jang) · ppt-master (MIT) · diagram-design (MIT)에서, PPT Master 스킬은 slide-master (MIT)에서 가져왔다. 고지문: `.claude/skills/LICENSES/`.
