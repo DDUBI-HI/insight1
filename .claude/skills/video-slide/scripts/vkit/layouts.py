@@ -62,7 +62,9 @@ def ink_for(c):
     return {MINT: GREEN, MINT_BG: GREEN}.get(c, c)
 
 
-def vcenter(h, top=TOP, bot=BOT):
+def vcenter(h, top=None, bot=None):
+    top = TOP if top is None else top
+    bot = BOT if bot is None else bot
     return top + max(0, (bot - top - h) / 2)
 
 
@@ -928,7 +930,7 @@ def quiz(p):
             y = ay + i * (rh + gap)
             hit = ans == i + 1
             head, _, rest = op_.partition(" ")
-            num, body_ = (head, rest) if head.rstrip(".").isdigit() else ("", op_)
+            num, body_ = (head, rest) if head.rstrip(".)").isdigit() else ("", op_)
             o += rect(ax, y, aw, rh, GREEN if hit else MINT_PALE, rx=14)
             if num:
                 o += text(ax + 22, y + rh / 2 + 6, num, 18, 800, WHITE if hit else GREEN)
@@ -938,11 +940,73 @@ def quiz(p):
                 o += check_mark(ax + aw - 30, y + rh / 2, 13, WHITE, GREEN)
     else:
         o += rect(ax, ay, aw, ah, MINT_PALE, rx=20)
+        cy_ = ay + ah / 2 - (22 if p.get("explain") else 0)
+        if p.get("reveal_shape") == "O":           # drawn ring / cross — no character added (content-lock safe)
+            o += circle(ax + aw / 2, cy_, 58, "none", stroke=GREEN, sw=30)
+        elif p.get("reveal_shape") == "X":
+            cx_ = ax + aw / 2
+            o += line(cx_ - 52, cy_ - 52, cx_ + 52, cy_ + 52, NAVY, 26, cap="round")
+            o += line(cx_ + 52, cy_ - 52, cx_ - 52, cy_ + 52, NAVY, 26, cap="round")
         if p.get("reveal"):
             o += text(ax + aw / 2, ay + ah / 2 + (14 if p.get("explain") else 42), p["reveal"], 120, 900, NAVY, "middle")
         if p.get("explain"):
             el, efs = fit(p["explain"], 24, aw - 40, 2, 800, 18)
             o += lines(ax + aw / 2, ay + ah - 40, el, efs, 32, 800, GREEN, "middle")
+    return o
+
+
+def photos(p):
+    """Content photos kept in their original arrangement, rescaled into the card.
+    images: [{src, box: [x, y, w, h] in source-page units}] · tag: small pill label · heading: line above ·
+    captions: lines below · labels: [{text, at: [x, y]}] pills over the photos (source-page units)."""
+    imgs = p.get("images") or []
+    o = ""
+    top, bot = TOP + 4, BOT
+    if p.get("tag"):
+        (tg,), tfs = fit(p["tag"], 16, 300, 1, 700, 13)
+        tw = measure(tg, tfs, 700) + 32
+        o += rect(L + 12, top, tw, 32, GREEN, rx=16) + text(L + 12 + tw / 2, top + 22, tg, tfs, 700, WHITE, "middle")
+        top += 44
+    if p.get("heading"):
+        hl, hfs = fit(p["heading"], 24, CONTENT_W - 40, 2, 800, 18)
+        o += lines(CX, top + 24, hl, hfs, 32, 800, NAVY, "middle")
+        top += 32 * len(hl) + 14
+    caps = [c if isinstance(c, dict) else {"text": c} for c in (p.get("captions") or [])]
+    cfs = p.get("caption_size", 18)
+    if caps:
+        bot -= sum(round(c.get("size", cfs) * 1.5) for c in caps) + 10
+    if any(im.get("cap") for im in imgs):
+        bot -= 36
+    if imgs:
+        x0 = min(i["box"][0] for i in imgs)
+        y0 = min(i["box"][1] for i in imgs)
+        x1 = max(i["box"][0] + i["box"][2] for i in imgs)
+        y1 = max(i["box"][1] + i["box"][3] for i in imgs)
+        aw, ah = CONTENT_W - 24, bot - top
+        k = min(aw / (x1 - x0), ah / (y1 - y0), p.get("max_scale", 9))
+        ox = L + 12 + (aw - (x1 - x0) * k) / 2
+        oy = top + (ah - (y1 - y0) * k) / 2
+        for j, im in enumerate(imgs):
+            bx, by, bw, bh = im["box"]
+            X, Y, Wd, Hd = ox + (bx - x0) * k, oy + (by - y0) * k, bw * k, bh * k
+            cid = f"ph{p.get('_page', 0)}_{j}"
+            o += (f'  <defs><clipPath id="{cid}"><rect x="{r1(X)}" y="{r1(Y)}" width="{r1(Wd)}" height="{r1(Hd)}" rx="8"/>'
+                  f'</clipPath></defs>\n  <image href="{esc(im.get("_href", ""))}" x="{r1(X)}" y="{r1(Y)}" width="{r1(Wd)}" '
+                  f'height="{r1(Hd)}" preserveAspectRatio="xMidYMid slice" clip-path="url(#{cid})"/>\n')
+            if im.get("cap"):
+                o += text(X + Wd / 2, Y + Hd + 28, im["cap"], 19, 600, INK, "middle")
+        for lb in p.get("labels") or []:
+            lx, ly = ox + (lb["at"][0] - x0) * k, oy + (lb["at"][1] - y0) * k
+            ll = lb["text"] if isinstance(lb["text"], list) else [lb["text"]]
+            w_ = max(measure(t_, 18, 800) for t_ in ll) + 28
+            o += rect(lx - w_ / 2, ly - 4, w_, len(ll) * 26 + 14, NAVY, rx=10)
+            o += lines(lx, ly + 20, ll, 18, 26, 800, WHITE, "middle")
+    yy = bot + (46 if any(im.get("cap") for im in imgs) else 10)
+    for c in caps:
+        fs_ = c.get("size", cfs)
+        yy += fs_
+        o += text(CX, yy, c["text"], fs_, c.get("weight", 600), c.get("color", INK), "middle")
+        yy += round(fs_ * 0.5)
     return o
 
 
@@ -971,9 +1035,10 @@ LAYOUTS = {
     "grid": (grid, True, "content"),
     "keywords": (keywords, True, "content"),
     "quiz": (quiz, True, "content"),
+    "photos": (photos, True, "content"),
     "ending": (ending, False, "ending"),
 }
 
 # layouts whose title sits in the shell (others draw their own headline)
-SHELL_TITLE = {"bullets", "panels", "grid", "keywords", "quiz", "agenda", "statement", "points", "cards", "stats", "illust_cards", "flow", "compare", "before_after",
+SHELL_TITLE = {"photos", "bullets", "panels", "grid", "keywords", "quiz", "agenda", "statement", "points", "cards", "stats", "illust_cards", "flow", "compare", "before_after",
                "pyramid", "qa", "chart", "table", "image"}

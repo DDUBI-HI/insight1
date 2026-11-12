@@ -478,6 +478,56 @@ def _confidential():
     return o
 
 
+def wheelchair_user(cx, base, s=1.0, shirt=TEAL, hair="short"):
+    """Seated person in a wheelchair, facing right; cx = chair centre, base = floor y."""
+    k = s
+    o = ""
+    wy = base - 30 * k
+    o += circle(cx - 6 * k, wy, 30 * k, "none", stroke=NAVY, sw=6 * k)                 # big wheel
+    o += circle(cx - 6 * k, wy, 5 * k, NAVY)
+    o += circle(cx + 34 * k, base - 8 * k, 8 * k, "none", stroke=NAVY, sw=4 * k)        # caster
+    o += path(f"M{r1(cx - 30 * k)},{r1(wy - 44 * k)} L{r1(cx - 22 * k)},{r1(wy - 4 * k)} L{r1(cx + 30 * k)},{r1(wy - 4 * k)} "
+              f"L{r1(cx + 34 * k)},{r1(base - 16 * k)}", stroke=NAVY, sw=4 * k)            # frame
+    o += path(f"M{r1(cx - 36 * k)},{r1(wy - 48 * k)} L{r1(cx - 26 * k)},{r1(wy - 46 * k)}", stroke=NAVY, sw=5 * k)  # handle
+    # body: torso, thighs, shins
+    o += path(f"M{r1(cx - 22 * k)},{r1(wy - 8 * k)} L{r1(cx - 24 * k)},{r1(wy - 50 * k)} "
+              f"Q{r1(cx - 22 * k)},{r1(wy - 62 * k)} {r1(cx - 8 * k)},{r1(wy - 62 * k)} "
+              f"Q{r1(cx + 4 * k)},{r1(wy - 62 * k)} {r1(cx + 4 * k)},{r1(wy - 48 * k)} L{r1(cx + 2 * k)},{r1(wy - 8 * k)} Z",
+              fill=shirt)
+    o += path(f"M{r1(cx - 16 * k)},{r1(wy - 12 * k)} L{r1(cx + 26 * k)},{r1(wy - 12 * k)} L{r1(cx + 28 * k)},{r1(base - 14 * k)}",
+              stroke=NAVY, sw=12 * k, cap="round")
+    o += path(f"M{r1(cx - 4 * k)},{r1(wy - 44 * k)} L{r1(cx + 14 * k)},{r1(wy - 26 * k)}", stroke=shirt, sw=9 * k)  # arm
+    o += circle(cx + 15 * k, wy - 25 * k, 4.5 * k, SKIN)
+    o += rect(cx - 12 * k, wy - 70 * k, 9 * k, 10 * k, SKIN_2)
+    o += circle(cx - 8 * k, wy - 78 * k, 13 * k, SKIN)
+    hr = 13.8 * k
+    hx, hy = cx - 8 * k, wy - 78 * k
+    o += path(f"M{r1(hx - hr)},{r1(hy)} A{r1(hr)},{r1(hr)} 0 0 1 {r1(hx + hr)},{r1(hy)} "
+              f"Q{r1(hx + 2 * k)},{r1(hy - 9 * k)} {r1(hx - 6 * k)},{r1(hy - 3 * k)} Q{r1(hx - 10 * k)},{r1(hy)} {r1(hx - hr)},{r1(hy)} Z",
+              fill=NAVY)
+    if hair == "long":
+        o += rect(hx - hr, hy - 2 * k, 7 * k, 22 * k, NAVY, rx=3 * k)
+    return o
+
+
+def _wheelchair():
+    o = blob()
+    o += wheelchair_user(96, 146, 1.25, TEAL)
+    o += sparkle(162, 40, 8, SUN) + sparkle(36, 52, 5, GREEN) + circle(168, 110, 4, MINT)
+    return o
+
+
+def _inclusion():
+    """Colleagues together — two standing people and a wheelchair user."""
+    o = blob()
+    o += person(40, 66, 16, NAVY, "long", bottom=150)
+    o += person(162, 62, 17, GREEN, "short", bottom=150)
+    o += wheelchair_user(100, 152, 0.95, TEAL, "short")
+    o += sparkle(178, 34, 7, SUN) + sparkle(24, 40, 5, TEAL)
+    o += path("M86,28 C86,20 96,20 96,28 C96,20 106,20 106,28 C106,36 96,40 96,44 C96,40 86,36 86,28 Z", fill=GREEN)
+    return o
+
+
 LIB = {
     # key: (drawing, 한국어 의미, keywords for auto-pick)
     "thinking": (_thinking, "고민·질문하는 사람", "질문 궁금 고민 생각 왜 무엇 정의 의문 퀴즈 물음"),
@@ -513,6 +563,8 @@ LIB = {
     "siren": (_siren, "신고 경광등", "신고 긴급 사고 대응 경보 118"),
     "lockscreen": (_lockscreen, "화면 잠금", "화면잠금 부재 자리 잠금 보안유지 PC"),
     "confidential": (_confidential, "기밀 문서 노출 금지", "기밀 노출 문서 고객정보 민감정보 보관"),
+    "wheelchair": (_wheelchair, "휠체어 사용자", "휠체어 장애인 지체장애 이동 접근성 편의"),
+    "inclusion": (_inclusion, "함께하는 동료·가족 (휠체어 사용자 포함)", "함께 동료 가족 이웃 공존 인식개선 다양성 포용"),
 }
 
 

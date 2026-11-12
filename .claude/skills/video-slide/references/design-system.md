@@ -74,6 +74,22 @@ Pretendard 단일 (`Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, s
 | 헤더 라벨·페이지 번호 | 13 / 500–600 | 초록 |
 | 큰 숫자 | 50 / 800 | stats |
 
+### 3-1. 색 테마
+
+| 테마 | NAVY | GREEN(액센트) | TEAL | MINT | MINT_BG |
+|---|---|---|---|---|---|
+| `mint` (기본) | `#1D3E77` | `#3EAE8D` | `#206C7A` | `#80C4B0` | `#DBEEE8` |
+| `indigo` | `#2B3990` | `#D6456A` | `#4B5FC9` | `#A7B2EC` | `#E6E9F7` |
+| `coral` | `#17485A` | `#E8674F` | `#2A8C99` | `#F4B4A4` | `#FBEDE6` |
+| `violet` | `#3B2A6E` | `#7B5CD6` | `#B0478F` | `#C9B8F0` | `#EEE9FA` |
+
+토큰 역할(§3 표)은 테마와 무관하게 같다. 일러스트도 같은 토큰을 쓰므로 함께 바뀐다.
+
+## 4-1. 저시력 모드 (`accessible: true`)
+
+본문 최소 20px · 제목 42px · 굵기 ≥ 500 · 회색 글자 `#3F4654`로 진하게 · 줄간격 ≥ 1.38배. 표지·섹션·퀴즈 보기 모두
+적용된다. 조밀한 참고 목록(법령 연표 등)과 차트 수치처럼 줄이면 내용을 쪼개야 하는 경우만 예외로 두고 보고한다.
+
 ## 5. 컴포넌트 (셸 — `frame.py`)
 
 - **배경**: 민트 전면 + 흰 라운드 카드 + 네이비 무대 밴드 (왼쪽 탭 0–152, 오른쪽 탭 896–1280, 가운데는 y 644).
@@ -105,7 +121,8 @@ Pretendard 단일 (`Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, s
 | `ransomware` | 랜섬웨어 잠긴 파일 | `hacking` | 해킹·악성코드 |
 | `deepface` | 얼굴 합성·딥페이크 | `ai` | 생성형 AI 챗봇 |
 | `siren` | 신고 경광등 | `lockscreen` | 화면 잠금 |
-| `confidential` | 기밀 문서 노출 금지 | | |
+| `confidential` | 기밀 문서 노출 금지 | `wheelchair` | 휠체어 사용자 |
+| `inclusion` | 함께하는 동료 (휠체어 사용자 포함) | | |
 
 **쓰는 곳**: 표지·섹션·엔딩·`statement`·`points`·`agenda`(기본 켜짐, `illust: none`으로 끔), `illust_cards`(카드당 1개).
 표·차트·비교·흐름처럼 구조가 이미 시각적인 장에는 넣지 않는다 — 장당 최대 1개(카드형 제외).

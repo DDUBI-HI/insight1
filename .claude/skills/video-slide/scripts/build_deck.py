@@ -28,7 +28,7 @@ sys.path.insert(0, str(HERE / "vkit"))
 import frame      # noqa: E402
 import layouts    # noqa: E402
 import prim       # noqa: E402
-from tokens import CARD, GM_BAND, HEADER_Y, PALETTE, PRESENTER_X, SUBTITLE_Y   # noqa: E402
+from tokens import BODY_BOTTOM, CARD, GM_BAND, HEADER_Y, PALETTE, PRESENTER_X, SUBTITLE_Y, themed, theme_palette  # noqa: E402
 
 ROOT = HERE.parents[3]
 SLIDE = ROOT / ".claude" / "skills" / "slide" / "scripts"
@@ -48,7 +48,7 @@ def slug(s):
     return s or "video_deck"
 
 
-def init_project(project, lock=False):
+def init_project(project, lock=False, theme=None):
     P = ROOT / "output" / project
     if not (P / "svg_output").is_dir():
         subprocess.run([sys.executable, str(SLIDE / "project_manager.py"), "init", project, "--format", "ppt169"],
@@ -58,7 +58,7 @@ def init_project(project, lock=False):
     for d in ("svg_output", "svg_final"):                     # a rebuild replaces every page
         for f in (P / d).glob("*.svg"):
             f.unlink()
-    (P / ".theme-color-allow").write_text("\n".join(PALETTE + ["#8A9BB8"]) + "\n", encoding="utf-8")
+    (P / ".theme-color-allow").write_text("\n".join(theme_palette(theme) + ["#8A9BB8"]) + "\n", encoding="utf-8")
     (P / ".gm-band").write_text(f"{GM_BAND[0]} {GM_BAND[1]}\n", encoding="utf-8")
     (P / ".standalone").write_text("video-slide: content-led deck, no slide_plan.json\n", encoding="utf-8")
     gx = P / ".gm-exempt"
@@ -90,6 +90,8 @@ def zone_check(svg, name):
         anc = _attr(a, "text-anchor", "start")
         x0 = x - w / 2 if anc == "middle" else x - w if anc == "end" else x
         x1 = x0 + w
+        if y > 598 and x0 < 182 and y <= SUBTITLE_Y:
+            errs.append(f"{name}: text runs onto the band's left tab (y={y:.0f}, x={x0:.0f}): '{inner[:24]}'")
         if y > SUBTITLE_Y and x1 > 176:
             errs.append(f"{name}: text in the subtitle zone (y={y:.0f}): '{inner[:24]}'")
         if x1 > CARD["x"] + CARD["w"] - 12 or x1 > PRESENTER_X:
@@ -117,10 +119,14 @@ def build(spec, project=None, spec_dir=None, extra=None):
     lock = bool(spec.get("lock_content"))
     prim.LOCK = lock
     project = project or spec.get("project") or "video_deck"
-    P = init_project(project, lock)
+    theme = spec.get("theme")
+    P = init_project(project, lock, theme)
     course = spec.get("course", "")
     brand = spec.get("brand", "" if lock else "INSIGHTLEARNING")
     registry = {**layouts.LAYOUTS, **(extra or {})}
+    accessible = bool(spec.get("accessible"))           # low-vision mode (design-system §4-1)
+    prim.MIN_FW = 500 if accessible else 0
+    prim.CONTRAST = accessible
     errors, notes, dump = [], [], {}
     for i, p in enumerate(spec.get("pages") or [], 1):
         lay = p.get("layout")
@@ -139,6 +145,18 @@ def build(spec, project=None, spec_dir=None, extra=None):
         if needs_gm and not p.get("gm") and not lock:
             errors.append(f"page {i} ({lay}): 'gm' (one-line governing message) is required on content pages")
         prim.WARNINGS.clear()
+        prim.MIN_FS = (p.get("min_fs") or spec.get("min_fs") or 20) if accessible else 0
+        has_gm = bool(needs_gm and p.get("gm"))
+        layouts.BOT = BODY_BOTTOM if has_gm or role != "content" else 600   # no GM pill → content may use its space
+        p["_page"] = i
+        for im in p.get("images") or []:               # photos layout: copy each image into the project
+            src = Path(im["src"]) if Path(im["src"]).is_absolute() else spec_dir / im["src"]
+            if src.exists():
+                dst = P / "images" / f"p{i:02d}_{slug(src.stem)}{src.suffix.lower()}"
+                shutil.copy(src, dst)
+                im["_href"] = f"../images/{dst.name}"
+            else:
+                errors.append(f"page {i}: image not found: {src}")
         body = fn(p)
         stem = p.get("stem") or {"cover": f"{i:02d}_cover", "ending": f"{i:02d}_ending"}.get(
             role, f"{i:02d}_chapter_{lay}" if role == "chapter" else f"{i:02d}_{lay}")
@@ -149,6 +167,7 @@ def build(spec, project=None, spec_dir=None, extra=None):
         svg = frame.page(body, course=course if role != "cover" else spec.get("cover_label", course),
                          num=None if role in ("cover", "ending") else i, section=p.get("section"),
                          title_text=show_title, gm=p.get("gm") if needs_gm and p.get("gm") else None, brand=brand)
+        svg = themed(svg, theme)
         (P / "svg_output" / f"{stem}.svg").write_text(svg, encoding="utf-8")
         for w in prim.WARNINGS:
             print(f"  [WARN] page {i} ({lay}): {w}")

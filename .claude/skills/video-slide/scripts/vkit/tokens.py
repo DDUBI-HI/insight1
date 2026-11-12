@@ -23,6 +23,38 @@ SKIN = "#F5CBA7"
 SKIN_2 = "#E9B48F"
 SUN = "#F6C453"        # one warm pop colour so illustrations do not look flat
 
+# Theme presets: hex → hex maps applied to every finished SVG (build_deck: spec `theme:`).
+# Layout code always draws in the base "mint" tokens; a theme swaps them consistently,
+# illustrations included. Keep new values unique so the swap never chains.
+THEMES = {
+    "mint": {},
+    "indigo": {          # indigo + raspberry — calm blue with a warm human accent
+        NAVY: "#2B3990", GREEN: "#D6456A", TEAL: "#4B5FC9", MINT: "#A7B2EC",
+        MINT_BG: "#E6E9F7", MINT_PALE: "#F3F4FB", LAV: "#FBE4E6",
+    },
+    "coral": {           # deep teal + coral — warm and friendly
+        NAVY: "#17485A", GREEN: "#E8674F", TEAL: "#2A8C99", MINT: "#F4B4A4",
+        MINT_BG: "#FBEDE6", MINT_PALE: "#FDF6F2", LAV: "#E3EEF1",
+    },
+    "violet": {          # plum + violet — soft and modern
+        NAVY: "#3B2A6E", GREEN: "#7B5CD6", TEAL: "#B0478F", MINT: "#C9B8F0",
+        MINT_BG: "#EEE9FA", MINT_PALE: "#F7F4FD", LAV: "#FBE6F2",
+    },
+}
+
+
+def themed(svg, theme):
+    """Recolour a finished SVG with a theme preset (no-op for the base 'mint' theme)."""
+    for a, b in THEMES.get(theme or "mint", {}).items():
+        svg = svg.replace(a, b)
+    return svg
+
+
+def theme_palette(theme):
+    m = THEMES.get(theme or "mint", {})
+    return [m.get(c, c) for c in PALETTE]
+
+
 PALETTE = [NAVY, GREEN, TEAL, MINT, MINT_BG, MINT_PALE, LAV, WHITE, INK, BODY, MUTED, LINE, SKIN, SKIN_2, SUN]
 
 # series order for multi-item layouts (cards, pyramid tiers, hub circles …)

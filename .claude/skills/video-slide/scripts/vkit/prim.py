@@ -20,6 +20,11 @@ except Exception:                                      # pragma: no cover - engi
 
 WARNINGS = []
 LOCK = False          # content-lock mode: layouts add no decorative text (brackets, labels, numbers)
+# accessible (low-vision) mode — set by build_deck from the spec: every text ≥ MIN_FS px (header chrome ≤ 13px
+# excepted), weight ≥ MIN_FW, muted grey text darkened, line spacing ≥ 1.38 × size
+MIN_FS = 0
+MIN_FW = 0
+CONTRAST = False
 
 
 def deco(s, left="「 ", right=" 」"):
@@ -79,7 +84,8 @@ def wrap(s, fs, maxw, fw=400):
 def fit(s, fs, maxw, max_lines, fw=400, min_fs=None):
     """Wrap s into ≤ max_lines at the largest size between fs and min_fs. Returns (lines, fs).
     If it still does not fit, the last line is kept and a warning is recorded."""
-    min_fs = min_fs or fs
+    fs = max(fs, MIN_FS)
+    min_fs = max(min_fs or fs, MIN_FS)
     size = fs
     while True:
         lines = wrap(s, size, maxw, fw)
@@ -134,7 +140,12 @@ def r1(v):
 
 # ── text ─────────────────────────────────────────────────────────────────────
 
-def text(x, y, s, fs, fw=400, fill=INK, anchor=None, ls=None, op=None):
+def text(x, y, s, fs, fw=400, fill=INK, anchor=None, ls=None, op=None, floor=True):
+    if floor and fs > 13:
+        fs = max(fs, MIN_FS)
+        fw = max(fw, MIN_FW)
+    if CONTRAST and fill in ("#8A94A6", "#595959"):
+        fill = "#3F4654"
     a = f' text-anchor="{anchor}"' if anchor and anchor != "start" else ""
     l = f' letter-spacing="{ls}"' if ls is not None else ""
     return (f'  <text x="{r1(x)}" y="{r1(y)}" font-family="{FONT}" font-size="{fs}" font-weight="{fw}"'
@@ -143,8 +154,10 @@ def text(x, y, s, fs, fw=400, fill=INK, anchor=None, ls=None, op=None):
 
 def lines(x, y, ls_, fs, lh, fw=400, fill=INK, anchor=None, valign_center=False):
     """Draw a list of lines. y is the first baseline, or the visual centre if valign_center."""
+    if fs > 13 and MIN_FS:
+        lh = max(lh, max(fs, MIN_FS) * 1.38)
     if valign_center:
-        y = y - (len(ls_) - 1) * lh / 2 + fs * 0.35
+        y = y - (len(ls_) - 1) * lh / 2 + max(fs, MIN_FS) * 0.35
     return "".join(text(x, y + i * lh, s, fs, fw, fill, anchor) for i, s in enumerate(ls_))
 
 

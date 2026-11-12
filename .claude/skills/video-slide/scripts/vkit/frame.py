@@ -71,7 +71,8 @@ def gm_pill(s):
 
 
 def page(body, *, course="", num=None, section=None, title_text=None, gm=None, brand="", band=True,
-         title_y=TITLE_Y, title_fs=T_TITLE):
+         title_y=TITLE_Y, title_fs=None):
+    title_fs = title_fs or (42 if prim.MIN_FS else T_TITLE)
     o = [HEAD, background(band), header(course, num), section_label(section)]
     if title_text:
         o.append(title(title_text, y=title_y, fs=title_fs))

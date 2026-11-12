@@ -4,6 +4,8 @@
 
 ```yaml
 lock_content: false               # true = 기존 덱 내용 고정 리디자인 (GM·라벨·번호 자동 추가 없음)
+theme: mint                       # mint · indigo · coral · violet — 색만 바뀜
+accessible: false                 # true = 저시력 모드 (본문 ≥ 20px, 굵게, 진한 글자)
 project: privacy_basic            # output/<project>/ 폴더 이름 (영문·숫자·_)
 file: 개인정보보호_기본교육.pptx   # finish.py에 넘길 납품 파일명
 course: 개인정보보호 기본교육      # 헤더 왼쪽 라벨 (모든 장)
@@ -49,7 +51,8 @@ pages:
 | 소제목 + 설명 상자 1–3개 / 좌우 2단 | `panels` | (추가) |
 | 유형·분류 4–6개 타일 | `grid` | (추가) |
 | 정의 + 해당 항목 키워드 | `keywords` | (추가) |
-| 퀴즈 (보기형 · O/X, 문제 장 → 정답 장) | `quiz` | (추가) |
+| 퀴즈 (보기형 · O/X, 문제 장 → 정답 장) | `quiz` | (추가) — 내용 고정 덱의 O/X 정답은 `reveal_shape: O/X`(도형) |
+| 내용 사진 그대로 (보조기기·편의시설·사례) | `photos` | (추가) |
 
 ## 레이아웃별 필드
 
@@ -78,6 +81,7 @@ pages:
 | `grid` | **items**, title | 2–6개 `{no, title, desc}` · 3·5·6개는 3열 | content |
 | `keywords` | **chips**, definition, illust, title | definition `{heading, text}` 네이비 상자 · chips 문자열 목록 | content |
 | `quiz` | **question**, options, answer, reveal, explain, illust, title | options `["1. …", …]` · answer = 정답 번호(정답 장에서만) · 보기 없이 reveal `X`/`O` + explain = O/X 정답 장 · illust 기본 `thinking` | content |
+| `photos` | **images**, tag, heading, captions, labels, max_scale, title | images `[{src, box: [x,y,w,h], cap?}]` — 원본 배치(원본 페이지 좌표) 그대로 카드에 맞춰 확대 · cap = 사진 아래 캡션 · labels = 사진 위 네이비 라벨 · captions = 하단 문장(`{text,size,weight,color}`) | content |
 | `ending` | title, subtitle, desc, lines, no, illust | title 기본 `감사합니다` · `no` 있으면 단원 마무리(큰 번호 + 단원명) · illust 기본 `trophy` | ending (GM 없음) |
 
 ## 아이콘
