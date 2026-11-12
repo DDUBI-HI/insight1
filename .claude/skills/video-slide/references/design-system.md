@@ -85,7 +85,7 @@ Pretendard 단일 (`Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, s
 
 ## 6. 일러스트
 
-라이브러리 20종 (`scripts/vkit/illust.py`, 시트: `scripts/gallery.py`). PPT에서 그룹 해제·색 변경이 가능한 도형 묶음.
+라이브러리 33종 (`scripts/vkit/illust.py`, 시트: `scripts/gallery.py`). PPT에서 그룹 해제·색 변경이 가능한 도형 묶음.
 
 | 키 | 의미 | 키 | 의미 |
 |---|---|---|---|
@@ -99,6 +99,13 @@ Pretendard 단일 (`Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, s
 | `checklist` | 체크리스트 | `video` | 영상 재생 화면 |
 | `chat` | 대화 말풍선 | `goal` | 정상의 깃발 |
 | `laptop` | 노트북 업무 | `steps` | 계단 단계 |
+| `printer` | 프린터 출력물 | `shredder` | 문서 파쇄기 |
+| `usb` | USB 외부 저장장치 | `password` | 비밀번호·열쇠 |
+| `phishing` | 피싱 메일 | `smishing` | 스미싱 문자 |
+| `ransomware` | 랜섬웨어 잠긴 파일 | `hacking` | 해킹·악성코드 |
+| `deepface` | 얼굴 합성·딥페이크 | `ai` | 생성형 AI 챗봇 |
+| `siren` | 신고 경광등 | `lockscreen` | 화면 잠금 |
+| `confidential` | 기밀 문서 노출 금지 | | |
 
 **쓰는 곳**: 표지·섹션·엔딩·`statement`·`points`·`agenda`(기본 켜짐, `illust: none`으로 끔), `illust_cards`(카드당 1개).
 표·차트·비교·흐름처럼 구조가 이미 시각적인 장에는 넣지 않는다 — 장당 최대 1개(카드형 제외).
@@ -125,6 +132,13 @@ Pretendard 단일 (`Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, s
 2. 내용 자체인 이미지(실제 시스템 화면, 제품 사진, 법령 서식, 도표)는 교체하지 않고 `image` 레이아웃으로 둔다.
    저해상도면 사용자에게 원본을 요청한다.
 3. 보고에 `원본 페이지 · 원래 이미지 → 교체 일러스트` 목록을 남긴다.
+
+## 7-1. 내용 고정 리디자인 (lock_content)
+
+기존 덱을 "내용은 그대로, 디자인만" 바꿀 때: 텍스트는 글자 단위로 동일하게 두고(오탈자 포함), 셸이 붙이는 텍스트
+(GM 필 · 「 」 · PART · 번호 배지 · 브랜드)는 모두 끈다. 원본의 빨간 강조·도장은 팔레트 안에서 다시 표현한다
+(정답 = 초록 행 + 체크, 벌칙 = 네이비 테두리 + 초록 글자의 기울어진 도장, O/X = 큰 네이비 X). 이미지 속 글자는 전사해
+편집 가능한 텍스트로 다시 만들고, 원본 대조(추가·누락 0)를 통과해야 납품한다.
 
 ## 8. 글쓰기
 

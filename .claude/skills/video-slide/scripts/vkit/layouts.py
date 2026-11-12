@@ -5,7 +5,8 @@ Each layout is `fn(p) -> body_svg` where p is one page dict from the deck spec. 
 references/layouts.md. Shared fields handled by build_deck.py: layout, section, title, gm, notes.
 """
 import illust
-from prim import (block, circle, fit, icon, lines, line, measure, path, plain, poly, rect, split_two_tone,
+import prim
+from prim import (block, check_mark, circle, fit, icon, lines, line, measure, path, plain, poly, rect, split_two_tone,
                   text, two_tone, warn, wrap, esc, r1)
 from tokens import (BODY, BODY_BOTTOM, BODY_TOP, CONTENT_L, CONTENT_R, CONTENT_W, CX, GREEN, INK, LAV, LINE,
                     MINT, MINT_BG, MINT_PALE, MUTED, NAVY, SERIES, T_BIG, T_BODY, T_H2, T_SMALL, TEAL, WHITE)
@@ -88,7 +89,7 @@ def cover(p):
     a, b = split_two_tone(p.get("title", ""))
     rows = []                                        # (kind, text, size, colour, height)
     if p.get("eyebrow"):
-        rows.append(("eyebrow", f"「 {p['eyebrow']} 」", 18, GREEN, 50))
+        rows.append(("eyebrow", prim.deco(p["eyebrow"]), 18, GREEN, 50))
     for part, c in ((a, GREEN), (b, NAVY)):
         if part:
             ls_, fs = fit(part, 52, maxw, 2, 900, 40)
@@ -129,7 +130,10 @@ def agenda(p):
     for i, it in enumerate(its):
         c = GREEN if i % 2 == 0 else MINT
         o += rect(x, y, w, h, c, rx=h / 2)
-        o += circle(x + h / 2, y + h / 2, h / 2 - 7, WHITE) + text(x + h / 2, y + h / 2 + 6, str(i + 1), 17, 700, ink_for(c) if c != MINT else NAVY, "middle")
+        no = str(it.get("no", "" if prim.LOCK else i + 1))
+        o += circle(x + h / 2, y + h / 2, h / 2 - 7, WHITE)
+        if no:
+            o += text(x + h / 2, y + h / 2 + 6, no, 17 if len(no) < 2 else 15, 700, ink_for(c) if c != MINT else NAVY, "middle")
         (s,), fs = fit(it["title"], 19, w - h - 40, 1, 700, 15)
         o += text(x + h + 18, y + h / 2 + fs * 0.36, s, fs, 700, on(c))
         y += h + gap
@@ -139,38 +143,62 @@ def agenda(p):
 
 
 def section(p):
+    """Unit opener: label + big number + title (+ desc, or a bullet list of what the unit covers)."""
     o = ""
     has_ill = p.get("illust", "auto") != "none"
     x = L + 10
     maxw = 450 if has_ill else 700
-    no = p.get("no", p.get("number", 1))
-    o += text(x, 222, "PART", 18, 700, GREEN, ls=4)
-    o += text(x - 4, 322, f"{int(no):02d}" if str(no).isdigit() else str(no), 104, 900, GREEN, ls=-3)
-    t_svg, n, fs, hh = block(x, 386, plain(p.get("title", "")), 40, maxw, 2, 50, 800, NAVY, min_fs=32)
+    no = p.get("no", p.get("number", "" if prim.LOCK else 1))
+    label = p.get("label", "" if prim.LOCK else "PART")
+    its = items(p, lo=0, hi=5) if p.get("items") else []
+    top = 222 if not its else 200
+    if label:
+        o += text(x, top, label, 18, 700, GREEN, ls=4)
+    y = top + 4
+    if no != "":
+        o += text(x - 4, top + 96, f"{int(no):02d}" if isinstance(no, int) else str(no), 96 if its else 104, 900,
+                  GREEN, ls=-3)
+        y = top + 160
+    t_svg, n, fs, hh = block(x, y, plain(p.get("title", "")), 34 if its else 40, maxw, 2, 44, 800, NAVY, min_fs=24)
     o += t_svg
+    y += hh + 16
     if p.get("desc"):
-        o += block(x, 386 + hh + 16, p["desc"], T_BODY + 1, maxw, 3, 28, 400, BODY)[0]
+        o += block(x, y, p["desc"], T_BODY + 1, maxw, 3, 28, 400, BODY)[0]
+    for it in its:
+        ls_, f2 = fit(it["title"], 18, maxw - 24, 2, 500, 15)
+        o += circle(x + 5, y - 6, 4, GREEN) + lines(x + 20, y, ls_, f2, 25, 500, INK)
+        y += 25 * len(ls_) + 12
     if has_ill:
         o += ill(p, 520, 170, 320, 330, "auto")
     return o
 
 
 def ending(p):
+    """Closing page; with `no` it closes a unit (number + unit title + closing line)."""
     o = ""
     has_ill = p.get("illust", "trophy") != "none"
     x, anchor, maxw = (L + 10, None, 440) if has_ill else (CX, "middle", 700)
+    y = 214
+    if p.get("no"):
+        o += text(x - (4 if not anchor else 0), 250, str(p["no"]), 80, 900, GREEN, anchor, ls=-2)
+        y = 296
     if p.get("subtitle"):
-        o += text(x, 214, f"「 {p['subtitle']} 」", 19, 600, GREEN, anchor)
-    big = plain(p.get("title", "감사합니다"))
-    (s,), fs = fit(big, 64, maxw, 1, 900, 44)
-    o += text(x, 300, s, fs, 900, NAVY, anchor, ls=round(-0.03 * fs, 2))
-    y = 352
+        sub = p["subtitle"] if p.get("no") else prim.deco(p["subtitle"])
+        sl, sfs = fit(sub, 21 if p.get("no") else 19, maxw, 2, 700, 15)
+        o += lines(x, y, sl, sfs, 30, 700 if p.get("no") else 600, NAVY if p.get("no") else GREEN, anchor)
+        y += 30 * len(sl)
+    big = plain(p.get("title", "" if prim.LOCK else "감사합니다"))
+    if big:
+        (s_,), fs = fit(big, 60 if p.get("no") else 64, maxw, 1, 900, 40)
+        o += text(x, y + 76, s_, fs, 900, NAVY, anchor, ls=round(-0.03 * fs, 2))
+        y += 76
+    y += 52
     if p.get("desc"):
         svg, n, _, hh = block(x, y, p["desc"], 18, maxw, 3, 28, 400, BODY, anchor)
         o += svg
         y += hh + 14
-    for i, s in enumerate(p.get("lines") or []):
-        o += text(x, y + 10 + i * 28, s, 17, 600 if i == 0 else 400, NAVY if i == 0 else BODY, anchor)
+    for i, s_ in enumerate(p.get("lines") or []):
+        o += text(x, y + 10 + i * 28, s_, 17, 600 if i == 0 else 400, NAVY if i == 0 else BODY, anchor)
     if has_ill:
         o += ill(p, 540, 160, 300, 320, "trophy")
     return o
@@ -325,22 +353,45 @@ def stats(p):
 
 
 def illust_cards(p):
-    """2–3 illustration cards with number badge, title, text (template p.13 — the photos are replaced
-    by library illustrations)."""
-    its = items(p, lo=2, hi=3)
+    """2–4 illustration cards: title (+ text); 4 items → 2 × 2 tiles. Template p.13 photos are replaced
+    by library illustrations. `numbered` (default on; off in content-lock mode) adds number badges."""
+    its = items(p, lo=2, hi=4)
     n = len(its)
+    numbered = p.get("numbered", not prim.LOCK)
+    o = ""
+
+    def pick_(it):
+        return it.get("illust") or illust.pick(it["title"] + it.get("desc", ""))
+
+    if n == 4:
+        gap = 18
+        w, h = (CONTENT_W - 24 - gap) / 2, (BOT - TOP - 10 - gap) / 2
+        for i, it in enumerate(its):
+            x, y = L + 12 + (i % 2) * (w + gap), TOP + 4 + (i // 2) * (h + gap)
+            c = [GREEN, TEAL, NAVY, GREEN][i]
+            o += rect(x, y, w, h, MINT_BG, rx=16)
+            o += illust.place(pick_(it), x + 10, y + 10, w * 0.46, h - 20, backdrop=False)
+            tx, tw = x + w * 0.5, w * 0.46
+            tl, tfs = fit(it["title"], 21, tw, 2, 800, 16)
+            dl, dfs = fit(it.get("desc", ""), 15, tw, 3, 400, 13) if it.get("desc") else ([], 15)
+            hh = len(tl) * 28 + (len(dl) * 22 + 8 if dl else 0)
+            ty = y + (h - hh) / 2 + 20
+            o += lines(tx, ty, tl, tfs, 28, 800, c)
+            o += lines(tx, ty + len(tl) * 28 + 6, dl, dfs, 22, 400, BODY)
+            if numbered:
+                o += circle(x + 24, y + 24, 15, c) + text(x + 24, y + 30, str(i + 1), 15, 700, WHITE, "middle")
+        return o
     gap = 20
     w = (CONTENT_W - 24 - gap * (n - 1)) / n
     y = TOP + 12
     ih = 168 if n == 3 else 190
-    o = ""
     for i, it in enumerate(its):
         x = L + 12 + i * (w + gap)
         c = [GREEN, TEAL, NAVY][i]
         o += rect(x, y, w, ih, MINT_BG, rx=16)
-        o += illust.place(it.get("illust") or illust.pick(it["title"] + it.get("desc", "")), x + 12, y + 8, w - 24, ih - 16,
-                          backdrop=False)
-        o += circle(x + 26, y + 26, 16, c) + text(x + 26, y + 32, str(i + 1), 16, 700, WHITE, "middle")
+        o += illust.place(pick_(it), x + 12, y + 8, w - 24, ih - 16, backdrop=False)
+        if numbered:
+            o += circle(x + 26, y + 26, 16, c) + text(x + 26, y + 32, str(i + 1), 16, 700, WHITE, "middle")
         tl, tfs = fit(it["title"], 20, w - 16, 1, 700, 16)
         o += text(x + w / 2, y + ih + 40, tl[0], tfs, 700, c, "middle")
         if it.get("desc"):
@@ -382,7 +433,7 @@ def compare(p):
     y0, h = TOP + 30, BOT - TOP - 40
     o = rect(lx, y0, pw, h, LAV, rx=22) + rect(rx_, y0, pw, h, MINT_BG, rx=22)
     for x, side, c in ((lx, lf, NAVY), (rx_, rt, GREEN)):
-        (tt,), tfs = fit(f"「 {side.get('title', '')} 」", 19, pw - 90, 1, 700, 15)
+        (tt,), tfs = fit(prim.deco(side.get("title", "")), 19, pw - 90, 1, 700, 15)
         tw = measure(tt, tfs, 700) + 60
         o += rect(x + (pw - tw) / 2, y0 - 26, tw, 50, c, rx=25) + text(x + pw / 2, y0 + 6, tt, tfs, 700, WHITE, "middle")
         its = side.get("items", [])[:5]
@@ -637,6 +688,264 @@ def image(p):
     return o
 
 
+# ── lecture-deck layouts (quiz · bullets · panels · grid · keywords) ─────────
+
+def stamp(lines_, cx, cy, fs=24, angle=-6):
+    """Tilted penalty stamp (navy frame, green bold text) — for 벌칙·과태료 callouts."""
+    w = max(measure(s_, fs, 800) for s_ in lines_) + 56
+    h = len(lines_) * fs * 1.25 + 30
+    o = rect(cx - w / 2, cy - h / 2, w, h, WHITE, rx=6, stroke=NAVY, sw=4)
+    o += lines(cx, cy, lines_, fs, fs * 1.25, 800, GREEN, "middle", valign_center=True)
+    return f'  <g transform="rotate({angle} {r1(cx)} {r1(cy)})">\n{o}  </g>\n'
+
+
+def _marker(kind, x, y):
+    if kind == "diamond":
+        return poly([(x, y - 6), (x + 6, y), (x, y + 6), (x - 6, y)], NAVY)
+    if kind == "check":
+        return path(f"M{r1(x - 6)},{r1(y)} L{r1(x - 1)},{r1(y + 5)} L{r1(x + 7)},{r1(y - 5)}", stroke=GREEN, sw=3)
+    return circle(x, y, 4.5, GREEN)
+
+
+def _label_line(x, y, s_, fs, fw, fill, maxw, lh, sep=":"):
+    """'라벨 : 내용' → bold navy label + body text in one text box; wraps to 2 lines, label kept on line 1."""
+    ls_, f2 = fit(s_, fs, maxw, 2, fw, 14)
+    o = ""
+    for i, ln_ in enumerate(ls_):
+        yy = y + i * lh
+        if i == 0 and sep in ln_:
+            a, b = ln_.split(sep, 1)
+            o += (f'  <text x="{r1(x)}" y="{r1(yy)}" font-family="{prim.FONT}" font-size="{f2}" font-weight="700" '
+                  f'fill="{NAVY}">{esc(a + sep)}<tspan font-weight="{fw}" fill="{fill}">{esc(b)}</tspan></text>\n')
+        else:
+            o += text(x, yy, ln_, f2, fw, fill)
+    return o, len(ls_)
+
+
+def bullets(p):
+    """Bullet list (dot · diamond · check) with optional heading, footnote, stamp and illustration.
+    Type size follows the item count (22 → 18px) unless `size` is given; rows spread to fill the area."""
+    its = items(p, lo=1, hi=8)
+    has_ill = p.get("illust", "auto") != "none"
+    x = L + 20
+    w = 476 if has_ill else 730
+    marker = p.get("marker", "dot")
+    n = len(its)
+    fs = p.get("size") or {1: 22, 2: 22, 3: 22, 4: 22, 5: 21, 6: 20}.get(n, 18)
+    o = ""
+    top = TOP + 6
+    if p.get("heading"):
+        (hd,), hfs = fit(p["heading"], 21, w, 1, 700, 16)
+        o += rect(x - 4, top + 2, 5, 26, GREEN, rx=2) + text(x + 12, top + 23, hd, hfs, 700, NAVY)
+        top += 52
+    bot = BOT - (34 if p.get("note") else 0)
+    lh = round(fs * 1.4)
+    rows = [len(wrap(it["title"], fs, w - 28, 500)) for it in its]
+    text_h = sum(min(r_, 2) * lh for r_ in rows)
+    gap = max(12, min(34, (bot - top - text_h - 20) / max(n - 1, 1)))
+    total = text_h + gap * (n - 1)
+    y = vcenter(total, top, bot) + fs * 0.85
+    for it in its:
+        o += _marker(marker, x + 6, y - fs * 0.34)
+        if p.get("label_split", True):
+            svg, k = _label_line(x + 26, y, it["title"], fs, 500, INK, w - 28, lh)
+        else:
+            ls_, f2 = fit(it["title"], fs, w - 28, 2, 500, 14)
+            svg, k = lines(x + 26, y, ls_, f2, lh, 500, INK), len(ls_)
+        o += svg
+        y += k * lh + gap
+    if p.get("note"):
+        o += text(x, BOT - 4, p["note"], 15, 500, BODY)
+    if p.get("stamp"):
+        o += stamp(p["stamp"], *(p.get("stamp_at") or (640, 430)))
+    if has_ill:
+        o += ill(p, 568, 196, 272, 330, "auto")
+    return o
+
+
+def panels(p):
+    """Headed text boxes stacked (cols: 1) or side by side (cols: 2).
+    panels: [{heading, lines: [...], items: [...], note}]"""
+    pans = p.get("panels") or []
+    cols = p.get("cols", 1)
+    has_ill = p.get("illust", "none") != "none" and cols == 1
+    W_ = 476 if has_ill else CONTENT_W - 24
+    o = ""
+    fs, lh = 16, 24
+
+    def body(pn, w):
+        rows = []
+        for s_ in pn.get("lines") or []:
+            rows += [("t", ln_) for ln_ in wrap(s_, fs, w - 40, 400)]
+        for s_ in pn.get("items") or []:
+            rows += [("b" if j == 0 else "c", ln_) for j, ln_ in enumerate(wrap(s_, fs, w - 58, 400))]
+        if pn.get("note"):
+            rows.append(("n", pn["note"]))
+        return rows
+
+    def height(pn, rows):
+        return (36 if pn.get("heading") else 0) + len(rows) * lh + 26
+
+    def draw(pn, x, y, w, rows):
+        q = ""
+        if pn.get("heading"):
+            (hd,), hfs = fit(pn["heading"], 19, w - 40, 1, 700, 14)
+            q += check_mark(x + 12, y + 13, 11, GREEN, WHITE) + text(x + 32, y + 20, hd, hfs, 700, NAVY)
+            y += 36
+        bh = len(rows) * lh + 26
+        q += rect(x, y, w, bh, MINT_PALE, rx=14)
+        yy = y + 13 + fs
+        for kind, s_ in rows:
+            if kind == "b":
+                q += circle(x + 26, yy - fs * 0.34, 3.5, GREEN)
+            xx = x + (38 if kind in "bc" else 20)
+            q += text(xx, yy, s_, fs, 600 if kind == "n" else 400, TEAL if kind == "n" else INK)
+            yy += lh
+        return q
+
+    def total_h(size):
+        nonlocal fs, lh
+        fs, lh = size, round(size * 1.5)
+        if cols == 2:
+            w = (W_ - 20) / 2
+            return max(height(pn, body(pn, w)) for pn in pans[:2])
+        return sum(height(pn, body(pn, W_)) for pn in pans) + 22 * (len(pans) - 1)
+
+    if p.get("size"):
+        total_h(p["size"])
+    else:                                   # largest size (19 → 15) that fits the content area
+        for size in (19, 18, 17, 16, 15):
+            if total_h(size) <= BOT - TOP - 10:
+                break
+    if cols == 2:
+        w = (W_ - 20) / 2
+        bodies = [body(pn, w) for pn in pans[:2]]
+        y0 = vcenter(max(height(pn, b_) for pn, b_ in zip(pans, bodies)))
+        for i, (pn, b_) in enumerate(zip(pans, bodies)):
+            o += draw(pn, L + 12 + i * (w + 20), y0, w, b_)
+    else:
+        bodies = [body(pn, W_) for pn in pans]
+        hs = [height(pn, b_) for pn, b_ in zip(pans, bodies)]
+        gap = 22
+        total = sum(hs) + gap * (len(hs) - 1)
+        if total > BOT - TOP:
+            warn(f"panels: content is {total:.0f}px tall (> {BOT - TOP}) — reduce lines or size")
+        y = vcenter(total)
+        for pn, b_, hh in zip(pans, bodies, hs):
+            o += draw(pn, L + 12, y, W_, b_)
+            y += hh + gap
+    if p.get("stamp"):
+        o += stamp(p["stamp"], *(p.get("stamp_at") or (600, 470)))
+    if has_ill:
+        o += ill(p, 568, 196, 272, 330, "auto")
+    return o
+
+
+def grid(p):
+    """Up to 6 tiles (3 × 2): no, title, desc."""
+    its = items(p, lo=2, hi=6)
+    n = len(its)
+    cols = 3 if n in (3, 5, 6) else 2
+    rows_ = (n + cols - 1) // cols
+    gap = 16
+    w = (CONTENT_W - 24 - gap * (cols - 1)) / cols
+    h = min(200, (BOT - TOP - 6 - gap * (rows_ - 1)) / rows_)
+    y0 = vcenter(rows_ * h + gap * (rows_ - 1))
+    o = ""
+    for i, it in enumerate(its):
+        x, y = L + 12 + (i % cols) * (w + gap), y0 + (i // cols) * (h + gap)
+        c = [GREEN, TEAL, NAVY][i % 3]
+        o += rect(x, y, w, h, MINT_PALE, rx=16) + rect(x + 20, y + 18, 26, 4, c, rx=2)
+        yy = y + 18
+        if it.get("no"):
+            o += text(x + 20, yy + 26, str(it["no"]), 17, 700, c)
+            yy += 26
+        tl, tfs = fit(it["title"], 21, w - 40, 1, 800, 16)
+        o += text(x + 20, yy + 30, tl[0], tfs, 800, NAVY)
+        if it.get("desc"):
+            dl, dfs = fit(it["desc"], 15, w - 40, 3, 400, 13)
+            o += lines(x + 20, yy + 58, dl, dfs, 22, 400, BODY)
+    return o
+
+
+def keywords(p):
+    """Definition box + keyword chips (+ illustration)."""
+    o = ""
+    d = p.get("definition") or {}
+    y = TOP + 6
+    if d:
+        hl = fit(d["heading"], 17, CONTENT_W - 64, 1, 700, 14)[0] if d.get("heading") else []
+        tl, tfs = fit(d.get("text", ""), 20, CONTENT_W - 64, 2, 700, 16)
+        bh = 26 + len(hl) * 28 + len(tl) * 30 + 8
+        o += rect(L + 12, y, CONTENT_W - 24, bh, NAVY, rx=16)
+        yy = y + 36
+        for s_ in hl:
+            o += text(L + 36, yy, s_, 17, 600, MINT)
+            yy += 30
+        o += lines(L + 36, yy, tl, tfs, 30, 700, WHITE)
+        y += bh + 28
+    chips = [c if isinstance(c, str) else c.get("title", "") for c in (p.get("chips") or [])]
+    has_ill = p.get("illust", "auto") != "none"
+    maxx = 560 if has_ill else R - 12
+    x = L + 12
+    ch, gap = 44, 12
+    y0 = y
+    for i, c in enumerate(chips):
+        w = measure(c, 18, 700) + 40
+        if x + w > maxx:
+            x = L + 12
+            y += ch + gap
+        o += rect(x, y, w, ch, [MINT_BG, LAV, MINT_PALE][i % 3], rx=ch / 2) + text(x + w / 2, y + 29, c, 18, 700, NAVY, "middle")
+        x += w + gap
+    if has_ill:
+        o += ill(p, 580, y0 - 10, 260, BOT - y0 + 10, "auto")
+    return o
+
+
+def quiz(p):
+    """Quiz: question bar + options (answer highlighted) or an O/X reveal.
+    question, options[], answer (1-based — reveal page only), reveal ('X' / 'O'), explain, illust."""
+    o = ""
+    qx, qw = L + 12, CONTENT_W - 24
+    ql, qfs = fit(p.get("question", ""), 21, qw - 60, 3, 700, 16)
+    qh = max(80, len(ql) * 30 + 34)
+    qy = TOP + 2
+    o += rect(qx, qy, qw, qh, WHITE, rx=20, stroke=GREEN, sw=3)
+    o += lines(qx + 30, qy + qh / 2, ql, qfs, 30, 700, NAVY, valign_center=True)
+    ay = qy + qh + 18
+    has_ill = p.get("illust", "thinking") != "none"
+    ax = L + 228 if has_ill else qx
+    aw, ah = R - 12 - ax, BOT - ay
+    if has_ill:
+        o += ill(p, L + 4, ay + 10, 210, ah - 20, "thinking")
+    opts = p.get("options") or []
+    ans = p.get("answer")
+    if opts:
+        n = len(opts)
+        gap = 10
+        rh = (ah - gap * (n - 1)) / n
+        for i, op_ in enumerate(opts):
+            y = ay + i * (rh + gap)
+            hit = ans == i + 1
+            head, _, rest = op_.partition(" ")
+            num, body_ = (head, rest) if head.rstrip(".").isdigit() else ("", op_)
+            o += rect(ax, y, aw, rh, GREEN if hit else MINT_PALE, rx=14)
+            if num:
+                o += text(ax + 22, y + rh / 2 + 6, num, 18, 800, WHITE if hit else GREEN)
+            bl, bfs = fit(body_, 17, aw - 110, 2, 700 if hit else 500, 14)
+            o += lines(ax + 56, y + rh / 2, bl, bfs, 23, 700 if hit else 500, WHITE if hit else INK, valign_center=True)
+            if hit:
+                o += check_mark(ax + aw - 30, y + rh / 2, 13, WHITE, GREEN)
+    else:
+        o += rect(ax, ay, aw, ah, MINT_PALE, rx=20)
+        if p.get("reveal"):
+            o += text(ax + aw / 2, ay + ah / 2 + (14 if p.get("explain") else 42), p["reveal"], 120, 900, NAVY, "middle")
+        if p.get("explain"):
+            el, efs = fit(p["explain"], 24, aw - 40, 2, 800, 18)
+            o += lines(ax + aw / 2, ay + ah - 40, el, efs, 32, 800, GREEN, "middle")
+    return o
+
+
 LAYOUTS = {
     # name: (function, needs_gm, file-role)
     "cover": (cover, False, "cover"),
@@ -657,9 +966,14 @@ LAYOUTS = {
     "chart": (chart, True, "content"),
     "table": (table, True, "content"),
     "image": (image, True, "content"),
+    "bullets": (bullets, True, "content"),
+    "panels": (panels, True, "content"),
+    "grid": (grid, True, "content"),
+    "keywords": (keywords, True, "content"),
+    "quiz": (quiz, True, "content"),
     "ending": (ending, False, "ending"),
 }
 
 # layouts whose title sits in the shell (others draw their own headline)
-SHELL_TITLE = {"agenda", "statement", "points", "cards", "stats", "illust_cards", "flow", "compare", "before_after",
+SHELL_TITLE = {"bullets", "panels", "grid", "keywords", "quiz", "agenda", "statement", "points", "cards", "stats", "illust_cards", "flow", "compare", "before_after",
                "pyramid", "qa", "chart", "table", "image"}

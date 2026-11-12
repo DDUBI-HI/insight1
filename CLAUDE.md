@@ -69,6 +69,7 @@ pip install -r .claude/skills/slide/requirements.txt
 - **올드한 이미지는 교체** — 참고 자료의 오래된 클립아트·흑백 스톡 사진 등은 같은 의미의 일러스트로 바꾸고 보고한다 (판정 기준: design-system §7).
 - 팔레트는 민트·초록·틸·네이비(템플릿 기준)이므로 단일 액센트 규칙의 예외다. `.theme-color-allow`는 빌더가 쓴다.
 - SVG는 `build_deck.py`가 스펙(YAML)에서 순서대로 생성한다. 후처리 3단계 개별 호출과 `-s final`은 그대로 지킨다.
+- **"내용은 바꾸지 말고 디자인만"** 요청은 `lock_content: true` — 슬라이드별 텍스트를 글자 단위로 보존(오탈자 포함, 보고만), GM·라벨 등 새 텍스트 추가 금지, 원본과 글자 대조(추가·누락 0) 후 납품. verify_deck은 `.gm-exempt`로 GM 검사를 건너뛰고 WARN을 남긴다.
 
 ### 출처
 

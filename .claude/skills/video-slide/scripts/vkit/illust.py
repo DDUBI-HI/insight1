@@ -326,6 +326,158 @@ def _goal():
     return o
 
 
+def _printer():
+    o = blob()
+    o += rect(62, 20, 76, 46, WHITE, rx=4)
+    for i in range(3):
+        o += rect(72, 30 + i * 10, 56 - i * 12, 4, MINT, rx=2)
+    o += rect(34, 58, 132, 54, NAVY, rx=12) + rect(48, 94, 104, 30, TEAL, rx=6)
+    o += rect(58, 104, 84, 34, WHITE, rx=3) + rect(66, 114, 50, 4, LAV, rx=2) + rect(66, 124, 36, 4, LAV, rx=2)
+    o += circle(150, 72, 5, SUN) + rect(46, 70, 40, 6, WHITE, rx=3, op=0.35)
+    o += sparkle(176, 34, 7, GREEN)
+    return o
+
+
+def _shredder():
+    o = blob()
+    o += rect(70, 16, 60, 52, WHITE, rx=4) + rect(80, 28, 40, 4, MINT, rx=2) + rect(80, 38, 30, 4, MINT, rx=2)
+    o += rect(40, 60, 120, 30, NAVY, rx=10) + rect(62, 72, 76, 6, WHITE, rx=3, op=0.6)
+    o += path("M46,90 H154 L146,144 H54 Z", fill=TEAL)
+    for i in range(6):
+        o += rect(70 + i * 11, 92, 5, 26 + (i % 3) * 6, WHITE, rx=2)
+    o += circle(146, 75, 4, SUN)
+    o += sparkle(176, 40, 7, GREEN) + sparkle(28, 50, 5, SUN)
+    return o
+
+
+def _usb():
+    o = blob()
+    o += path("M60,96 L104,52 L142,90 L98,134 Z", fill=NAVY)
+    o += path("M104,52 L122,34 L160,72 L142,90 Z", fill=LAV)
+    o += rect(128, 52, 8, 8, NAVY) + rect(140, 64, 8, 8, NAVY)
+    o += circle(90, 104, 6, GREEN)
+    o += circle(52, 50, 18, SUN) + rect(49, 40, 6, 13, NAVY, rx=3) + circle(52, 59, 3.2, NAVY)
+    o += sparkle(170, 118, 7, GREEN)
+    return o
+
+
+def _password():
+    o = blob()
+    o += rect(28, 46, 120, 62, WHITE, rx=12) + rect(28, 46, 120, 62, "none", rx=12, stroke=NAVY, sw=4)
+    for i in range(4):
+        o += circle(56 + i * 22, 77, 7, NAVY)
+    o += circle(150, 112, 18, SUN) + circle(150, 112, 7, WHITE)
+    o += path("M136,124 L110,150 M118,142 L126,150 M112,148 L118,154", stroke=SUN, sw=7)
+    o += rect(40, 116, 50, 8, GREEN, rx=4)
+    o += sparkle(176, 40, 7, GREEN) + sparkle(30, 30, 5, SUN)
+    return o
+
+
+def _phishing():
+    o = blob()
+    o += path("M120,14 L120,52 C120,70 96,70 96,54", stroke=NAVY, sw=5)
+    o += poly([(96, 54), (90, 64), (102, 62)], NAVY)
+    o += rect(36, 70, 120, 72, WHITE, rx=8)
+    o += path("M36,76 L96,112 L156,76", stroke=NAVY, sw=5)
+    o += rect(48, 120, 40, 6, MINT, rx=3)
+    o += circle(158, 74, 15, SUN) + rect(155, 64, 6, 12, NAVY, rx=3) + circle(158, 82, 3, NAVY)
+    o += sparkle(36, 40, 6, GREEN)
+    return o
+
+
+def _smishing():
+    o = blob()
+    o += rect(62, 14, 76, 136, NAVY, rx=14) + rect(70, 28, 60, 104, WHITE, rx=4)
+    o += rect(76, 38, 40, 18, MINT_BG, rx=6) + rect(84, 62, 40, 18, GREEN, rx=6)
+    o += rect(76, 86, 44, 18, MINT_BG, rx=6) + rect(80, 94, 30, 3, TEAL, rx=1.5)
+    o += rect(92, 138, 16, 4, WHITE, rx=2, op=0.6)
+    o += path("M144,46 C162,46 172,58 172,72", stroke=SUN, sw=5) + arrow_head(172, 82, 0, 10, 10, SUN)
+    o += circle(40, 112, 16, SUN) + rect(37, 102, 6, 12, NAVY, rx=3) + circle(40, 120, 3, NAVY)
+    return o
+
+
+def _ransomware():
+    o = blob()
+    o += path("M30,52 H78 L88,64 H160 V136 H30 Z", fill=TEAL)
+    o += rect(30, 70, 130, 66, GREEN, rx=4)
+    o += path("M83,98 L83,88 A12,12 0 0 1 107,88 L107,98", stroke=WHITE, sw=6)
+    o += rect(76, 96, 38, 30, WHITE, rx=5) + circle(95, 108, 4, NAVY) + rect(93, 110, 4, 8, NAVY, rx=1)
+    o += circle(160, 44, 16, SUN) + circle(160, 44, 9, WHITE, op=0.6)
+    o += circle(138, 28, 11, SUN) + sparkle(36, 34, 6, NAVY)
+    return o
+
+
+def _hacking():
+    o = blob()
+    o += rect(30, 28, 120, 82, NAVY, rx=8) + rect(38, 36, 104, 66, TEAL, rx=4)
+    o += path("M20,110 H160 L152,122 H28 Z", fill=NAVY)
+    o += circle(90, 70, 15, SUN) + circle(90, 52, 8, SUN)
+    for dx in (-1, 1):
+        o += path(f"M{90 + dx * 14},{62} L{90 + dx * 26},{56} M{90 + dx * 15},{72} L{90 + dx * 28},{72} "
+                  f"M{90 + dx * 13},{80} L{90 + dx * 24},{88}", stroke=SUN, sw=3)
+    o += path("M90,58 L90,84", stroke=NAVY, sw=2.5)
+    o += rect(150, 62, 32, 70, GREEN, rx=8) + rect(155, 70, 22, 46, WHITE, rx=2)
+    o += sparkle(176, 36, 6, SUN)
+    return o
+
+
+def _deepface():
+    o = blob()
+    for x, y, dx, dy in [(40, 24, 1, 1), (160, 24, -1, 1), (40, 140, 1, -1), (160, 140, -1, -1)]:
+        o += path(f"M{x},{y + dy * 22} L{x},{y} L{x + dx * 22},{y}", stroke=GREEN, sw=5)
+    o += person(100, 66, 20, NAVY, "short", bottom=136, collar=False)
+    o += path("M48,92 H152", stroke=SUN, sw=4)
+    o += sparkle(178, 80, 6, TEAL)
+    return o
+
+
+def _ai():
+    o = blob()
+    o += path("M100,28 L100,14", stroke=NAVY, sw=4) + circle(100, 12, 6, SUN)
+    o += rect(56, 28, 88, 66, NAVY, rx=20) + rect(66, 40, 68, 42, MINT_BG, rx=14)
+    o += circle(86, 61, 7, NAVY) + circle(114, 61, 7, NAVY) + rect(90, 72, 20, 4, TEAL, rx=2)
+    o += rect(48, 52, 8, 20, TEAL, rx=3) + rect(144, 52, 8, 20, TEAL, rx=3)
+    o += rect(70, 98, 60, 44, GREEN, rx=14) + circle(100, 120, 8, WHITE)
+    o += rect(140, 102, 46, 30, WHITE, rx=10) + poly([(146, 128), (142, 142), (156, 130)], WHITE)
+    o += rect(148, 112, 28, 4, MINT, rx=2) + rect(148, 120, 18, 4, MINT, rx=2)
+    o += sparkle(30, 40, 7, SUN)
+    return o
+
+
+def _siren():
+    o = blob()
+    o += path("M64,112 L64,76 A36,36 0 0 1 136,76 L136,112 Z", fill=SUN)
+    o += path("M80,104 L80,78 A20,20 0 0 1 100,58", stroke=WHITE, sw=6, op=None)
+    o += rect(52, 110, 96, 20, NAVY, rx=6) + rect(44, 128, 112, 12, TEAL, rx=4)
+    for x1, y1, x2, y2 in [(100, 22, 100, 8), (54, 40, 44, 30), (146, 40, 156, 30), (34, 76, 20, 76), (166, 76, 180, 76)]:
+        o += path(f"M{x1},{y1} L{x2},{y2}", stroke=GREEN, sw=5)
+    return o
+
+
+def _lockscreen():
+    o = blob()
+    o += rect(34, 26, 132, 88, NAVY, rx=10) + rect(42, 34, 116, 72, TEAL, rx=5)
+    o += path("M88,70 L88,60 A12,12 0 0 1 112,60 L112,70", stroke=WHITE, sw=5)
+    o += rect(82, 68, 36, 28, WHITE, rx=5) + circle(100, 80, 4, TEAL) + rect(98, 82, 4, 7, TEAL, rx=1)
+    o += rect(90, 114, 20, 16, NAVY) + rect(66, 128, 68, 8, NAVY, rx=4)
+    o += plant(176, 136, 0.8)
+    o += sparkle(26, 36, 6, SUN)
+    return o
+
+
+def _confidential():
+    o = blob()
+    o += rect(58, 30, 84, 108, WHITE, rx=8) + rect(46, 20, 84, 108, WHITE, rx=8)
+    o += rect(46, 20, 84, 22, NAVY, rx=8) + rect(46, 32, 84, 10, NAVY)
+    for i, w in enumerate([56, 40, 60, 46]):
+        o += rect(58, 54 + i * 14, w, 5, MINT if i % 2 else LAV, rx=2)
+    o += circle(140, 104, 24, GREEN)
+    o += path("M126,104 C134,94 146,94 154,104 C146,114 134,114 126,104 Z", fill=WHITE)
+    o += circle(140, 104, 5, GREEN) + path("M126,118 L154,90", stroke=WHITE, sw=4)
+    o += sparkle(170, 36, 6, SUN)
+    return o
+
+
 LIB = {
     # key: (drawing, 한국어 의미, keywords for auto-pick)
     "thinking": (_thinking, "고민·질문하는 사람", "질문 궁금 고민 생각 왜 무엇 정의 의문 퀴즈 물음"),
@@ -348,6 +500,19 @@ LIB = {
     "idcard": (_idcard, "신분증·개인 정보 카드", "개인정보 신원 식별 주민번호 이름 회원 정보주체 유족"),
     "video": (_video, "영상 재생 화면", "영상 동영상 콘텐츠 이러닝 미디어 시청"),
     "goal": (_goal, "정상의 깃발", "도전 비전 미래 목표달성 정상 동기 성공"),
+    "printer": (_printer, "프린터 출력물", "출력 프린터 인쇄 출력물 회수 복합기"),
+    "shredder": (_shredder, "문서 파쇄기", "파쇄 파기 분쇄 폐기 문서처리"),
+    "usb": (_usb, "USB 외부 저장장치", "USB 외장하드 저장장치 이동식 복사 분실"),
+    "password": (_password, "비밀번호·열쇠", "비밀번호 인증 계정 접근 권한 로그인 2단계"),
+    "phishing": (_phishing, "피싱 메일", "피싱 이메일 메일 낚시 사칭 스팸"),
+    "smishing": (_smishing, "스미싱 문자", "스미싱 문자 SMS 메시지 링크 휴대폰"),
+    "ransomware": (_ransomware, "랜섬웨어 잠긴 파일", "랜섬웨어 암호화 감염 몸값 파일잠금"),
+    "hacking": (_hacking, "해킹·악성코드", "해킹 악성코드 바이러스 메모리 웜 침입"),
+    "deepface": (_deepface, "얼굴 합성·딥페이크", "딥페이크 합성 얼굴 음성 사칭 위조 영상"),
+    "ai": (_ai, "생성형 AI 챗봇", "AI 인공지능 생성형 챗봇 학습 프롬프트"),
+    "siren": (_siren, "신고 경광등", "신고 긴급 사고 대응 경보 118"),
+    "lockscreen": (_lockscreen, "화면 잠금", "화면잠금 부재 자리 잠금 보안유지 PC"),
+    "confidential": (_confidential, "기밀 문서 노출 금지", "기밀 노출 문서 고객정보 민감정보 보관"),
 }
 
 

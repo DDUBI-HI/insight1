@@ -361,7 +361,12 @@ def run_checks(project: Path) -> list[str]:
                         + " — real generation required, no fallback")
 
     # 5. governing-message discipline (svg_output, pre-flatten)
-    if pages:
+    gm_exempt = project / ".gm-exempt"
+    if pages and gm_exempt.exists():
+        # Content-locked redesign (e.g. video-slide lock_content): the source text may not be
+        # extended, so no GM line is added. The reason is recorded in the file and echoed as a WARN.
+        sys.stderr.write("  ! WARN GM check skipped — " + gm_exempt.read_text(encoding="utf-8").strip() + "\n")
+    elif pages:
         content_pages = [p for p in pages if is_content_slide(p)]
         band = gm_band(project)
         gm = sum(1 for p in content_pages

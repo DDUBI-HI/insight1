@@ -3,6 +3,7 @@
 ## 스펙 구조
 
 ```yaml
+lock_content: false               # true = 기존 덱 내용 고정 리디자인 (GM·라벨·번호 자동 추가 없음)
 project: privacy_basic            # output/<project>/ 폴더 이름 (영문·숫자·_)
 file: 개인정보보호_기본교육.pptx   # finish.py에 넘길 납품 파일명
 course: 개인정보보호 기본교육      # 헤더 왼쪽 라벨 (모든 장)
@@ -43,6 +44,12 @@ pages:
 | 자주 묻는 질문 | `qa` | p.15 |
 | 실제 화면·사진 따라하기 | `image` | (추가) |
 | 마무리·다음 차시 | `ending` | p.17 |
+| 단원 마무리 (번호 + 단원명 + 감사합니다) | `ending` + `no` | (추가) |
+| 단순 목록 (불릿 · ◆ · ✓) | `bullets` | (추가) |
+| 소제목 + 설명 상자 1–3개 / 좌우 2단 | `panels` | (추가) |
+| 유형·분류 4–6개 타일 | `grid` | (추가) |
+| 정의 + 해당 항목 키워드 | `keywords` | (추가) |
+| 퀴즈 (보기형 · O/X, 문제 장 → 정답 장) | `quiz` | (추가) |
 
 ## 레이아웃별 필드
 
@@ -50,13 +57,13 @@ pages:
 |---|---|---|---|
 | `cover` | **title**, eyebrow, subtitle, meta, illust | illust 기본 `presenter` · 제목 투톤은 두 줄(초록 줄 / 네이비 줄) | cover (GM 없음) |
 | `agenda` | **items**, title, illust | 2–6개 · title 기본 `강의 \| 순서` · illust 기본 `book` | chapter (GM 없음) |
-| `section` | **title**, no, desc, illust | `no` 기본 1 → "PART 01" · illust 기본 auto | chapter (GM 없음) |
+| `section` | **title**, no, label, desc, items, illust | `no` 기본 1 → "PART 01" (label로 변경) · items = 단원에서 다룰 내용 불릿 · illust 기본 auto | chapter (GM 없음) |
 | `statement` | **highlight**, lines, body, title, **gm**, illust | lines 1–3줄(28px), highlight 1–2줄(초록 밑줄), body ≤4줄 · 일러스트 없으면 가운데 정렬 | content |
 | `points` | **items**, title, **gm**, illust, color | 1–5개 `[제목, 설명]` · color `series`(기본)/`green` | content |
 | `icon_list` | **items**, headline, title, **gm** | 2–4개 `{icon, title, desc}` · headline은 왼쪽 큰 문장(투톤) · title 없으면 위쪽부터 사용 | content |
 | `cards` | **items**, title, **gm** | 2–4개 `{title, desc, icon?}` · icon 있으면 번호 대신 아이콘 | content |
 | `stats` | **items**, title, **gm** | 2–4개 `{label, value, desc}` | content |
-| `illust_cards` | **items**, title, **gm** | 2–3개 `{illust?, title, desc}` · illust 없으면 제목으로 자동 선택 | content |
+| `illust_cards` | **items**, title, numbered, **gm** | 2–4개 `{illust?, title, desc}` (4개 = 2×2) · illust 없으면 제목으로 자동 선택 · numbered 기본 켜짐 | content |
 | `flow` | **items**, title, **gm** | 3–5개 `{icon, title}` · 원 안에는 짧은 제목만 (설명은 notes로) | content |
 | `compare` | **left**, **right**, title, vs, **gm** | 각 `{title, items[≤5]}` · 왼쪽 = 나쁜/이전 쪽 | content |
 | `before_after` | **left**, **right**, title, **gm** | 각 `{title, items[≤5]}` | content |
@@ -66,7 +73,12 @@ pages:
 | `chart` | **labels**, **values**, kind, unit, max, highlight, points, source, title, **gm** | kind `line`(기본)/`bar` · highlight 기본 마지막 값 · points ≤3 | content |
 | `table` | **header**, **rows**, highlight_col, title, **gm** | ≤6행 · 열 폭은 글자 길이로 자동 | content |
 | `image` | **src**, fit, caption, points, title, **gm** | src는 deck.yaml 기준 상대경로/절대경로 · fit `meet`(기본)/`cover` · points ≤3 | content |
-| `ending` | title, subtitle, desc, lines, illust | title 기본 `감사합니다` · illust 기본 `trophy` · lines = 다음 차시 안내 등 | ending (GM 없음) |
+| `bullets` | **items**, heading, marker, note, stamp, stamp_at, size, label_split, title | ≤8개 · marker `dot`(기본)/`diamond`/`check` · 글자 크기 항목 수로 자동(22→18) · "라벨: 내용"은 라벨 굵게 · stamp = 기울어진 벌칙 도장 줄 목록 | content |
+| `panels` | **panels**, cols, illust, stamp, title | panels `[{heading, lines[], items[], note}]` · cols 1(세로, 기본)/2(좌우) · 글자 크기 19→15 자동 맞춤 · illust는 cols 1일 때만 | content |
+| `grid` | **items**, title | 2–6개 `{no, title, desc}` · 3·5·6개는 3열 | content |
+| `keywords` | **chips**, definition, illust, title | definition `{heading, text}` 네이비 상자 · chips 문자열 목록 | content |
+| `quiz` | **question**, options, answer, reveal, explain, illust, title | options `["1. …", …]` · answer = 정답 번호(정답 장에서만) · 보기 없이 reveal `X`/`O` + explain = O/X 정답 장 · illust 기본 `thinking` | content |
+| `ending` | title, subtitle, desc, lines, no, illust | title 기본 `감사합니다` · `no` 있으면 단원 마무리(큰 번호 + 단원명) · illust 기본 `trophy` | ending (GM 없음) |
 
 ## 아이콘
 

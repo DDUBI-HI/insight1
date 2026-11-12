@@ -19,6 +19,12 @@ except Exception:                                      # pragma: no cover - engi
     _fm = None
 
 WARNINGS = []
+LOCK = False          # content-lock mode: layouts add no decorative text (brackets, labels, numbers)
+
+
+def deco(s, left="「 ", right=" 」"):
+    """Decorative wrapper around existing text — dropped in content-lock mode."""
+    return s if LOCK else f"{left}{s}{right}"
 
 
 def warn(msg):

@@ -11,6 +11,7 @@
   └──╲________________________________________╱────┘
   navy stage band (subtitle zone y ≥ 644)               raised right tab = presenter stage
 """
+import prim
 from prim import check_mark, circle, esc, fit, measure, path, plain, rect, text, two_tone, line, warn
 from tokens import (BAND_PATH, BODY, CARD, CX, CONTENT_L, CONTENT_R, CONTENT_W, FONT, GM_BOX, GREEN, H,
                     HEADER_Y, MINT, MINT_BG, NAVY, SECTION_Y, T_LABEL, T_TITLE, TITLE_Y, W, WHITE)
@@ -45,7 +46,7 @@ def header(course, num):
 
 
 def section_label(s, y=SECTION_Y):
-    return text(CX, y, f"「 {s} 」", 16, 500, GREEN, anchor="middle") if s else ""
+    return text(CX, y, prim.deco(s), 16, 500, GREEN, anchor="middle") if s else ""
 
 
 def title(s, y=TITLE_Y, fs=T_TITLE, maxw=CONTENT_W - 20, c1=GREEN, c2=NAVY, anchor="middle", x=CX):
