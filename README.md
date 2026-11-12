@@ -61,3 +61,12 @@ Square-ish social cards built from the Figma "카드뉴스" page and kept in `ca
 - Type is Pretendard throughout with letter-spacing 0 and line-height 1.2, in the `cn-*` styles under **Card news** in `tokens.json` (24 / 20 / 16 / 15 / 14 / 12 / 10 / 8 px at design size). Korean lines break with `word-break: keep-all`; break titles by hand with `<br>` so each title is two balanced lines.
 - Photos are colour, full-bleed under a black scrim on the cover (bottom gradient), intro (top gradient) and closing (40% wash), and boxed on the feature, story and FAQ cards. Choose an Unsplash photo that shows the card's subject; never keep a placeholder.
 - Copy follows the voice rules above: polite declarative endings, one claim per card, list items as noun phrases, real figures only, no emoji.
+
+## Lecture video slides
+
+Background decks for recorded lectures, where the instructor is composited over the right side of the frame. Built by `/lecture-slide` (`.claude/skills/lecture-slide/`); the design system is `DESIGN.md` there, sampled from the 공공기관/지자체 template PDF.
+
+- The right 30% of every slide (x ≥ 896 of 1280) is the instructor area: background only — frame, panel and bands run full width, but no text, shape, icon, image or rule. Content lives in x 56–856 and centres on x = 456, not 640. The build fails on any element past x = 896.
+- Its own palette, not `navy`: periwinkle `#717FCB` (single accent), ink `#22294A`, body `#636573`, band `#E9E9F2`, soft card `#F6F6FE`, mid `#B6BDDF`, image placeholder `#DBE1F3`, white.
+- Shells: periwinkle frame + white panel (cover, content, ending) and a full periwinkle chapter page. Content pages carry a centred eyebrow, a 36/800 title, a periwinkle rule, and a footer with brand, governing message and page number.
+- 18 content layouts (statement, bullets, text + image, two columns, stats, cards, points, keywords, chart, process, steps, before → after, cause → result, timeline, contents, image grid, quiz, table). Write content in a `deck.yaml` and the build turns it into native, editable PPTX; speaker notes hold the lecture script.

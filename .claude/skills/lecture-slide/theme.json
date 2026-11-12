@@ -1,0 +1,38 @@
+{
+  "name": "lecture-video",
+  "display_name": "Lecture Video (강의 영상 배경)",
+  "description": "Periwinkle frame, lavender bands, soft cards, Pretendard — sampled from the 공공기관/지자체 PPT template PDF (23p). Right 30% of every slide is reserved for the composited instructor video.",
+  "canvas": {"width": 1280, "height": 720},
+  "safe_zone": {
+    "instructor_area": {"x": 896, "width": 384, "note": "오른쪽 30% — 배경만, 콘텐츠 금지"},
+    "content_zone": {"x0": 56, "x1": 856, "center_x": 456, "width": 800},
+    "content_area_y": {"top": 180, "top_with_lead": 214, "bottom": 624}
+  },
+  "colors": {
+    "accent": "#717FCB",
+    "ink": "#22294A",
+    "body": "#636573",
+    "band": "#E9E9F2",
+    "soft": "#F6F6FE",
+    "mid": "#B6BDDF",
+    "placeholder": "#DBE1F3",
+    "white": "#FFFFFF"
+  },
+  "typography": {
+    "font-chain": "Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif",
+    "cover-title": {"size": 56, "weight": 800, "letter-spacing": -1.2},
+    "chapter-title": {"size": 64, "weight": 800, "letter-spacing": -1.5},
+    "page-title": {"size": 36, "weight": 800, "letter-spacing": -0.8},
+    "eyebrow": {"size": 16, "weight": 500, "letter-spacing": 1},
+    "statement": {"size": 30, "weight": 400},
+    "statement-emphasis": {"size": 42, "weight": 800},
+    "card-title": {"size": 22, "weight": 700},
+    "body": {"size": 17, "weight": 400, "line-height": 1.7},
+    "desc": {"size": 16, "weight": 400, "line-height": 1.6},
+    "gm": {"size": 15, "weight": 600},
+    "caption": {"size": 13, "weight": 500}
+  },
+  "radius": {"card": 20, "panel": 24, "box": 8, "pill": 9999},
+  "stroke": {"rule": 1.5, "footer-rule": 1, "dash": "5 4", "icon": 2},
+  "frame": {"border": 20, "top_band_h": 22, "footer_band_h": 54}
+}

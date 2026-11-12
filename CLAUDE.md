@@ -7,6 +7,7 @@
 | `/cardnews` | `"카드뉴스 만들어줘"` | `.claude/skills/cardnews/SKILL.md` |
 | `/generic-redesign` | `"범용으로 바꿔"`, `"범용 과정으로 만들어"`, `"고객사 이름 빼고 리디자인"` | `.claude/skills/generic-redesign/SKILL.md` — 고객사 제안서 → 범용 과정 PPTX |
 | `/slide` · `/slide-plan` | `"슬라이드 만들어"`, `"기획부터"` | `.claude/skills/slide/SKILL.md`, `.claude/skills/slide-plan/SKILL.md` |
+| `/lecture-slide` | `"강의 영상 PPT"`, `"영상 배경 슬라이드"`, `"이 내용으로 강의 슬라이드"` | `.claude/skills/lecture-slide/SKILL.md` — 내용 → 강의 영상 배경 PPTX (오른쪽 30% 강사 영역 비움) |
 
 > ⚠️ **이 저장소는 공개 저장소다.** 고객사 원본·생성된 덱(`output/`)·담당자 연락처(`contacts.local.txt`)는 커밋하지 않는다 (`.gitignore` 처리됨). 결과 파일은 세션의 파일 전달로 사용자에게 넘긴다.
 
@@ -51,6 +52,12 @@ pip install -r .claude/skills/slide/requirements.txt
 ```
 - `cp`로 `finalize_svg.py`를 대신하지 말 것, `-s final` 필수.
 - 검증: `.claude/skills/slide/scripts/_py.sh .claude/skills/slide/scripts/verify_deck.py output/<project>`
+
+### 강의 영상 배경 (lecture-slide)
+
+- **오른쪽 30 %(x ≥ 896)는 강사 영상 합성 자리 — 배경만, 콘텐츠 금지.** 콘텐츠는 x 56–856, 가운데 정렬 기준 x=456. `lskit`이 위반 시 빌드를 실패시킨다.
+- 자체 팔레트(PDF 샘플링, 액센트 `#717FCB`)는 프로젝트별 `.theme-color-allow`로 등록 — 활성 테마는 그대로 둔다. 디자인 정본: `.claude/skills/lecture-slide/DESIGN.md`.
+- 입력은 `output/<project>/deck.yaml` (`references/deck-format.md`) → `build.py` → 후처리 3단계 → `finish.py` (verify·렌더·강사 영역 미리보기 `zoneN.png`·납품).
 
 ### 렌더·납품 (generic-redesign)
 
