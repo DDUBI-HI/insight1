@@ -90,6 +90,8 @@ def main():
     ap.add_argument("deliver")
     ap.add_argument("--dst")
     ap.add_argument("--no-render", action="store_true")
+    ap.add_argument("--preserve-content", action="store_true",
+                    help="원본 내용 보존 리디자인: GM 줄을 일부러 넣지 않았으므로 verify의 GM 실패만은 허용")
     a = ap.parse_args()
     P = ROOT / "output" / a.project
     dst = a.dst or os.environ.get("LECTURE_SLIDE_DST") or str(ROOT / "output" / "_deliver")
@@ -110,8 +112,12 @@ def main():
     print("\n".join(tail))
     z = zipfile.ZipFile(pptx)
     print("zip:", z.testzip() or "OK", len([n for n in z.namelist() if n.startswith("ppt/slides/slide")]), "slides")
+    fails = [l for l in tail if "✗" in l]
     if res.returncode != 0:
-        sys.exit("verify failed — not delivering")
+        if a.preserve_content and fails and all("governing-message" in l for l in fails):
+            print("  [note] --preserve-content: GM lines intentionally omitted (no text may be added); all other checks passed")
+        else:
+            sys.exit("verify failed — not delivering")
 
     how = "skipped"
     if not a.no_render:

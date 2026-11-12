@@ -65,6 +65,14 @@ pip install -r .claude/skills/slide/requirements.txt
 - 렌더러가 `libreoffice`/`svg-approx`면 문장부호 주변 간격·줄 시작 위치가 PowerPoint와 조금 다르다 → "최종 서체 확인은 PowerPoint에서" 한 줄 보고.
 - 납품: 기본 `output/_deliver/` (`--dst` 또는 `LECTURE_SLIDE_DST`로 변경). 클라우드 세션은 파일 전달로 넘긴다.
 
+### 기존 덱 리디자인 — "내용은 그대로, 디자인만" (내용 보존 모드)
+사용자가 원본 내용을 한 글자도 바꾸지 말라고 하면 이 모드로 한다.
+- 원본(PDF/PPTX)의 텍스트를 화면 기준으로 추출한다 — PDF 추출은 띄어쓰기를 빠뜨릴 수 있으니 글자 간격(≥ 0.22em)으로 공백을 복원해 비교한다. 오타·표기도 원본 그대로.
+- `output/<project>/build.py`에서 `K.PRESERVE = True` → `content_page(fname, None, title, None, None, body)`: GM·eyebrow·쪽번호·브랜드 등 원본에 없는 텍스트를 넣지 않는다 (헤더가 위로 당겨지고 본문은 `TOP_COMPACT`부터).
+- 사진·스크린샷·이미지로 된 표는 원본 이미지를 xref로 뽑아 그대로 쓴다. 옛 템플릿 장식(클립아트 인형·말풍선 틀·반사)은 새 디자인 요소로 바꾼다. 도형·이미지 안의 글자는 확대해 읽고 실제 텍스트로 옮긴다.
+- 빌드 후 원본 각 쪽의 모든 텍스트 줄이 새 SVG에 있는지, 원본에 없는 텍스트가 없는지 자동 대조한다.
+- 10장 이상이면 `.standalone`을 두고(slide_plan 생략), 납품은 `finish.py … --preserve-content` (verify의 GM 누락만 허용 — 다른 실패는 그대로 막힌다).
+
 ### 5. 보고
 장수·레이아웃 구성, 플레이스홀더로 남긴 이미지, 지어내지 않고 비워 둔 수치, 렌더러 종류.
 

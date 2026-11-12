@@ -26,6 +26,8 @@ L, R = 56, 856               # content zone
 CX = (L + R) // 2            # 456
 ZW = R - L                   # 800
 TOP, TOP_LEAD, BOTTOM = 180, 214, 624
+TOP_COMPACT = 156            # 내용 보존 모드(eyebrow 없음) 본문 시작
+PRESERVE = False             # True: gm·eyebrow·쪽번호 생략 허용 (원본 내용을 한 글자도 더하지 않는 리디자인)
 
 ACC = "#717FCB"     # primary periwinkle (frame, rules, eyebrow, numbers, filled shapes)
 INK = "#22294A"     # titles · strong text · chevrons
@@ -346,31 +348,40 @@ def ending(fname, line2, line1=None, badge="THANK YOU", contacts=(), top_left=""
 
 def content_page(fname, eyebrow, title, gm, num, body, lead=None, brand=""):
     """콘텐츠 셸. PDF p2–22: 중앙 영문 eyebrow · 굵은 제목 · 페리윙클 룰 · 하단 룰 + GM + 쪽번호.
-    모두 콘텐츠 존(x 56–856) 중심 CX=456에 정렬 — 오른쪽 30 %는 비운다."""
-    if not gm:
+    모두 콘텐츠 존(x 56–856) 중심 CX=456에 정렬 — 오른쪽 30 %는 비운다.
+    내용 보존 모드(PRESERVE=True): 원본에 없는 텍스트를 더하지 않는다 — gm·eyebrow·num·brand를 None/빈 값으로
+    두면 그 요소를 생략하고, eyebrow가 없으면 헤더가 위로 당겨진다(제목 y=104, 룰 y=130, 본문 TOP_COMPACT=156)."""
+    if not gm and not PRESERVE:
         raise ValueError(f"{fname}: gm (governing message) is required on content pages")
+    compact = not eyebrow
+    ty, ry = (104, 130) if compact else (128, 154)
     o = [_svg_open(), _bg("content")]
-    o.append(t(CX, 82, eyebrow, 16, 500, ACC, "middle", ls=1))
-    fs = fit(title, ZW, 36, 800, 28, -0.8)
-    if text_w(title, fs, 800, -0.8) > ZW:
-        warn(f"title too long even at {fs}px — shorten: '{title}'")
-    o.append(t(CX, 128, title, fs, 800, INK, "middle", ls=-0.8))
-    o.append(ln(L, 154, R, 154, ACC, 1.5))
+    if eyebrow:
+        o.append(t(CX, 82, eyebrow, 16, 500, ACC, "middle", ls=1))
+    if title:
+        fs = fit(title, ZW, 36, 800, 28, -0.8)
+        if text_w(title, fs, 800, -0.8) > ZW:
+            warn(f"title too long even at {fs}px — shorten: '{title}'")
+        o.append(t(CX, ty, title, fs, 800, INK, "middle", ls=-0.8))
+    o.append(ln(L, ry, R, ry, ACC, 1.5))
     if lead:
         lfs = fit(lead, ZW, 18, 400, 15)
-        o.append(t(CX, 190, lead, lfs, 400, INK, "middle"))
+        o.append(t(CX, ry + 36, lead, lfs, 400, INK, "middle"))
     o.append(body)
     o.append(ln(L, 644, R, 644, ACC, 1))
     bw = text_w(brand, 13, 500) if brand else 0
-    gfs = 15
-    room = 2 * min(CX - (L + bw + 24), (R - 40) - CX)
-    while text_w(gm, gfs, 600) > room and gfs > 12:
-        gfs -= 0.5
-    if text_w(gm, gfs, 600) > room:
-        warn(f"GM too long for the footer — shorten (≤ ~{int(room / 15)}자): '{gm}'")
-    o.append(t(L, 674, brand, 13, 500, ACC, ls=0.4))
-    o.append(t(CX, 674, gm, gfs, 600, INK, "middle"))
-    o.append(t(R, 674, f"{num:02d}", 13, 500, ACC, "end"))
+    if gm:
+        gfs = 15
+        room = 2 * min(CX - (L + bw + 24), (R - 40) - CX)
+        while text_w(gm, gfs, 600) > room and gfs > 12:
+            gfs -= 0.5
+        if text_w(gm, gfs, 600) > room:
+            warn(f"GM too long for the footer — shorten (≤ ~{int(room / 15)}자): '{gm}'")
+        o.append(t(CX, 674, gm, gfs, 600, INK, "middle"))
+    if brand:
+        o.append(t(L, 674, brand, 13, 500, ACC, ls=0.4))
+    if num is not None:
+        o.append(t(R, 674, f"{num:02d}", 13, 500, ACC, "end"))
     _check_and_write(fname, o)
 
 
