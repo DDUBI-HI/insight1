@@ -1,0 +1,231 @@
+# 강의 영상 배경 PPT — 전체 레이아웃 견본 (개인정보보호 기본 교육)
+# 빌드: .claude/skills/slide/scripts/_py.sh .claude/skills/lecture-slide/scripts/build.py .claude/skills/lecture-slide/examples/sample_deck.yaml
+project: lecture_sample
+title: 개인정보보호 기본 교육
+brand: INSIGHTLEARNING          # 표지·간지·엔딩 하단 띠 + 콘텐츠 페이지 왼쪽 아래
+top_left: ONLINE LECTURE
+top_right: 2026 개인정보보호 교육
+
+slides:
+  - layout: cover
+    badge: 법정 의무교육
+    subtitle: 모든 임직원이 꼭 알아야 할
+    title: 개인정보보호 기본 교육
+    info: [강사 홍길동, 인싸이트러닝, 약 30분]
+
+  - layout: toc
+    eyebrow: CONTENTS
+    title: 오늘 배울 내용
+    items:
+      - {title: 개인정보의 정의, desc: 어디까지가 개인정보인가}
+      - {title: 처리 원칙, desc: 수집부터 파기까지 지켜야 할 것}
+      - {title: 안전조치, desc: 일상 업무 속 보호 수칙}
+      - {title: 유출 대응, desc: 사고가 났을 때의 절차}
+      - {title: 정리 퀴즈, desc: 핵심 내용 확인}
+    gm: 다섯 단계로 개인정보 보호의 기본기를 익힙니다
+
+  - layout: chapter
+    label: CHAPTER 01
+    title: 개인정보의 정의
+    sub: 어디까지가 개인정보일까요?
+
+  - layout: statement
+    eyebrow: 1-1. 개인정보 정의
+    title: 개인정보란?
+    lines: [사망자의 정보라도, 유족과의 관계를 알 수 있는 정보는]
+    emphasis: 유족의 개인정보에 해당
+    note: "※ 개인정보 보호법 제2조 제1호"
+    gm: 정보의 주인이 아니라 '누구를 알아볼 수 있는가'가 기준입니다
+    notes: 사망자의 정보라도 유족과의 관계를 알 수 있다면, 그 유족의 개인정보라고 볼 수 있습니다.
+
+  - layout: keywords
+    eyebrow: 1-2. 판단 기준
+    title: 개인정보를 가르는 세 가지 기준
+    items:
+      - {title: 살아 있는 개인, desc: 법인·단체 정보는 개인정보가 아닙니다}
+      - {title: 식별 가능성, desc: 다른 정보와 쉽게 결합해 특정인을 알아볼 수 있으면 해당}
+      - {title: 정보의 형태, desc: 문자·영상·음성 등 형태를 가리지 않습니다}
+    gm: 결합해서 알아볼 수 있다면 그 자체로 개인정보입니다
+
+  - layout: two_col
+    eyebrow: 1-3. 예시
+    title: 개인정보일까, 아닐까?
+    cols:
+      - {title: 개인정보 O, image: null, text: "이름 + 휴대전화 번호, CCTV에 찍힌 얼굴 영상"}
+      - {title: 개인정보 X, image: null, text: "회사 대표 전화번호, 통계로 가공된 연령대 분포"}
+    gm: 같은 숫자라도 사람과 연결되는 순간 개인정보가 됩니다
+
+  - layout: text_image
+    eyebrow: 1-4. 민감정보
+    title: 더 엄격하게 다루는 정보
+    tags: [민감정보, 고유식별정보, 별도동의]
+    image: null
+    text: 건강, 정치적 견해, 노동조합 가입 여부 같은 민감정보와 주민등록번호 같은 고유식별정보는 원칙적으로 처리가 금지되며, 정보주체의 별도 동의나 법령의 근거가 있을 때만 처리할 수 있습니다.
+    gm: 민감할수록 동의는 따로, 보관은 더 단단하게 해야 합니다
+
+  - layout: chapter
+    label: CHAPTER 02
+    title: 개인정보 처리 원칙
+
+  - layout: steps
+    eyebrow: 2-1. 생애주기
+    title: 개인정보는 이렇게 흘러갑니다
+    items:
+      - {icon: file-text, title: 수집}
+      - {icon: device-laptop, title: 이용}
+      - {icon: share, title: 제공}
+      - {icon: trash, title: 파기}
+    gm: 단계마다 지켜야 할 의무가 다르다는 점을 기억합니다
+
+  - layout: process
+    eyebrow: 2-2. 수집 절차
+    title: 동의를 받는 올바른 순서
+    steps:
+      - {title: 고지, sub: 목적·항목 안내}
+      - {title: 선택, sub: 필수·선택 구분}
+      - {title: 동의, sub: 명시적 동의}
+      - {title: 기록, sub: 동의 이력 보관}
+    result: {title: 적법 수집, sub: 분쟁 예방}
+    gm: 고지 없는 동의는 동의가 아니라는 점을 기억합니다
+
+  - layout: cards
+    eyebrow: 2-3. 처리 원칙
+    title: 꼭 지켜야 할 세 가지 원칙
+    items:
+      - {icon: target, title: 목적 명확화, desc: 처리 목적을 명확히 하고 그 범위 안에서만 이용합니다}
+      - {icon: filter, title: 최소 수집, desc: 목적에 필요한 최소한의 정보만 수집합니다}
+      - {icon: shield-lock, title: 안전한 관리, desc: 유출·변조되지 않도록 안전하게 관리합니다}
+    gm: 꼭 필요한 만큼만, 정한 목적 안에서만 씁니다
+
+  - layout: table
+    eyebrow: 2-4. 보유 기간
+    title: 목적이 끝나면 지체 없이 파기
+    header: [구분, 보유 기간, 파기 방법]
+    widths: [1.2, 1, 1.4]
+    rows:
+      - [계약·청약 철회 기록, 5년, 복구 불가능한 방법으로 삭제]
+      - [소비자 불만 처리 기록, 3년, 영구 삭제 또는 분쇄]
+      - [웹사이트 방문 기록, 3개월, 로그 자동 삭제]
+    highlight: 1
+    gm: 보관 기간이 지난 정보는 그 자체로 위험 요소입니다
+
+  - layout: chapter
+    label: CHAPTER 03
+    title: 일상 속 안전조치
+
+  - layout: points
+    eyebrow: 3-1. 보호 수칙
+    title: 오늘부터 실천할 네 가지
+    items:
+      - {icon: lock, title: 화면 잠금, desc: 자리를 비울 때는 반드시 화면을 잠급니다}
+      - {icon: key, title: 비밀번호 관리, desc: 영문·숫자·특수문자를 섞어 주기적으로 바꿉니다}
+      - {icon: mail, title: 메일 확인, desc: 수신자와 첨부 파일을 보내기 전에 다시 봅니다}
+      - {icon: printer, title: 출력물 관리, desc: 출력물은 바로 회수하고 파쇄합니다}
+    gm: 사고는 대부분 사소한 습관에서 시작됩니다
+
+  - layout: before_after
+    eyebrow: 3-2. 업무 습관
+    title: 이렇게 바꿔 보세요
+    quote: "\"작은 습관 하나가 큰 사고를 막습니다.\""
+    labels: [BEFORE, AFTER]
+    rows:
+      - [고객 명단을 개인 메일로 전송, 사내 승인된 시스템으로만 공유]
+      - [비밀번호를 메모지에 적어 둠, 비밀번호 관리 도구 사용]
+      - [출력물을 프린터에 방치, 출력 즉시 회수 후 파쇄]
+    gm: 편한 방법보다 정해진 방법이 결국 나를 지킵니다
+
+  - layout: stats
+    eyebrow: 3-3. 사고 현황
+    title: 숫자로 보는 유출 사고
+    items:
+      - {label: 내부자 과실 비율, value: 62, unit: "%", icon: user-exclamation}
+      - {label: 평균 인지 기간, value: 197, unit: 일, icon: clock}
+      - {label: 재발 방지 교육 효과, value: 3, unit: 배, icon: school}
+    gm: 대부분의 사고는 외부 해킹보다 내부 실수에서 시작됩니다
+    notes: 견본 수치입니다 — 실제 강의에서는 출처가 있는 수치로 바꿉니다.
+
+  - layout: chart
+    eyebrow: 3-4. 교육 효과
+    title: 교육 전후 보안 점수
+    bars:
+      - {label: 교육 전, value: 58}
+      - {label: 교육 후, value: 91}
+    heading: 교육 후 달라진 점
+    items:
+      - 보안 점검 점수가 33점 올랐습니다.
+      - 메일 오발송 신고가 절반으로 줄었습니다.
+      - 화면 잠금 준수율이 크게 높아졌습니다.
+    gm: 아는 만큼 지키고, 지키는 만큼 줄어듭니다
+    notes: 견본 수치입니다.
+
+  - layout: chapter
+    label: CHAPTER 04
+    title: 유출 사고 대응
+
+  - layout: cause_result
+    eyebrow: 4-1. 사고 사례
+    title: 작은 실수가 만든 큰 결과
+    causes:
+      - 수신자 확인 없이 고객 명단 파일을 외부로 발송했습니다.
+      - 파일에 암호를 걸지 않아 누구나 열어볼 수 있었습니다.
+    result: 수천 명의 개인정보가 유출되어 과징금과 신뢰 하락으로 이어졌습니다.
+    gm: 확인 한 번, 암호 한 번이면 막을 수 있었던 사고입니다
+
+  - layout: timeline
+    eyebrow: 4-2. 대응 절차
+    title: 유출을 알았다면 이렇게
+    stages:
+      - {label: 즉시, icon: alert-triangle, title: 확산 차단, desc: 추가 유출을 막고 담당 부서에 보고합니다}
+      - {label: 72시간, icon: bell, title: 신고·통지, desc: 정보주체에게 알리고 기관에 신고합니다}
+      - {label: 이후, icon: refresh, title: 재발 방지, desc: 원인을 분석하고 보호 조치를 보완합니다}
+    gm: 숨기는 것보다 빨리 알리는 것이 피해를 줄입니다
+
+  - layout: image_grid
+    eyebrow: 4-3. 현장 사진
+    title: 보안 점검 현장
+    images: [null, null, null]
+    gm: 점검은 서류가 아니라 현장에서 이루어집니다
+
+  - layout: chapter
+    label: CHAPTER 05
+    title: 정리 퀴즈
+
+  - layout: quiz
+    eyebrow: QUIZ 1
+    title: OX 퀴즈
+    question: 회사 대표 전화번호도 개인정보에 해당한다.
+    options: [O, X]
+    gm: 특정 개인을 알아볼 수 있는지가 판단 기준입니다
+
+  - layout: quiz
+    eyebrow: QUIZ 1 · 정답
+    title: 정답은 X
+    question: 회사 대표 전화번호도 개인정보에 해당한다.
+    options: [O, X]
+    answer: X
+    gm: 법인의 대표 번호는 특정 개인을 가리키지 않습니다
+
+  - layout: quiz
+    eyebrow: QUIZ 2
+    title: 유출을 알게 된 직후 할 일은?
+    question: 개인정보 유출을 알게 된 직후 가장 먼저 해야 할 일은 무엇일까요?
+    options: [혼자 조용히 해결한다, 추가 유출을 막고 즉시 보고한다, 관련 파일을 모두 삭제한다, 일주일 후 정리해서 알린다]
+    answer: 2
+    gm: 빠른 보고가 가장 확실한 피해 축소 방법입니다
+
+  - layout: bullets
+    eyebrow: SUMMARY
+    title: 오늘의 핵심 정리
+    heading: 이것만은 꼭 기억하세요
+    items:
+      - 알아볼 수 있다면 개인정보입니다.
+      - 필요한 만큼만 수집하고 목적 안에서만 씁니다.
+      - 화면 잠금과 메일 확인을 습관으로 만듭니다.
+      - 유출을 알았다면 즉시 차단하고 보고합니다.
+    gm: 개인정보 보호는 규정이 아니라 매일의 습관입니다
+
+  - layout: ending
+    badge: THANK YOU
+    subtitle: 오늘 배운 습관 하나로
+    title: 안전한 일터를 만듭니다
+    contacts: [인싸이트러닝, insighthrd.com]
