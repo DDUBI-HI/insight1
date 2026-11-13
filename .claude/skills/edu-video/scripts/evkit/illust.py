@@ -117,8 +117,9 @@ def _person(p, cx, top, r=36, body="fill", hair="short"):
     by = hy + r + 10
     p.rect(cx - 10, hy + r - 12, 20, 24, fill=p.FILL)
     bf = p.FILL if body == "fill" else p.LINE
-    p.path(f"M{cx - 62} 232 C{cx - 62} {by + 22} {cx - 34} {by} {cx} {by} C{cx + 34} {by} {cx + 62} {by + 22} "
-           f"{cx + 62} 232 Z", fill=bf)
+    bw = min(62, r * 1.8)
+    p.path(f"M{cx - bw} 232 C{cx - bw} {by + 22} {cx - bw * 0.55} {by} {cx} {by} C{cx + bw * 0.55} {by} {cx + bw} {by + 22} "
+           f"{cx + bw} 232 Z", fill=bf)
     if body == "fill":
         p.path(f"M{cx - 16} {by + 2} L{cx} {by + 22} L{cx + 16} {by + 2}")
     p.circle(cx, hy, r, fill=p.FILL)
@@ -391,7 +392,59 @@ def calendar(p):
     p.dot(24, 120, 5)
 
 
+def team(p):
+    """Three colleagues — organisation culture, cover, '함께'."""
+    p.blob()
+    _person(p, 66, 112, r=24, body="line", hair="bob")
+    _person(p, 174, 112, r=24, hair="short")
+    _person(p, 120, 92, r=30, hair="short")
+    p.sparkle(120, 22, 9)
+    p.sparkle(36, 64, 10)
+    p.ring(212, 70)
+
+
+def phone(p):
+    """Smartphone lighting up at night — after-hours messages."""
+    p.blob()
+    p.rect(72, 30, 96, 180, 18, fill=p.FILL)
+    p.rect(84, 52, 72, 124, 6, fill=p.BLOB, stroke=False)
+    p.line(108, 42, 132, 42, sw=3)
+    p.circle(120, 192, 7, fill=p.FILL, sw=2.5)
+    p.rect(92, 64, 56, 22, 8, fill=p.FILL, stroke=False)
+    p.line(100, 75, 136, 75, sw=4)
+    p.rect(92, 96, 44, 22, 8, fill=p.LINE, stroke=False)
+    p.line(100, 107, 126, 107, c=p.FILL, sw=4)
+    p.rect(100, 128, 48, 22, 8, fill=p.FILL, stroke=False)
+    p.line(108, 139, 140, 139, sw=4)
+    p.circle(166, 44, 18, fill=p.LINE, stroke=False)
+    p.line(166, 36, 166, 46, c=p.FILL, sw=4)
+    p.dot(166, 53, 2.6, fill=p.FILL)
+    p.path("M44 58 C30 64 26 84 36 96 C42 102 52 104 60 100 C48 96 42 86 44 74 C45 68 46 62 44 58 Z", fill=p.ACC, stroke=False)
+    p.sparkle(206, 112, 10)
+    p.dot(200, 182, 5)
+    p.ring(40, 164)
+
+
+def scale(p):
+    """Balance scale — law, fair judgement, investigation."""
+    p.blob()
+    p.line(120, 44, 120, 190, sw=4)
+    p.circle(120, 40, 8, fill=p.LINE, stroke=False)
+    p.line(56, 70, 184, 70, sw=4)
+    p.path("M56 70 L36 128 M56 70 L76 128")
+    p.path("M184 70 L164 128 M184 70 L204 128")
+    p.path("M32 128 L80 128 C78 146 66 154 56 154 C46 154 34 146 32 128 Z", fill=p.FILL)
+    p.path("M160 128 L208 128 C206 146 194 154 184 154 C174 154 162 146 160 128 Z", fill=p.FILL)
+    p.rect(84, 190, 72, 18, 6, fill=p.LINE, stroke=False)
+    p.sparkle(206, 38, 10)
+    p.ring(30, 196)
+    p.dot(214, 176, 4)
+
+
 LIB = {
+    "team": (team, "동료 세 사람 — 조직문화·표지·함께"),
+    "phone": (phone, "밤의 스마트폰 알림 — 퇴근 후·휴가 중 연락"),
+    "scale": (scale, "저울 — 법·공정한 판단·조사"),
     "question": (question, "궁금해하는 학습자 — 정의·개념 질문, 도입"),
     "idea": (idea, "전구 — 핵심 개념, 팁, 인사이트"),
     "shield": (shield, "방패+자물쇠 — 보안·보호·준수"),

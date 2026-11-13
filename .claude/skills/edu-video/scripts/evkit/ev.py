@@ -129,12 +129,21 @@ def _greedy(para, fs, maxw, bold):
             if line and lw + sp + ww > maxw:
                 lines.append(line)
                 line, lw = [], 0.0
-            if ww > maxw:                 # single long word → hard break by chars
+            if ww > maxw:                 # long word → break, preferably right after a '·'
+                if line:
+                    lines.append(line)
+                    line, lw = [], 0.0
                 for ch in wd:
                     c_w = cw(ch[0], fs)
                     if line and lw + c_w > maxw:
-                        lines.append(line)
-                        line, lw = [], 0.0
+                        cut = max((k for k, (c, _) in enumerate(line) if c == "·"), default=-1)
+                        if 0 <= cut < len(line) - 1:
+                            rest = line[cut + 1:]
+                            lines.append(line[:cut + 1])
+                            line, lw = rest, sum(cw(c, fs) for c, _ in rest)
+                        else:
+                            lines.append(line)
+                            line, lw = [], 0.0
                     line.append(ch)
                     lw += c_w
                 continue
@@ -265,10 +274,16 @@ def stage_rect():
     return r(STAGE_X, 0, W - STAGE_X, H, SOFT).replace("<rect ", '<rect id="stage" ') if STAGE == "tint" else ""
 
 
-def header(label, title):
-    o = ""
+def header(label, title, cite=None):
+    o, lw = "", 0
     if label:
-        o += pill(X0, 40, label)[0]
+        p_, lw = pill(X0, 40, label)
+        o += p_
+    if cite:                      # source citation, right-aligned on the label row (28px, muted)
+        cw_ = text_w("출처 " + cite, FS["min"])
+        if lw + 24 + cw_ > CW:
+            raise FitError(f"cite too long for the label row (≈{int((CW - lw - 24) / (FS['min'] * 0.92))} chars): {cite!r}")
+        o += t(X1, 73, f"출처 {cite}", FS["min"], 400, MUTED, anchor="end")
     if text_w(title, FS["h1"], True) > CW:
         raise FitError(f"title too long for one line at 44px (≈17 Hangul chars): {title!r}")
     o += t(X0, 140, title, FS["h1"], 700, TEXT)
@@ -290,7 +305,7 @@ def key_strip(key):
 
 def content_page(fname, s, body):
     parts = ['  <rect width="1280" height="720" fill="#FFFFFF"/>\n', stage_rect(),
-             header(s.get("label"), s["title"]), body, key_strip(s.get("key"))]
+             header(s.get("label"), s["title"], s.get("cite")), body, key_strip(s.get("key"))]
     _write(fname, _svg(parts))
 
 
@@ -439,8 +454,13 @@ def L_bullets(s):
     right = 568 if il else X1
     TX = X0 + 96
     rows, total, gap = _rows(items, TX, right - TX)
-    y = vcenter(total)
+    lead = wrap(s["lead"], FS["h2"], right - X0, True) if s.get("lead") else []
+    lh_ = block_h(len(lead), FS["h2"], 1.3) + 32 if lead else 0
+    y = vcenter(total + lh_)
     o = ""
+    if lead:
+        o += para(X0, y + FS["h2"] * 0.78, lead, FS["h2"], 700, NAVY, lh=1.3)[0]
+        y += lh_
     for i, (it, tl, sl, hh) in enumerate(rows):
         o += r(X0, y, 72, 72, SOFT, 20)
         if it.get("icon"):
@@ -564,11 +584,11 @@ def L_steps(s):
             o += icon(it["icon"], cx - 22, cy - 22, 44, WHITE)
         else:
             o += t(cx, cy + 12, f"{i + 1}", FS["body"], 700, WHITE, anchor="middle")
-        tl = wrap(it["title"], FS["body"], cw_ - 16, True)
+        tl = wrap(it["title"], FS["body"], cw_ - 24, True)
         p_, y = para(cx, cy + 108, tl, FS["body"], 700, TEXT, "middle", 1.3)
         o += p_
         if it.get("text"):
-            bl = wrap(it["text"], FS["min"], cw_ - 20)
+            bl = wrap(it["text"], FS["min"], cw_ - 32)
             p_, y = para(cx, y + 50, bl, FS["min"], 400, MUTED, "middle", 1.35)
             o += p_
         if y + 10 > BODY_BOT:
@@ -623,7 +643,9 @@ def L_stat(s):
     o = ""
     desc = wrap(s.get("desc", ""), FS["body"], 520 if il else CW) if s.get("desc") else []
     lab = s.get("caption")
-    h = (FS["min"] + 24 if lab else 0) + 112 + 28 + block_h(len(desc), FS["body"])
+    if lab and text_w(lab, FS["min"], True) > (520 if il else CW):
+        raise FitError(f"stat caption too long for one line: {lab!r}")
+    h = (FS["min"] + 24 if lab else 0) + 112 + 64 + block_h(len(desc), FS["body"])
     top = vcenter(h)
     y = top
     if lab:
@@ -632,7 +654,9 @@ def L_stat(s):
     o += t(X0 - 6, y + 108, val, 140, 700, NAVY)
     if unit:
         o += t(X0 + vw + 8, y + 108, unit, 56, 700, NAVY)
-    o += para(X0, y + 112 + 28 + FS["body"] * 0.78, desc, FS["body"], 400, TEXT)[0]
+    if X0 + vw + 8 + text_w(unit, 56, True) > (584 if il else X1):
+        raise FitError(f"stat value {val}{unit} runs into the illustration — drop illust or shorten the value")
+    o += para(X0, y + 112 + 64 + FS["body"] * 0.78, desc, FS["body"], 400, TEXT)[0]
     if il:
         o += ill(il, 600, vcenter(248), 248)
     return o

@@ -34,6 +34,7 @@ pip install -r .claude/skills/slide/requirements.txt
 ### 1. 원고 → YAML
 - 사용자의 원고를 화면 단위로 나눈다. 한 화면에 한 메시지, 항목은 4개까지, 항목당 2줄까지.
 - 화면마다 레이아웃을 고른다(`design-system.md §7`). 같은 계열이 3장 넘게 이어지지 않게 섞는다.
+- 기존 강의 덱(PDF·PPTX)을 고칠 때는 `pdftotext -layout`으로 글을 뽑고 페이지 그림을 함께 본다. 원문 문장은 그대로 쓰고, 큰 글씨에 다 들어가지 않으면 화면을 나눈다(예: 사례 = 상황 → 판단 두 화면). 보도·법령 출처는 `cite`로 옮긴다.
 - `key`(핵심 한 줄)는 반드시 쓴다. 제목을 반복하지 않는 so-what으로 쓴다. `say`(강의 원고 → 노트)에는 화면의 핵심 문구를 넣는다.
 - 원고에 퀴즈가 없으면 만들지 않는다. 사용자가 원하면 `quiz` + `answer`를 쓴다.
 - 일러스트는 화면 주제에 맞춰 라이브러리에서 고른다. 원본의 스톡 사진·클립아트·회색 목업은 쓰지 않고 교체한다(`design-system.md §6`). 사용자가 준 시스템 캡처만 `screen.image`로 넣는다.
@@ -79,7 +80,7 @@ pip install -r .claude/skills/slide/requirements.txt
 | `design-system.pdf` | 디자인 시스템 PDF (사람이 보는 판) |
 | `scripts/build_deck.py` | YAML → SVG + plan + notes |
 | `scripts/evkit/ev.py` | 토큰 · 줄바꿈 · 셸 · 레이아웃 17종 |
-| `scripts/evkit/illust.py` | 라인 일러스트 라이브러리 17종 (네이티브 셰이프, 라이트/네이비) |
+| `scripts/evkit/illust.py` | 라인 일러스트 라이브러리 20종 (네이티브 셰이프, 라이트/네이비) |
 | `scripts/evkit/evcheck.py` | 강사 영역·자막 영역 침범, 28px 하한 검사 |
 | `scripts/finish.py` | verify → 렌더 → 납품 |
 | `scripts/make_design_pdf.py` | 견본 덱 + 규칙 → `design-system.pdf` |

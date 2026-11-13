@@ -101,7 +101,7 @@ pr = [("layout-sidebar-right", "70 / 30 화면 분할", "왼쪽 70%는 콘텐츠
        "최소 28px = 21pt"),
       ("focus-2", "한 화면 한 메시지", "항목은 4개, 항목마다 2줄까지만 씁니다. 화면마다 핵심 한 줄로 '그래서 무엇인지'를 남깁니다.",
        "항목 ≤ 4 · 2줄"),
-      ("brush", "라인 일러스트", "네이비 3px 선과 연한 블롭으로 그린 일러스트 17종입니다. 스톡 사진·클립아트·회색 목업은 쓰지 않습니다.",
+      ("brush", "라인 일러스트", "네이비 3px 선과 연한 블롭으로 그린 일러스트 20종입니다. 스톡 사진·클립아트·회색 목업은 쓰지 않습니다.",
        "편집 가능한 도형")]
 cards = "".join(f'''<div class="pc"><div class="pc-n">{i + 1:02d}</div><h3>{a}</h3><p>{b}</p><span class="tag">{c}</span></div>'''
                 for i, (_, a, b, c) in enumerate(pr))
@@ -178,7 +178,7 @@ P.append(page("05 · 접근성", "저시력·시각장애 학습자를 위한 9�
 
 # 7 illustration library
 cells = "".join(f'<div class="il">{ill_svg(n, 132)}<b>{n}</b><span>{html.escape(d.split(" — ")[0])}</span></div>' for n, (_, d) in illust.LIB.items())
-P.append(page("06 · 일러스트", "네이비 라인 일러스트 17종 — PowerPoint에서 바로 편집",
+P.append(page("06 · 일러스트", "네이비 라인 일러스트 20종 — PowerPoint에서 바로 편집",
               f'<div class="ilg">{cells}</div>', 7, cls="tight"))
 
 # 8 replacement
@@ -308,9 +308,9 @@ code {{ background: #F8F8F8; padding: 2px 6px; border-radius: 4px; font-size: 14
 .cp {{ border-radius: 12px; padding: 14px 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; }}
 .cp b {{ font-size: 22px; }}
 .cp span {{ font-size: 14px; font-weight: 700; }}
-.ilg {{ display: grid; grid-template-columns: repeat(9, 1fr); gap: 6px 8px; }}
+.ilg {{ display: grid; grid-template-columns: repeat(10, 1fr); gap: 18px 6px; }}
 .il {{ display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px; }}
-.il svg {{ width: 120px; height: 120px; }}
+.il svg {{ width: 108px; height: 108px; }}
 .il b {{ font-size: 14px; color: #012281; }}
 .il span {{ font-size: 12.5px; color: #595959; line-height: 1.35; }}
 .rep {{ flex: 1.5; }}

@@ -34,12 +34,42 @@ ENV = {**os.environ, "PYTHONIOENCODING": "utf-8"}
 GM_BAND = (ev.KEY_Y, ev.KEY_Y + ev.KEY_H)   # verify_deck reads <project>/.gm_band
 
 
+SKIP_KEYS = {"layout", "illust", "icon", "type", "highlight", "current", "mark", "number", "image", "minutes", "say", "_auto_no", False}
+
+
+def screen_text(s):
+    """All on-screen text in reading order — goes into the notes so the instructor can read the
+    screen aloud for learners who cannot see it (design-system.md A7)."""
+    out = []
+
+    def walk(v):
+        if isinstance(v, dict):
+            for k, x in v.items():
+                if k not in SKIP_KEYS:
+                    walk(x)
+        elif isinstance(v, list):
+            for x in v:
+                walk(x)
+        elif v is not None and str(v).strip():
+            out.append(str(v).replace("**", "").replace(" | ", " "))
+    order = ["label", "title", "eyebrow", "lead", "caption", "value", "unit", "statement", "source", "text", "lines",
+             "emphasis", "question", "headline", "answer", "explain", "items", "left", "right", "steps", "options",
+             "desc", "sub", "meta", "tag", "heading", "cite", "key"]
+    for k in order + [k for k in s if k not in order]:
+        if k in s and k not in SKIP_KEYS:
+            walk(s[k] if k != "cite" else f"출처 {s[k]}")
+    return " / ".join(out)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("content")
     ap.add_argument("--project")
     a = ap.parse_args()
-    doc = yaml.safe_load(open(a.content, encoding="utf-8"))
+    try:
+        doc = yaml.safe_load(open(a.content, encoding="utf-8"))
+    except yaml.YAMLError as e:
+        sys.exit(f"YAML error — usually an unquoted comma or colon inside {{…}} / […]; quote that value.\n{e}")
     proj = a.project or doc.get("project")
     if not proj:
         sys.exit("set `project:` in the YAML or pass --project")
@@ -98,8 +128,10 @@ def main():
     # notes = narration script (say:) — one per slide, stems match SVG names
     with open(P / "notes" / "total.md", "w", encoding="utf-8") as f:
         for n, s in zip(names, slides):
-            say = (s.get("say") or s.get("key") or "").strip()
-            f.write(f"# {n[:-4]}\n\n{('[전환] ' if n[:2] != '01' else '') + say}\n\n소요 시간: {s.get('minutes', 1)}분\n\n")
+            screen = screen_text(s)
+            say = (s.get("say") or "").strip()
+            body = (say + "\n\n" if say else "") + "[화면 읽기] " + screen
+            f.write(f"# {n[:-4]}\n\n{('[전환] ' if n[:2] != '01' else '') + body}\n\n소요 시간: {s.get('minutes', 1)}분\n\n")
 
     # slide_plan.json (deck_type educational) — validated by verify_deck
     t0 = slides[0].get("title", proj)
