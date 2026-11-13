@@ -107,7 +107,18 @@ def validate_native_pptx(path: Path) -> list[str]:
     return failures
 
 
-def svg_has_gm(svg_text: str) -> bool:
+def gm_band(project: Path) -> tuple[float, float]:
+    """GM y-range for this project. Default GM_Y_RANGE; a theme that keeps the bottom band free
+    (e.g. video-slide: burned-in subtitle zone) declares its own in <project>/.gm-band as "y0 y1"."""
+    f = project / ".gm-band"
+    try:
+        y0, y1 = (float(v) for v in f.read_text(encoding="utf-8").split()[:2])
+        return (y0, y1)
+    except (OSError, ValueError):
+        return GM_Y_RANGE
+
+
+def svg_has_gm(svg_text: str, band: tuple[float, float] = GM_Y_RANGE) -> bool:
     """A governing-message line: a <text> anchored middle in the bottom band.
     Check svg_output (pre-flatten); finalize_svg turns text into paths."""
     for m in re.finditer(r"<text\b[^>]*>", svg_text):
@@ -115,7 +126,7 @@ def svg_has_gm(svg_text: str) -> bool:
         if 'text-anchor="middle"' not in tag:
             continue
         ym = re.search(r'\by="([\d.]+)"', tag)
-        if ym and GM_Y_RANGE[0] <= float(ym.group(1)) <= GM_Y_RANGE[1]:
+        if ym and band[0] <= float(ym.group(1)) <= band[1]:
             return True
     return False
 
@@ -350,10 +361,16 @@ def run_checks(project: Path) -> list[str]:
                         + " — real generation required, no fallback")
 
     # 5. governing-message discipline (svg_output, pre-flatten)
-    if pages:
+    gm_exempt = project / ".gm-exempt"
+    if pages and gm_exempt.exists():
+        # Content-locked redesign (e.g. video-slide lock_content): the source text may not be
+        # extended, so no GM line is added. The reason is recorded in the file and echoed as a WARN.
+        sys.stderr.write("  ! WARN GM check skipped — " + gm_exempt.read_text(encoding="utf-8").strip() + "\n")
+    elif pages:
         content_pages = [p for p in pages if is_content_slide(p)]
+        band = gm_band(project)
         gm = sum(1 for p in content_pages
-                 if svg_has_gm(p.read_text(encoding="utf-8", errors="replace")))
+                 if svg_has_gm(p.read_text(encoding="utf-8", errors="replace"), band))
         floor = len(content_pages)
         if gm < floor:
             failures.append(f"governing-message lines missing: {gm}/{floor} "

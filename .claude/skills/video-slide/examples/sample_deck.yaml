@@ -1,0 +1,180 @@
+# video-slide 샘플 — 모든 레이아웃 1장씩 (개인정보보호 기본교육 예시)
+# 빌드: .claude/skills/slide/scripts/_py.sh .claude/skills/video-slide/scripts/build_deck.py .claude/skills/video-slide/examples/sample_deck.yaml
+project: vs_sample_privacy
+file: 개인정보보호_기본교육_영상배경.pptx
+course: 개인정보보호 기본교육          # 헤더 왼쪽 라벨
+brand: INSIGHTLEARNING                  # 하단 밴드 왼쪽 작은 브랜드
+
+pages:
+  - layout: cover
+    eyebrow: 2026 법정의무교육
+    title: 알고 지키는 | 개인정보보호
+    subtitle: 임직원이 꼭 알아야 할 처리 원칙과 실천
+    meta: 1차시 · 30분
+    illust: security
+    notes: 안녕하세요. 오늘은 임직원이 꼭 알아야 할 개인정보보호의 기본을 함께 살펴보겠습니다.
+
+  - layout: agenda
+    title: 강의 | 순서
+    items: [개인정보의 정의, 처리 원칙 5가지, 수집·이용 동의, 안전한 관리와 파기, 위반 시 책임]
+    notes: 오늘 강의는 다섯 단계로 진행됩니다.
+
+  - layout: section
+    no: 1
+    title: 개인정보의 정의
+    desc: 어떤 정보가 개인정보에 해당하는지부터 정확히 짚어 봅니다.
+    illust: idcard
+
+  - layout: statement
+    section: 1-1. 개인정보 정의
+    title: 개인정보|란?
+    lines: [사망자의 정보라도, 유족과의 관계를 알 수 있는 정보는]
+    highlight: 유족의 개인정보에 해당
+    illust: thinking
+    gm: 개인정보 판단 기준은 '살아 있는 사람을 알아볼 수 있는가'입니다
+    notes: 사망자의 정보는 원칙적으로 개인정보가 아니지만, 유족과의 관계를 알 수 있다면 그 유족의 개인정보라고 볼 수 있죠.
+
+  - layout: points
+    section: 1-1. 개인정보 정의
+    title: 개인정보의 | 세 가지 유형
+    items:
+      - [직접 식별 정보, 성명·주민등록번호·얼굴 영상처럼 그 자체로 개인을 알아볼 수 있는 정보]
+      - [결합 식별 정보, 다른 정보와 쉽게 결합해 특정 개인을 알아볼 수 있는 정보]
+      - [가명정보, 추가 정보 없이는 특정 개인을 알아볼 수 없도록 처리한 정보]
+    illust: search
+    gm: 단독으로 몰라도, 쉽게 결합해 알 수 있으면 개인정보입니다
+
+  - layout: icon_list
+    section: 처리 원칙
+    headline: 필요한 만큼만 | 수집하고 지킨다
+    items:
+      - {icon: target, title: 목적 명확화, desc: 처리 목적을 명확히 하고 그 범위 안에서만 이용합니다}
+      - {icon: filter, title: 최소 수집, desc: 목적에 필요한 최소한의 정보만 적법하게 수집합니다}
+      - {icon: shield-lock, title: 안전한 관리, desc: 유출·변조되지 않도록 기술적·관리적 조치를 합니다}
+    gm: 원칙의 출발점은 '꼭 필요한가'라는 질문입니다
+
+  - layout: cards
+    section: 수집·이용 동의
+    title: 동의를 받을 때 | 알릴 4가지
+    items:
+      - [수집·이용 목적, 무엇을 위해 쓰는지 구체적으로]
+      - [수집 항목, 어떤 정보를 받는지 빠짐없이]
+      - [보유·이용 기간, 언제까지 보관하는지]
+      - [거부 권리, 거부할 수 있고 그 불이익은 무엇인지]
+    gm: 네 가지 중 하나라도 빠지면 유효한 동의가 아닙니다
+
+  - layout: stats
+    section: 위반 시 책임
+    title: 숫자로 보는 | 개인정보 책임
+    items:
+      - {label: 과징금 상한, value: 3%, desc: 전체 매출액 기준}
+      - {label: 형사 처벌, value: 5년, desc: 동의 없는 제3자 제공 시 징역 상한}
+      - {label: 열람 요구 처리, value: 10일, desc: 정보주체 요구 시 처리 기한}
+    gm: 위반의 대가는 회사와 개인 모두에게 돌아옵니다
+
+  - layout: chart
+    section: 현황
+    title: 개인정보 문의 | 증가 추이
+    kind: line
+    labels: [1월, 2월, 3월, 4월, 5월]
+    values: [40, 52, 61, 70, 82]
+    unit: 건
+    points:
+      - [꾸준한 증가, 매월 문의가 늘고 있습니다]
+      - [주요 유형, 열람·정정 요구가 대부분입니다]
+      - [대응 과제, 처리 기한 관리가 중요합니다]
+    source: ※ 예시 데이터
+    gm: 문의가 늘수록 처리 기한 관리가 경쟁력이 됩니다
+
+  - layout: flow
+    section: 생애주기
+    title: 개인정보 | 처리 흐름
+    items:
+      - {icon: download, title: 수집}
+      - {icon: database, title: 보관·이용}
+      - {icon: share, title: 제공·위탁}
+      - {icon: trash, title: 파기}
+    gm: 단계마다 지켜야 할 의무가 다릅니다
+
+  - layout: compare
+    section: 현장 사례
+    title: 위험한 습관 | VS 안전한 습관
+    left:
+      title: 위험한 습관
+      items: [고객 명단을 개인 메일로 전송, 출력물을 책상 위에 방치, 공용 PC에 자동 로그인, 비밀번호를 메모지에 기록]
+    right:
+      title: 안전한 습관
+      items: [사내 보안 메일로만 전송, 출력물은 즉시 회수·파쇄, 사용 후 반드시 로그아웃, 비밀번호 관리 도구 사용]
+    gm: 사고는 대부분 사소한 습관에서 시작됩니다
+
+  - layout: before_after
+    section: 인식 전환
+    title: 해야 하니까 | → 지키고 싶으니까
+    left:
+      title: 해야 하니까
+      items: [교육은 형식적인 의무, 보안은 IT팀의 일, 귀찮은 절차]
+    right:
+      title: 지키고 싶으니까
+      items: [고객 신뢰를 지키는 일, 모두가 지키는 약속, 나를 보호하는 습관]
+    gm: 보호의 동기가 바뀌면 행동이 오래갑니다
+
+  - layout: pyramid
+    section: 안전성 확보
+    title: 안전 조치 | 4단계
+    items:
+      - [접근 권한 관리, 필요한 사람만 접근하도록 통제]
+      - [암호화, 고유식별정보·비밀번호는 반드시 암호화]
+      - [접속 기록 보관, 누가 언제 접근했는지 기록]
+      - [보안 교육, 모든 임직원 정기 교육]
+    gm: 기술적 조치는 사람의 실천 위에서만 작동합니다
+
+  - layout: table
+    section: 파기
+    title: 보유 기간별 | 파기 기준
+    header: [구분, 보유 기간, 파기 방법]
+    rows:
+      - [계약·청약철회 기록, 5년, 복구 불가능하게 삭제]
+      - [소비자 불만 처리 기록, 3년, 복구 불가능하게 삭제]
+      - [웹사이트 방문 기록, 3개월, 로그 자동 삭제]
+      - [종이 문서, 목적 달성 시, 파쇄 또는 소각]
+    highlight_col: 1
+    gm: 보유 기간이 끝나면 지체 없이 파기하는 것이 원칙입니다
+
+  - layout: illust_cards
+    section: 실천 포인트
+    title: 오늘부터 | 실천할 3가지
+    items:
+      - {illust: laptop, title: 화면 잠금, desc: 자리를 비울 때는 반드시 화면을 잠급니다}
+      - {illust: checklist, title: 정기 점검, desc: 보관 중인 파일을 분기마다 점검합니다}
+      - {illust: chat, title: 즉시 신고, desc: 유출이 의심되면 바로 담당 부서에 알립니다}
+    gm: 작은 실천 세 가지가 가장 강력한 보안입니다
+
+  - layout: hub
+    section: 핵심 정리
+    headline: 4가지 | 핵심 원칙
+    items:
+      - [최소 수집, 필요한 정보만 받습니다]
+      - [목적 내 이용, 알린 목적으로만 씁니다]
+      - [안전한 관리, 접근과 보관을 통제합니다]
+      - [지체 없는 파기, 끝나면 바로 지웁니다]
+    gm: 네 가지 원칙은 모든 업무에 똑같이 적용됩니다
+
+  - layout: qa
+    section: 자주 묻는 질문
+    title: 현장에서 | 자주 묻는 질문
+    q_title: 이런 점이 궁금합니다
+    a_title: 이렇게 답합니다
+    rows:
+      - q: 명함도 개인정보인가요?
+        a: 네. 성명과 연락처로 개인을 알아볼 수 있습니다
+      - q: CCTV 영상도 해당되나요?
+        a: 얼굴을 알아볼 수 있다면 개인정보입니다
+      - q: 퇴사자 정보는 언제 지우나요?
+        a: 법정 보존 기간이 지나면 지체 없이 파기합니다
+    gm: 판단이 어려우면 '알아볼 수 있는가'를 먼저 묻습니다
+
+  - layout: ending
+    subtitle: 개인정보보호 기본교육
+    title: 감사합니다
+    desc: 다음 차시에서는 개인정보 유출 사고 대응 절차를 다룹니다.
+    illust: trophy
