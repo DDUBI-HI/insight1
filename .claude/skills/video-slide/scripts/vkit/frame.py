@@ -8,8 +8,8 @@
   │              layout content (y 186–552)          │
   │                                                  │
   │        (✓)  governing message pill  (y 566–606)   │
-  └──╲________________________________________╱────┘
-  navy stage band (subtitle zone y ≥ 644)               raised right tab = presenter stage
+  └──────────────────────────────────────────────────┘
+  ███████████ straight navy subtitle band, full width (y 644–720) ███████████
 """
 import prim
 from prim import check_mark, circle, esc, fit, measure, path, plain, rect, text, two_tone, line, warn
@@ -29,7 +29,7 @@ def background(band=True):
 
 
 def brand_mark(brand):
-    """Small letter-spaced brand on the left tab of the stage band (outside the subtitle centre)."""
+    """Small letter-spaced brand at the far left of the subtitle band (kept clear of centred captions)."""
     return text(40, 690, brand, 12, 600, WHITE, ls=2.4, op=0.85) if brand else ""
 
 

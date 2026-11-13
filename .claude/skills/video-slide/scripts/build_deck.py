@@ -90,8 +90,6 @@ def zone_check(svg, name):
         anc = _attr(a, "text-anchor", "start")
         x0 = x - w / 2 if anc == "middle" else x - w if anc == "end" else x
         x1 = x0 + w
-        if y > 598 and x0 < 182 and y <= SUBTITLE_Y:
-            errs.append(f"{name}: text runs onto the band's left tab (y={y:.0f}, x={x0:.0f}): '{inner[:24]}'")
         if y > SUBTITLE_Y and x1 > 176:
             errs.append(f"{name}: text in the subtitle zone (y={y:.0f}): '{inner[:24]}'")
         if x1 > CARD["x"] + CARD["w"] - 12 or x1 > PRESENTER_X:

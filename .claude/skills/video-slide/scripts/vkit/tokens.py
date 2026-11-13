@@ -79,9 +79,8 @@ BODY_TOP, BODY_BOTTOM = 186, 552                   # free content area for layou
 GM_BOX = (104, 566, 700, 40)                       # x, y, w, h of the governing-message pill
 GM_BAND = (560, 615)                               # y range verify_deck accepts for the GM (.gm-band)
 
-# stage band: left tab, low band under the card, right tab = presenter "stage"
-BAND_PATH = ("M0,612 H132 Q144,612 152,620 L176,644 H852 L876,620 Q884,612 896,612 "
-             "H1280 V720 H0 Z")
+# subtitle band: one straight navy bar across the full width (y 644–720) — burned-in captions sit on it
+BAND_PATH = "M0,644 H1280 V720 H0 Z"
 
 # ── type scale (px on the 1280×720 canvas; ≈ ×1.5 on a 1080p video) ────────
 T_DISPLAY = 54      # cover / ending
