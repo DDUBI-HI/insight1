@@ -1,0 +1,180 @@
+# edu-video sample — 개인정보보호 기본 교육 (1차시). 모든 레이아웃을 한 번씩 보여 주는 견본 덱.
+# 빌드: .claude/skills/slide/scripts/_py.sh .claude/skills/edu-video/scripts/build_deck.py .claude/skills/edu-video/examples/privacy_basics.yaml
+# 법령 문구는 2026-11 기준 「개인정보 보호법」 요약 — 실제 강의에 쓰기 전 최신 조문을 확인하세요.
+project: edu_video_privacy_sample
+deliver: 개인정보보호_기본교육_영상배경.pptx
+title: 개인정보보호 기본 교육
+stage: tint        # tint = 강사 영역에 연한 네이비 배경 / plain = 흰 배경
+logo: true
+
+slides:
+  - layout: cover
+    eyebrow: 법정의무교육 · 1차시
+    title: [개인정보보호, 기본 교육]
+    sub: 개인정보의 정의와 유형, 안전한 처리 원칙
+    meta: 강사 OOO
+    illust: shield
+    say: 안녕하세요. 개인정보보호 기본 교육 1차시를 시작하겠습니다.
+
+  - layout: agenda
+    label: 학습 안내
+    title: 오늘의 학습 순서
+    items: [개인정보의 정의, 개인정보의 유형, 처리 단계와 원칙, 사례로 보는 주의점, 확인 퀴즈와 정리]
+    key: 정의를 알면 보호 범위가 보입니다
+    say: 오늘은 다섯 단계로 살펴봅니다. 먼저 개인정보가 무엇인지부터 알아볼게요.
+
+  - layout: chapter
+    title: 개인정보의 정의
+    sub: 무엇이 개인정보인지부터 알아봅니다
+    illust: id_card
+
+  - layout: quote
+    label: 1-1. 개인정보 정의
+    title: 법이 말하는 개인정보
+    source: 「개인정보 보호법」 제2조 제1호
+    text: "**살아 있는 개인**에 관한 정보로서 성명, 주민등록번호 및 영상 등을 통하여 **개인을 알아볼 수 있는 정보**"
+    key: 핵심은 ‘알아볼 수 있는가’입니다
+    say: 법은 개인정보를 살아 있는 개인을 알아볼 수 있는 정보라고 정의합니다.
+
+  - layout: concept
+    label: 1-1. 개인정보 정의
+    title: 개인정보란?
+    lines: [사망자의 정보라도, 유족과의 관계를 알 수 있는 정보는]
+    emphasis: 유족의 개인정보에 해당
+    illust: question
+    key: 고인 정보도 함부로 공개하면 안 됩니다
+    say: 사망자의 정보라도 유족과의 관계를 알 수 있다면, 그 유족의 개인정보라고 볼 수 있죠.
+
+  - layout: bullets
+    label: 1-2. 결합 가능성
+    title: 이것도 개인정보입니다
+    items:
+      - {icon: id-badge, text: 사번 · 학번, sub: 인사 · 학사 정보와 쉽게 결합됩니다}
+      - {icon: camera, text: CCTV 영상, sub: 얼굴로 개인을 알아볼 수 있습니다}
+      - {icon: car, text: 차량 번호, sub: 소유자 정보와 결합하면 식별됩니다}
+    key: 결합해서 알아볼 수 있으면 개인정보입니다
+    say: 그 정보만으로는 누군지 몰라도, 다른 정보와 쉽게 결합해 알아볼 수 있다면 개인정보입니다.
+
+  - layout: compare
+    label: 1-3. 판단 기준
+    title: 개인정보일까, 아닐까?
+    left: {title: 개인정보 O, mark: O, items: [살아 있는 개인의 정보, 결합하면 식별되는 정보]}
+    right: {title: 개인정보 X, mark: X, items: [법인 · 단체 자체의 정보, 누군지 알 수 없는 통계]}
+    key: 판단 기준은 ‘살아 있는 개인’입니다
+
+  - layout: chapter
+    title: 개인정보의 유형
+    sub: 보호 수준이 다른 세 가지 정보
+    illust: shield
+
+  - layout: cards
+    label: 2-1. 유형
+    title: 개인정보의 세 가지 유형
+    highlight: 3
+    items:
+      - {icon: user, title: 일반 정보, text: 성명 · 연락처 · 주소}
+      - {icon: id, title: 고유식별 정보, text: 주민등록번호 등 4종}
+      - {icon: fingerprint, title: 민감 정보, text: 건강 · 신념 · 생체인식 등}
+    key: 민감·고유식별정보는 더 엄격히 다룹니다
+
+  - layout: stat
+    label: 2-2. 고유식별정보
+    title: 고유식별정보는 몇 가지?
+    caption: 법령으로 정한 고유식별정보
+    value: 4
+    unit: 종
+    desc: 주민등록번호 · 여권번호 · 운전면허번호 · 외국인등록번호
+    illust: id_card
+    key: 원칙적으로 처리가 제한됩니다
+
+  - layout: chapter
+    title: 처리 단계와 원칙
+    sub: 수집부터 파기까지 확인할 것
+    illust: checklist
+
+  - layout: steps
+    label: 3-1. 처리 흐름
+    title: 개인정보 처리의 흐름
+    items:
+      - {title: 수집, text: 필요한 최소한만}
+      - {title: 이용, text: 알린 목적 안에서}
+      - {title: 제공, text: 동의 · 근거 확인}
+      - {title: 파기, text: 목적 달성 시 지체 없이}
+    key: 단계마다 법적 근거를 확인합니다
+
+  - layout: screen
+    label: 3-2. 실무 적용
+    title: 업무 시스템에서 지킬 것
+    steps: [접근 권한은 필요한 사람만, 내려받은 파일은 암호화, 보유 기간이 지나면 파기]
+    key: 화면 속 작은 습관이 사고를 막습니다
+
+  - layout: case
+    label: 4-1. 사례
+    title: 사례로 보는 주의점
+    tag: 실제 유형
+    heading: 메일 수신자 실수
+    lines:
+      - 고객 명단 파일을 다른 고객사 담당자에게 잘못 보냈습니다.
+      - "**발송 전 수신자와 첨부를 다시 확인**하세요."
+    illust: mail
+    key: 보내기 전 10초가 사고를 막습니다
+
+  - layout: emphasis
+    label: 4-2. 핵심
+    title: 기억할 한 가지
+    statement: "**알아볼 수 있다면** | 개인정보입니다"
+    sub: 애매할 때는 개인정보로 보고 보호하세요
+    illust: idea
+    key: 보수적으로 판단하는 것이 안전합니다
+
+  - layout: quiz
+    label: 확인 퀴즈 1
+    title: O, X로 답해 보세요
+    type: ox
+    question: 회사(법인)의 대표 전화번호는 개인정보이다.
+    key: 정답은 다음 화면에서 확인합니다
+
+  - layout: answer
+    label: 확인 퀴즈 1
+    title: 정답과 해설
+    question: 회사(법인)의 대표 전화번호는 개인정보이다.
+    answer: X
+    headline: 정답은 X
+    explain:
+      - 법인 · 단체 자체의 정보는 개인정보가 아닙니다.
+      - 단, 대표자 개인의 연락처는 개인정보일 수 있습니다.
+    key: ‘누구’의 정보인지 먼저 보세요
+
+  - layout: quiz
+    label: 확인 퀴즈 2
+    title: 알맞은 답을 고르세요
+    type: choice
+    question: 다음 중 민감정보가 아닌 것은?
+    options: [건강에 관한 정보, 정치적 견해, 생체인식 정보, 업무용 이메일 주소]
+    key: 민감정보는 법이 정한 범위를 기억하세요
+
+  - layout: answer
+    label: 확인 퀴즈 2
+    title: 정답과 해설
+    question: 다음 중 민감정보가 아닌 것은?
+    answer: "4"
+    headline: 업무용 이메일 주소
+    explain:
+      - 이메일 주소는 일반 개인정보입니다.
+      - 건강 · 정치적 견해 · 생체인식 정보는 민감정보입니다.
+    key: 민감정보는 별도 동의가 원칙입니다
+
+  - layout: summary
+    label: 정리
+    title: 오늘의 핵심 정리
+    items:
+      - 살아 있는 개인을 알아볼 수 있으면 개인정보
+      - 고유식별 · 민감정보는 더 엄격하게
+      - 수집부터 파기까지 단계마다 확인
+    illust: trophy
+    key: 내일 업무에서 바로 실천해 보세요
+
+  - layout: ending
+    title: 수고하셨습니다
+    sub: 다음 차시 · 개인정보 수집 · 이용 동의 받기
+    illust: graduate
