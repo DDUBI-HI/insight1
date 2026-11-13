@@ -7,6 +7,7 @@
 | `/cardnews` | `"카드뉴스 만들어줘"` | `.claude/skills/cardnews/SKILL.md` |
 | `/generic-redesign` | `"범용으로 바꿔"`, `"범용 과정으로 만들어"`, `"고객사 이름 빼고 리디자인"` | `.claude/skills/generic-redesign/SKILL.md` — 고객사 제안서 → 범용 과정 PPTX |
 | `/slide` · `/slide-plan` | `"슬라이드 만들어"`, `"기획부터"` | `.claude/skills/slide/SKILL.md`, `.claude/skills/slide-plan/SKILL.md` |
+| `/edu-video` | `"교육 영상 PPT"`, `"영상 배경 슬라이드"`, `"강사 합성용 PPT"` | `.claude/skills/edu-video/SKILL.md` — 원고 → 강사 합성용 영상 배경 PPTX (오른쪽 30% 비움, 저시력 큰 글씨). 디자인 시스템 PDF: `.claude/skills/edu-video/design-system.pdf` |
 
 > ⚠️ **이 저장소는 공개 저장소다.** 고객사 원본·생성된 덱(`output/`)·담당자 연락처(`contacts.local.txt`)는 커밋하지 않는다 (`.gitignore` 처리됨). 결과 파일은 세션의 파일 전달로 사용자에게 넘긴다.
 
@@ -31,6 +32,7 @@ pip install -r .claude/skills/slide/requirements.txt
 - **네이티브 SVG→PPTX** — 이미지 플래튼 금지, 편집 가능한 도형 유지
 - **직렬 실행**, **SVG 생성은 메인 에이전트가 한 페이지씩** (sub-agent 위임 금지)
 - 셸 파일명: 표지 `…cover…`, 엔딩 `…ending…` (verify_deck이 GM 검사에서 제외)
+- **교육 영상 덱(`/edu-video`) 접근성 규칙**: 저시력 학습자를 위해 글자 **최소 28px(21pt)**, 본문 32px(24pt), 대비 6.6:1 이상, 색만으로 강조 금지. 오른쪽 30%(x ≥ 896)는 강사 영역, 하단 y 644–720은 자막 영역으로 비운다. GM은 y 568–628 띠에 두고 `<project>/.gm_band`로 verify_deck에 알린다
 
 ### SVG 기술 제약 (요약 — 전체는 `.claude/skills/slide/references/shared-standards.md`)
 

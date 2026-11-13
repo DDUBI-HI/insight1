@@ -107,7 +107,20 @@ def validate_native_pptx(path: Path) -> list[str]:
     return failures
 
 
-def svg_has_gm(svg_text: str) -> bool:
+def gm_band(project: Path) -> tuple[float, float]:
+    """GM y-band. Default GM_Y_RANGE; a deck profile may move it with <project>/.gm_band
+    ("<y0> <y1>") — e.g. edu-video keeps its key strip above the caption safe zone."""
+    f = project / ".gm_band"
+    if f.exists():
+        try:
+            y0, y1 = (float(v) for v in f.read_text(encoding="utf-8").split()[:2])
+            return (y0, y1)
+        except ValueError:
+            pass
+    return GM_Y_RANGE
+
+
+def svg_has_gm(svg_text: str, band: tuple[float, float] = GM_Y_RANGE) -> bool:
     """A governing-message line: a <text> anchored middle in the bottom band.
     Check svg_output (pre-flatten); finalize_svg turns text into paths."""
     for m in re.finditer(r"<text\b[^>]*>", svg_text):
@@ -115,7 +128,7 @@ def svg_has_gm(svg_text: str) -> bool:
         if 'text-anchor="middle"' not in tag:
             continue
         ym = re.search(r'\by="([\d.]+)"', tag)
-        if ym and GM_Y_RANGE[0] <= float(ym.group(1)) <= GM_Y_RANGE[1]:
+        if ym and band[0] <= float(ym.group(1)) <= band[1]:
             return True
     return False
 
@@ -353,7 +366,7 @@ def run_checks(project: Path) -> list[str]:
     if pages:
         content_pages = [p for p in pages if is_content_slide(p)]
         gm = sum(1 for p in content_pages
-                 if svg_has_gm(p.read_text(encoding="utf-8", errors="replace")))
+                 if svg_has_gm(p.read_text(encoding="utf-8", errors="replace"), gm_band(project)))
         floor = len(content_pages)
         if gm < floor:
             failures.append(f"governing-message lines missing: {gm}/{floor} "
