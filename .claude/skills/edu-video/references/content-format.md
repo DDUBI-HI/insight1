@@ -11,6 +11,7 @@ deliver: 개인정보보호_1차시.pptx      # 납품 파일명
 title: 개인정보보호 기본 교육          # 선택 (기본: 표지 제목)
 palette: navy                        # navy | teal | purple | green | wine (design-system.md §5)
 stage: tint                          # tint(강사 영역 연한 네이비) | plain(흰색)
+key: required                        # required(모든 콘텐츠 화면에 핵심 한 줄) | source_only(원본 문장이 있을 때만 — 기존 덱 리디자인)
 logo: true                           # 표지·엔딩 Insightlearning 로고
 slides: [...]
 ```
@@ -22,10 +23,11 @@ slides: [...]
 | `layout` | ✓ | 아래 18종 중 하나 |
 | `label` | | 라벨 pill — 차시 번호·소단원 (`1-1. 개인정보 정의`) |
 | `title` | ✓ | 제목 한 줄 (한글 약 17자) |
-| `key` | ✓ | 핵심 한 줄 (GM, 한글 약 22자) — 제목을 반복하지 않는 so-what |
+| `key` | ✓* | 핵심 한 줄 (GM, 한글 약 22자, 길면 28px 두 줄) — 제목을 반복하지 않는 so-what. *`key: source_only` 덱에서는 선택 |
 | `cite` | | 출처 — 라벨 줄 오른쪽에 `출처 …`로 표시 (보도·법령 인용 화면) |
 | `say` | | 강의 원고 → PPTX 발표자 노트. 노트에는 화면의 모든 글자가 `[화면 읽기]`로 자동으로 붙는다 (접근성 A7) |
 | `illust` | | 일러스트 이름 (design-system.md §6) |
+| `image` | | 원본 사진·삽화 경로 — 일러스트 자리에 대신 들어간다 (`fit: meet`이면 잘리지 않게) |
 | `minutes` | | 노트에 적을 예상 시간 (기본 1) |
 
 텍스트 안 `**굵게**`는 네이비 Bold 강조, ` | `는 강제 줄바꿈이다.
@@ -116,7 +118,7 @@ slides: [...]
 - layout: quiz
   type: ox               # ox | choice | blank(빈칸 — question에 ○ 표시)
   question: 회사(법인)의 대표 전화번호는 개인정보이다.
-  # type: choice → options: [보기1, 보기2, 보기3, 보기4]
+  # type: choice → options: [보기1, …] — 긴 보기는 28px 두 줄까지 자동. 긴 질문은 32px 세 줄까지
 
 - layout: answer
   question: 회사(법인)의 대표 전화번호는 개인정보이다.

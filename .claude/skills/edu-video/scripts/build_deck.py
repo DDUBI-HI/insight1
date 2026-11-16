@@ -80,6 +80,7 @@ def main():
     ev.STAGE = doc.get("stage", "tint")
     ev.LOGO = bool(doc.get("logo", True))
     ev.ICON_DIR = str(ROOT / "assets/icons/tabler-outline")
+    ev.KEY_REQUIRED = doc.get("key", "required") != "source_only"
     ev.PALETTE = doc.get("palette", "navy")
     if ev.PALETTE not in ev.PALETTES:
         sys.exit(f"unknown palette {ev.PALETTE!r} — one of: {', '.join(ev.PALETTES)}")
@@ -132,6 +133,13 @@ def main():
 
     # .gm_band: the key strip sits above the caption safe zone, not at the default y 655–705
     (P / ".gm_band").write_text(f"{GM_BAND[0]} {GM_BAND[1]}\n", encoding="utf-8")
+    # key: source_only — the key strip appears only where the source deck has that sentence (no invented
+    # governing messages); verify_deck then accepts content pages without a GM line.
+    gm_opt = P / ".gm_optional"
+    if ev.KEY_REQUIRED:
+        gm_opt.unlink(missing_ok=True)
+    else:
+        gm_opt.write_text("edu-video key: source_only — GM only where the source has the sentence\n", encoding="utf-8")
     # colour theme: whitelist the palette for svg_quality_checker --strict-theme
     allow = P / ".theme-color-allow"
     pal = ev.PALETTES[ev.PALETTE]

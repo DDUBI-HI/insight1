@@ -251,9 +251,14 @@ def pill(x, y, s, fs=28, fill=SOFT, color=NAVY, stroke=None, h=None):
     return r(x, y, w, h, fill, h / 2, stroke) + t(x + fs * 0.7, y + h / 2 + fs * 0.36, s, fs, 700, color), w
 
 
+CUR = {}   # slide being built — lets `image:` take the illustration slot
+
+
 def ill(name, x, y, size, dark=False):
     if x + size > SAFE_X + 0.5:
         raise FitError(f"illustration {name!r} crosses into the instructor stage (x+size={x + size} > {SAFE_X})")
+    if CUR.get("image") and CUR.get("layout") not in ("screen", "photo"):
+        return _img(CUR["image"], x, y, size, size, CUR.get("fit", "slice"))
     return illust.draw(name, x, y, size, dark)
 
 
@@ -311,15 +316,41 @@ def header(label, title, cite=None):
     return o
 
 
+KEY_REQUIRED = True   # deck option `key: source_only` turns this off (key only where the source has the sentence)
+
+
+def key_lines(key):
+    """Key text as 1–2 lines (2 only when the source sentence is too long for one)."""
+    if not key:
+        return []
+    if text_w(key, FS["key"], True) <= CW - 120:
+        return [key]
+    ln2 = wrap(key, FS["min"], CW - 64, True)
+    if len(ln2) > 2:
+        raise FitError(f"key too long even on two lines: {key!r}")
+    return ln2
+
+
 def key_strip(key):
     if not key:
-        raise FitError("content slide needs `key` (one-line takeaway / governing message)")
-    if text_w(key, FS["key"], True) > CW - 120:
-        raise FitError(f"key too long (≈22 Hangul chars max at 30px): {key!r}")
-    tw = text_w(key, FS["key"], True)
-    o = r(X0, KEY_Y, CW, KEY_H, SOFT, 16)
-    o += icon("bulb", CX - tw / 2 - 48, KEY_Y + 13, 34)
-    o += t(CX + 20, KEY_Y + 40, key, FS["key"], 700, NAVY, anchor="middle")
+        if KEY_REQUIRED:
+            raise FitError("content slide needs `key` (one-line takeaway / governing message)")
+        return ""
+    lines = key_lines(key)
+    if len(lines) == 1:
+        tw = text_w(key, FS["key"], True)
+        o = r(X0, KEY_Y, CW, KEY_H, SOFT, 16)
+        ix = CX - tw / 2 - 48
+        if ix >= X0 + 12:
+            o += icon("bulb", ix, KEY_Y + 13, 34)
+            o += t(CX + 20, KEY_Y + 40, key, FS["key"], 700, NAVY, anchor="middle")
+        else:
+            o += t(CX, KEY_Y + 40, key, FS["key"], 700, NAVY, anchor="middle")
+        return o
+    top = KEY_Y + KEY_H - 84
+    o = r(X0, top, CW, 84, SOFT, 16)
+    o += t(CX, top + 35, lines[0], FS["min"], 700, NAVY, anchor="middle")
+    o += t(CX, top + 71, lines[1], FS["min"], 700, NAVY, anchor="middle")
     return o
 
 
@@ -343,7 +374,9 @@ def logo(x, y, anchor="start"):
             f'preserveAspectRatio="xMinYMid meet"/>\n')
 
 
-def vcenter(h, top=BODY_TOP, bot=BODY_BOT):
+def vcenter(h, top=None, bot=None):
+    top = BODY_TOP if top is None else top
+    bot = BODY_BOT if bot is None else bot
     if h > bot - top + 0.5:
         raise FitError(f"content block {round(h)}px taller than the body area ({bot - top}px) — shorten or split the slide")
     return top + (bot - top - h) / 2
@@ -374,10 +407,14 @@ def L_cover(s):
 def L_chapter(s):
     o = t(X0, 214, s.get("eyebrow", "CHAPTER"), FS["min"], 700, SKY, ls=2)
     o += t(X0, 336, f"{int(s.get('number') or s.get(False) or s.get('_auto_no', 1)):02d}", 128, 700, WHITE)
-    lines = wrap(s["title"], 56, 520, True)
-    if len(lines) > 2:
-        raise FitError(f"chapter title too long (2 lines × ≈9 chars): {s['title']!r}")
-    p_, y = para(X0, 428, lines, 56, 700, WHITE, lh=1.25, emph=SKY)
+    cfs = 56
+    lines = wrap(s["title"], cfs, 520, True)
+    if len(lines) > 2 or any(text_w(l_, cfs, True) > 540 for l_ in lines):
+        cfs = 46
+        lines = wrap(s["title"], cfs, 540, True)
+    if len(lines) > 2 or any(text_w(l_, cfs, True) > 560 for l_ in lines):
+        raise FitError(f"chapter title too long (2 lines): {s['title']!r}")
+    p_, y = para(X0, 428, lines, cfs, 700, WHITE, lh=1.25, emph=SKY)
     o += p_
     if s.get("sub"):
         sub = wrap(s["sub"], FS["key"], 520)
@@ -468,8 +505,8 @@ def _rows(items, X, maxw, with_icon=True, numbered=False, check=False):
 
 def L_bullets(s):
     items = s["items"]
-    if not 2 <= len(items) <= 4:
-        raise FitError("bullets takes 2–4 items")
+    if not 1 <= len(items) <= 4:
+        raise FitError("bullets takes 1–4 items")
     il = s.get("illust")
     right = 568 if il else X1
     TX = X0 + 96
@@ -529,28 +566,37 @@ def L_cards(s):
     n = len(items)
     if not 2 <= n <= 3:
         raise FitError("cards takes 2–3 items (use bullets for more)")
-    gap, pad = 24, 28
+    gap = 24
     w = (CW - gap * (n - 1)) / n
     hl = s.get("highlight")
-    meas = []
-    for it in items:
-        tl = wrap(it["title"], FS["body"], w - 2 * pad, True)
-        bl = wrap(it.get("text", ""), FS["min"], w - 2 * pad) if it.get("text") else []
-        hh = pad + 72 + 28 + block_h(len(tl), FS["body"], 1.3) + (20 + block_h(len(bl), FS["min"], 1.4) if bl else 0) + pad
-        meas.append((tl, bl, hh))
-    ch = max(280, max(m[2] for m in meas))
+
+    def measure(pad, tile, g1, g2):
+        out = []
+        for it in items:
+            tl = wrap(it["title"], FS["body"], w - 2 * pad, True)
+            bl = wrap(it.get("text", ""), FS["min"], w - 2 * pad) if it.get("text") else []
+            hh = pad + tile + g1 + block_h(len(tl), FS["body"], 1.3) + (g2 + block_h(len(bl), FS["min"], 1.4) if bl else 0) + pad
+            out.append((tl, bl, hh))
+        return out
+    pad, tile, g1, g2 = 28, 72, 28, 20
+    meas = measure(pad, tile, g1, g2)
+    if max(m[2] for m in meas) > BODY_BOT - BODY_TOP:      # compact spacing when tight
+        pad, tile, g1, g2 = 22, 56, 18, 14
+        meas = measure(pad, tile, g1, g2)
+    ch = max(280 if tile == 72 else 0, max(m[2] for m in meas))
     top = vcenter(ch)
     o = ""
     for k, (it, (tl, bl, _)) in enumerate(zip(items, meas)):
         x = X0 + k * (w + gap)
         on = hl == k + 1
         o += r(x, top, w, ch, SOFT if on else CARD, 24)
-        o += r(x + pad, top + pad, 72, 72, NAVY if on else WHITE, 20)
-        o += icon(it.get("icon", "point"), x + pad + 16, top + pad + 16, 40, WHITE if on else NAVY)
-        p_, y = para(x + pad, top + pad + 72 + 28 + FS["body"] * 0.78, tl, FS["body"], 700, NAVY if on else TEXT, lh=1.3)
+        o += r(x + pad, top + pad, tile, tile, NAVY if on else WHITE, 20 if tile == 72 else 16)
+        isz = 40 if tile == 72 else 32
+        o += icon(it.get("icon", "point"), x + pad + (tile - isz) / 2, top + pad + (tile - isz) / 2, isz, WHITE if on else NAVY)
+        p_, y = para(x + pad, top + pad + tile + g1 + FS["body"] * 0.78, tl, FS["body"], 700, NAVY if on else TEXT, lh=1.3)
         o += p_
         if bl:
-            o += para(x + pad, y + FS["body"] * 0.22 + 20 + FS["min"] * 0.78, bl, FS["min"], 400, TEXT if on else MUTED, lh=1.4)[0]
+            o += para(x + pad, y + FS["body"] * 0.22 + g2 + FS["min"] * 0.78, bl, FS["min"], 400, TEXT if on else MUTED, lh=1.4)[0]
     return o
 
 
@@ -576,9 +622,15 @@ def L_compare(s):
             o += circ(x + 50, top + 38, 11, "none", NAVY, 4.5)
         else:
             o += ln(x + 42, top + 30, x + 58, top + 46, MUTED, 4.5) + ln(x + 58, top + 30, x + 42, top + 46, MUTED, 4.5)
-        if text_w(side["title"], fs, True) > w - 112:
-            raise FitError(f"compare title too long: {side['title']!r}")
-        o += t(x + 88, top + 49, side["title"], fs, 700, WHITE)
+        if text_w(side["title"], fs, True) <= w - 112:
+            o += t(x + 88, top + 49, side["title"], fs, 700, WHITE)
+        elif text_w(side["title"], FS["min"], True) <= w - 104:
+            o += t(x + 88, top + 48, side["title"], FS["min"], 700, WHITE)
+        else:
+            tl2 = wrap(side["title"], FS["min"], w - 104, True)
+            if len(tl2) > 2:
+                raise FitError(f"compare title too long: {side['title']!r}")
+            o += t(x + 88, top + 33, tl2[0], FS["min"], 700, WHITE) + t(x + 88, top + 65, tl2[1], FS["min"], 700, WHITE)
         y = top + 76 + 32
         for rw in rows:
             base = y + fs * 0.78
@@ -594,7 +646,7 @@ def L_steps(s):
     if not 2 <= n <= 5:
         raise FitError("steps takes 2–5 items")
     cw_ = CW / n
-    cy = BODY_TOP + 70
+    cy = BODY_TOP + 54
     o = ln(X0 + cw_ / 2, cy, X0 + cw_ * (n - 0.5), cy, NAVY, 3, dash="2 10")
     for i, it in enumerate(items):
         it = {"title": it} if isinstance(it, str) else it
@@ -605,11 +657,11 @@ def L_steps(s):
         else:
             o += t(cx, cy + 12, f"{i + 1}", FS["body"], 700, WHITE, anchor="middle")
         tl = wrap(it["title"], FS["body"], cw_ - 24, True)
-        p_, y = para(cx, cy + 108, tl, FS["body"], 700, TEXT, "middle", 1.3)
+        p_, y = para(cx, cy + 96, tl, FS["body"], 700, TEXT, "middle", 1.25)
         o += p_
         if it.get("text"):
             bl = wrap(it["text"], FS["min"], cw_ - 32)
-            p_, y = para(cx, y + 50, bl, FS["min"], 400, MUTED, "middle", 1.35)
+            p_, y = para(cx, y + 42, bl, FS["min"], 400, MUTED, "middle", 1.3)
             o += p_
         if y + 10 > BODY_BOT:
             raise FitError(f"step {i + 1} text overflows ({it['title']!r})")
@@ -644,6 +696,9 @@ def L_quote(s):
     lines = wrap(s["text"], fs, right - X0 - 2 * pad - 8)
     if len(lines) > 4:
         fs = FS["body"]
+        lines = wrap(s["text"], fs, right - X0 - 2 * pad - 8)
+    if 48 + 24 + block_h(len(lines), fs) + 2 * pad > BODY_BOT - BODY_TOP:
+        fs = FS["min"]
         lines = wrap(s["text"], fs, right - X0 - 2 * pad - 8)
     src = s.get("source", "")
     h = 48 + 24 + block_h(len(lines), fs) + 2 * pad
@@ -791,13 +846,17 @@ def L_photo(s):
 
 
 def L_quiz(s):
-    q = wrap(s["question"], FS["h2"], CW, True)
-    if len(q) > 2:
-        raise FitError(f"quiz question > 2 lines at 36px: {s['question']!r}")
+    qfs = FS["h2"]
+    q = wrap(s["question"], qfs, CW, True)
+    if len(q) > 2:                      # long source question: 32px, up to 3 lines
+        qfs = FS["body"]
+        q = wrap(s["question"], qfs, CW, True)
+    if len(q) > 3:
+        raise FitError(f"quiz question > 3 lines: {s['question']!r}")
     o = ""
-    p_, y = para(X0, BODY_TOP + 12 + FS["h2"] * 0.78, q, FS["h2"], 700, TEXT, lh=1.3)
+    p_, y = para(X0, BODY_TOP + 12 + qfs * 0.78, q, qfs, 700, TEXT, lh=1.3)
     o += p_
-    top = y + FS["h2"] * 0.22 + 32
+    top = y + qfs * 0.22 + (32 if len(q) < 3 else 20)
     if s.get("type") == "blank":            # fill-in-the-blank: big answer box
         bw, bh = 360, min(150, BODY_BOT - top)
         o += r(CX - bw / 2, top, bw, bh, CARD, 28, LINE, 2)
@@ -814,16 +873,22 @@ def L_quiz(s):
         opts = s["options"]
         if not 2 <= len(opts) <= 4:
             raise FitError("choice quiz takes 2–4 options")
-        rh = min(76, (BODY_BOT - top - 12 * (len(opts) - 1)) / len(opts))
-        if rh < 56:
+        avail = BODY_BOT - top
+        for g, ofs in ((12, FS["body"]), (8, FS["min"])):
+            wrapped = [wrap(x, ofs, CW - 96) for x in opts]
+            hs = [max(52, block_h(len(w_), ofs, 1.2) + 18) for w_ in wrapped]
+            if max(len(w_) for w_ in wrapped) <= 2 and sum(hs) + g * (len(opts) - 1) <= avail:
+                break
+        else:
             raise FitError("too many/long options for the body area — shorten the question or options")
-        for i, op_ in enumerate(opts):
-            y = top + i * (rh + 12)
-            if text_w(op_, FS["body"]) > CW - 104:
-                raise FitError(f"option too long for one line: {op_!r}")
-            o += r(X0, y, CW, rh, CARD, rh / 2, LINE, 2)
-            o += circ(X0 + rh / 2, y + rh / 2, 22, NAVY) + t(X0 + rh / 2, y + rh / 2 + 10, f"{i + 1}", 28, 700, WHITE, anchor="middle")
-            o += t(X0 + rh + 16, y + rh / 2 + 11, op_, FS["body"], 400, TEXT)
+        y = top
+        for i, (w_, rh) in enumerate(zip(wrapped, hs)):
+            cr_ = 22
+            o += r(X0, y, CW, rh, CARD, min(rh / 2, 28), LINE, 2)
+            o += circ(X0 + 34, y + rh / 2, cr_, NAVY) + t(X0 + 34, y + rh / 2 + 10, f"{i + 1}", 28, 700, WHITE, anchor="middle")
+            bh = block_h(len(w_), ofs, 1.2)
+            o += para(X0 + 72, y + (rh - bh) / 2 + ofs * 0.8, w_, ofs, 400, TEXT, lh=1.2)[0]
+            y += rh + g
     return o
 
 
@@ -832,7 +897,9 @@ def L_answer(s):
     o = ""
     y = BODY_TOP + 4
     if q:
-        p_, yl = para(X0, y + FS["min"] * 0.78, q[:2], FS["min"], 400, MUTED, lh=1.35)
+        if len(q) > 3:
+            raise FitError("answer: question longer than 3 lines at 28px")
+        p_, yl = para(X0, y + FS["min"] * 0.78, q, FS["min"], 400, MUTED, lh=1.35)
         o += p_
         y = yl + FS["min"] * 0.22 + 24
     ans = str(s["answer"])
@@ -852,6 +919,8 @@ def L_answer(s):
     ex = []
     for x in s.get("explain", []):
         ex += wrap(x, FS["body"], CW - 64)
+    if not ex:
+        return o
     h = block_h(len(ex), FS["body"]) + 56
     if y + h > BODY_BOT + 0.5:
         raise FitError("answer explanation overflows — max ≈3 lines")
@@ -890,9 +959,19 @@ def build_page(i, s):
     if lay not in LAYOUTS:
         raise FitError(f"unknown layout {lay!r} — one of: {', '.join(LAYOUTS)}")
     fn, shell = LAYOUTS[lay][:2]
+    global CUR
+    CUR = s
+    if s.get("image") and not s.get("illust") and lay not in ("screen", "photo"):
+        s["illust"] = "idea"      # placeholder name; ill() draws the image instead
     slug = re.sub(r"[^0-9A-Za-z가-힣]+", "_", str(s.get("title") if not isinstance(s.get("title"), list) else " ".join(s["title"])) or lay).strip("_")[:24]
     fname = f"{i:02d}_{FNAME_TAG.get(lay, lay)}_{slug}.svg"
-    body = fn(s)
+    global BODY_BOT
+    nk = len(key_lines(s.get("key")))
+    BODY_BOT = 552 if shell else (628 if nk == 0 else (528 if nk == 2 else 552))   # no key → body takes its band
+    try:
+        body = fn(s)
+    finally:
+        BODY_BOT = 552
     if shell:
         navy_page(fname, body)
     else:

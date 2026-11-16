@@ -32,7 +32,7 @@ pip install -r .claude/skills/slide/requirements.txt
 - **네이티브 SVG→PPTX** — 이미지 플래튼 금지, 편집 가능한 도형 유지
 - **직렬 실행**, **SVG 생성은 메인 에이전트가 한 페이지씩** (sub-agent 위임 금지)
 - 셸 파일명: 표지 `…cover…`, 엔딩 `…ending…` (verify_deck이 GM 검사에서 제외)
-- **교육 영상 덱(`/edu-video`) 접근성 규칙**: 저시력 학습자를 위해 글자 **최소 28px(21pt)**, 본문 32px(24pt), 대비 6.6:1 이상, 색만으로 강조 금지. 오른쪽 30%(x ≥ 896)는 강사 영역, 하단 y 644–720은 자막 영역으로 비운다. GM은 y 568–628 띠에 두고 `<project>/.gm_band`로 verify_deck에 알린다
+- **교육 영상 덱(`/edu-video`) 접근성 규칙**: 저시력 학습자를 위해 글자 **최소 28px(21pt)**, 본문 32px(24pt), 대비 6.6:1 이상, 색만으로 강조 금지. 오른쪽 30%(x ≥ 896)는 강사 영역, 하단 y 644–720은 자막 영역으로 비운다. GM은 y 568–628 띠에 두고 `<project>/.gm_band`로 verify_deck에 알린다. 기존 덱 리디자인은 `key: source_only` — 원본에 없는 내용을 지어 넣지 않고, GM은 원본 문장이 있을 때만 쓴다(`<project>/.gm_optional`)
 
 ### SVG 기술 제약 (요약 — 전체는 `.claude/skills/slide/references/shared-standards.md`)
 

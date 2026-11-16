@@ -368,6 +368,10 @@ def run_checks(project: Path) -> list[str]:
         gm = sum(1 for p in content_pages
                  if svg_has_gm(p.read_text(encoding="utf-8", errors="replace"), gm_band(project)))
         floor = len(content_pages)
+        if (project / ".gm_optional").exists():
+            # deck profile: GM only where the source deck has the sentence (user decision, edu-video)
+            print(f"[verify_deck] GM optional (.gm_optional): {gm}/{floor} content pages carry a GM line")
+            floor = gm
         if gm < floor:
             failures.append(f"governing-message lines missing: {gm}/{floor} "
                             f"content pages carry a .gm (need {floor}/{floor})")
