@@ -32,6 +32,7 @@ LH = 1.45                        # body line-height
 OUT = None                       # set by build: output/<project>/svg_output
 STAGE = "tint"                   # tint | plain
 LOGO = True
+WIDTH = 2                        # filename index digits (3 when the deck has 100+ slides — keeps sort order)
 
 
 class FitError(Exception):
@@ -523,7 +524,7 @@ def L_bullets(s):
         if it.get("icon"):
             o += icon(it["icon"], X0 + 16, y + 16, 40)
         else:
-            o += t(X0 + 36, y + 47, f"{i + 1}", FS["body"], 700, NAVY, anchor="middle")
+            o += t(X0 + 36, y + 47, f"{i + int(s.get('start', 1))}", FS["body"], 700, NAVY, anchor="middle")
         th = block_h(len(tl), FS["body"], 1.35) + (12 + block_h(len(sl), FS["min"], 1.35) if sl else 0)
         ty = y + max(0, (72 - th) / 2) + FS["body"] * 0.78
         p_, yl = para(TX, ty, tl, FS["body"], 700, TEXT, lh=1.35)
@@ -964,7 +965,7 @@ def build_page(i, s):
     if s.get("image") and not s.get("illust") and lay not in ("screen", "photo"):
         s["illust"] = "idea"      # placeholder name; ill() draws the image instead
     slug = re.sub(r"[^0-9A-Za-z가-힣]+", "_", str(s.get("title") if not isinstance(s.get("title"), list) else " ".join(s["title"])) or lay).strip("_")[:24]
-    fname = f"{i:02d}_{FNAME_TAG.get(lay, lay)}_{slug}.svg"
+    fname = f"{i:0{WIDTH}d}_{FNAME_TAG.get(lay, lay)}_{slug}.svg"
     global BODY_BOT
     nk = len(key_lines(s.get("key")))
     BODY_BOT = 552 if shell else (628 if nk == 0 else (528 if nk == 2 else 552))   # no key → body takes its band

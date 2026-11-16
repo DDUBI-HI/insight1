@@ -34,7 +34,7 @@ ENV = {**os.environ, "PYTHONIOENCODING": "utf-8"}
 GM_BAND = (ev.KEY_Y, ev.KEY_Y + ev.KEY_H)   # verify_deck reads <project>/.gm_band
 
 
-SKIP_KEYS = {"layout", "illust", "icon", "type", "highlight", "current", "mark", "number", "image", "images", "fit", "minutes", "say", "_auto_no", False}
+SKIP_KEYS = {"layout", "illust", "icon", "type", "highlight", "current", "mark", "number", "image", "images", "fit", "start", "minutes", "say", "_auto_no", False}
 
 
 def screen_text(s):
@@ -81,6 +81,7 @@ def main():
     ev.LOGO = bool(doc.get("logo", True))
     ev.ICON_DIR = str(ROOT / "assets/icons/tabler-outline")
     ev.KEY_REQUIRED = doc.get("key", "required") != "source_only"
+    ev.WIDTH = 3 if len(slides) > 99 else 2      # 100+ slides: 3-digit names keep the sort order
     ev.PALETTE = doc.get("palette", "navy")
     if ev.PALETTE not in ev.PALETTES:
         sys.exit(f"unknown palette {ev.PALETTE!r} — one of: {', '.join(ev.PALETTES)}")
@@ -151,7 +152,7 @@ def main():
             screen = screen_text(s)
             say = (s.get("say") or "").strip()
             body = (say + "\n\n" if say else "") + "[화면 읽기] " + screen
-            f.write(f"# {n[:-4]}\n\n{('[전환] ' if n[:2] != '01' else '') + body}\n\n소요 시간: {s.get('minutes', 1)}분\n\n")
+            f.write(f"# {n[:-4]}\n\n{('[전환] ' if int(n.split('_')[0]) != 1 else '') + body}\n\n소요 시간: {s.get('minutes', 1)}분\n\n")
 
     # slide_plan.json (deck_type educational) — validated by verify_deck
     t0 = slides[0].get("title", proj)
