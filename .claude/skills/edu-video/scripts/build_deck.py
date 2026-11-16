@@ -34,7 +34,7 @@ ENV = {**os.environ, "PYTHONIOENCODING": "utf-8"}
 GM_BAND = (ev.KEY_Y, ev.KEY_Y + ev.KEY_H)   # verify_deck reads <project>/.gm_band
 
 
-SKIP_KEYS = {"layout", "illust", "icon", "type", "highlight", "current", "mark", "number", "image", "minutes", "say", "_auto_no", False}
+SKIP_KEYS = {"layout", "illust", "icon", "type", "highlight", "current", "mark", "number", "image", "images", "fit", "minutes", "say", "_auto_no", False}
 
 
 def screen_text(s):
@@ -53,7 +53,7 @@ def screen_text(s):
         elif v is not None and str(v).strip():
             out.append(str(v).replace("**", "").replace(" | ", " "))
     order = ["label", "title", "eyebrow", "lead", "caption", "value", "unit", "statement", "source", "text", "lines",
-             "emphasis", "question", "headline", "answer", "explain", "items", "left", "right", "steps", "options",
+             "emphasis", "question", "headline", "answer", "explain", "items", "left", "right", "steps", "options", "points",
              "desc", "sub", "meta", "tag", "heading", "cite", "key"]
     for k in order + [k for k in s if k not in order]:
         if k in s and k not in SKIP_KEYS:
@@ -80,17 +80,25 @@ def main():
     ev.STAGE = doc.get("stage", "tint")
     ev.LOGO = bool(doc.get("logo", True))
     ev.ICON_DIR = str(ROOT / "assets/icons/tabler-outline")
+    ev.PALETTE = doc.get("palette", "navy")
+    if ev.PALETTE not in ev.PALETTES:
+        sys.exit(f"unknown palette {ev.PALETTE!r} — one of: {', '.join(ev.PALETTES)}")
 
     images = []
     src_dir = Path(a.content).resolve().parent
+
+    def take(ref):
+        p = Path(ref)
+        p = p if p.is_absolute() else src_dir / p
+        if not p.exists():
+            sys.exit(f"image not found: {p}")
+        images.append((str(p), p.name))
+        return p.name
     for s in slides:
         if s.get("image"):
-            p = Path(s["image"])
-            p = p if p.is_absolute() else src_dir / p
-            if not p.exists():
-                sys.exit(f"image not found: {p}")
-            images.append((str(p), p.name))
-            s["image"] = p.name
+            s["image"] = take(s["image"])
+        if s.get("images"):
+            s["images"] = [take(x) for x in s["images"]]
 
     P = Path(kit.init(proj, images))
     ev.OUT = str(P / "svg_output")
@@ -124,6 +132,10 @@ def main():
 
     # .gm_band: the key strip sits above the caption safe zone, not at the default y 655–705
     (P / ".gm_band").write_text(f"{GM_BAND[0]} {GM_BAND[1]}\n", encoding="utf-8")
+    # colour theme: whitelist the palette for svg_quality_checker --strict-theme
+    allow = P / ".theme-color-allow"
+    pal = ev.PALETTES[ev.PALETTE]
+    allow.write_text(f"# edu-video palette: {ev.PALETTE}\n" + "\n".join(pal.values()) + "\n", encoding="utf-8")
 
     # notes = narration script (say:) — one per slide, stems match SVG names
     with open(P / "notes" / "total.md", "w", encoding="utf-8") as f:

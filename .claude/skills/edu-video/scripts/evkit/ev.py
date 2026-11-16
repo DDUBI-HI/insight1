@@ -265,7 +265,27 @@ def _svg(parts):
             + "".join(parts) + '</svg>\n')
 
 
+# Colour themes — one accent per deck. Pages are drawn in the navy base palette and remapped here,
+# so layouts, icons and illustrations all follow. Every theme keeps the contrast rules (design-system.md §5):
+# accent on white ≥ 10:1, accent on soft ≥ 8:1, shell text (sky / shell2) on accent ≥ 7:1.
+PALETTES = {
+    "navy":   {"accent": "#012281", "soft": "#E0EDF3", "ink": "#1F375D", "sky": "#58CCFF", "shell2": "#D2D6E3"},
+    "teal":   {"accent": "#004A4F", "soft": "#DCEFEE", "ink": "#11605F", "sky": "#8CEBDF", "shell2": "#D3EBE9"},
+    "purple": {"accent": "#45277F", "soft": "#ECE6F6", "ink": "#5A3E97", "sky": "#D4C2FF", "shell2": "#DCD3EF"},
+    "green":  {"accent": "#164A2A", "soft": "#E2F0E6", "ink": "#265F3B", "sky": "#A6EDB8", "shell2": "#D5EADB"},
+    "wine":   {"accent": "#701735", "soft": "#F6E4E9", "ink": "#872B49", "sky": "#FFC2D3", "shell2": "#EED3DB"},
+}
+PALETTE = "navy"
+
+
+def palette_map():
+    base, cur = PALETTES["navy"], PALETTES[PALETTE]
+    return {base[k]: cur[k] for k in base if base[k] != cur[k]}
+
+
 def _write(fname, svg):
+    for a, b in palette_map().items():
+        svg = svg.replace(a, b).replace(a.lower(), b)
     with open(os.path.join(OUT, fname), "w", encoding="utf-8") as f:
         f.write(svg)
 
@@ -441,7 +461,7 @@ def _rows(items, X, maxw, with_icon=True, numbered=False, check=False):
         sl = wrap(it["sub"], FS["min"], maxw) if it.get("sub") else []
         hh = max(72, block_h(len(tl), FS["body"], 1.35) + (12 + block_h(len(sl), FS["min"], 1.35) if sl else 0))
         rows.append((it, tl, sl, hh))
-    gap = 24
+    gap = 24 if len(rows) <= 3 else 14
     total = sum(rw[3] for rw in rows) + gap * (len(rows) - 1)
     return rows, total, gap
 
@@ -571,8 +591,8 @@ def L_compare(s):
 def L_steps(s):
     items = s["items"]
     n = len(items)
-    if not 2 <= n <= 4:
-        raise FitError("steps takes 2–4 items")
+    if not 2 <= n <= 5:
+        raise FitError("steps takes 2–5 items")
     cw_ = CW / n
     cy = BODY_TOP + 70
     o = ln(X0 + cw_ / 2, cy, X0 + cw_ * (n - 0.5), cy, NAVY, 3, dash="2 10")
@@ -718,6 +738,58 @@ def L_screen(s):
     return o
 
 
+def _img(href, x, y, w, h, fit="slice"):
+    par = "xMidYMid meet" if fit == "meet" else "xMidYMid slice"
+    o = r(x, y, w, h, CARD) if fit == "meet" else ""
+    o += (f'  <image href="../images/{href}" x="{round(x, 1)}" y="{round(y, 1)}" width="{round(w, 1)}" '
+          f'height="{round(h, 1)}" preserveAspectRatio="{par}"/>\n')
+    return o + r(x, y, w, h, "none", None, LINE, 2)
+
+
+def L_photo(s):
+    """1–4 content photos (teaching material, not decoration) + optional caption and 1–3 side points."""
+    imgs = s.get("images") or []
+    if not 1 <= len(imgs) <= 4:
+        raise FitError("photo takes 1–4 images")
+    fit = s.get("fit", "slice")
+    pts = s.get("points") or []
+    if len(pts) > 4:
+        raise FitError("photo takes at most 4 points")
+    cap = wrap(s["caption"], FS["min"], CW if not pts else 440, True) if s.get("caption") else []
+    if len(cap) > 1:
+        raise FitError(f"photo caption must fit one line: {s['caption']!r}")
+    ax, aw = X0, (440 if pts else CW)
+    ay, ah = BODY_TOP, BODY_BOT - BODY_TOP - (48 if cap else 0)
+    g = 12
+    n = len(imgs)
+    if n == 1:
+        cells = [(ax, ay, aw, ah)]
+    elif n == 2:
+        cw2 = (aw - g) / 2
+        cells = [(ax, ay, cw2, ah), (ax + cw2 + g, ay, cw2, ah)]
+    elif n == 3:
+        big = (aw - g) * 0.58
+        sm = aw - g - big
+        hh = (ah - g) / 2
+        cells = [(ax, ay, big, ah), (ax + big + g, ay, sm, hh), (ax + big + g, ay + hh + g, sm, hh)]
+    else:
+        cw2, hh = (aw - g) / 2, (ah - g) / 2
+        cells = [(ax, ay, cw2, hh), (ax + cw2 + g, ay, cw2, hh), (ax, ay + hh + g, cw2, hh), (ax + cw2 + g, ay + hh + g, cw2, hh)]
+    o = "".join(_img(im, *c, fit=fit) for im, c in zip(imgs, cells))
+    if cap:
+        o += t(ax, BODY_BOT - 8, cap[0], FS["min"], 700, TEXT)
+    if pts:
+        TX, maxw = ax + aw + 32 + 44, X1 - (ax + aw + 32 + 44)
+        rows = [wrap(p_, FS["min"], maxw) for p_ in pts]
+        total = sum(block_h(len(rw), FS["min"], 1.35) for rw in rows) + 28 * (len(rows) - 1)
+        y = vcenter(total)
+        for i, rw in enumerate(rows):
+            o += circ(ax + aw + 32 + 18, y + 14, 18, NAVY) + t(ax + aw + 50, y + 23, f"{i + 1}", 28, 700, WHITE, anchor="middle")
+            o += para(TX, y + FS["min"] * 0.78 + 2, rw, FS["min"], 400, TEXT, lh=1.35)[0]
+            y += block_h(len(rw), FS["min"], 1.35) + 28
+    return o
+
+
 def L_quiz(s):
     q = wrap(s["question"], FS["h2"], CW, True)
     if len(q) > 2:
@@ -726,7 +798,12 @@ def L_quiz(s):
     p_, y = para(X0, BODY_TOP + 12 + FS["h2"] * 0.78, q, FS["h2"], 700, TEXT, lh=1.3)
     o += p_
     top = y + FS["h2"] * 0.22 + 32
-    if s.get("type", "ox") == "ox":
+    if s.get("type") == "blank":            # fill-in-the-blank: big answer box
+        bw, bh = 360, min(150, BODY_BOT - top)
+        o += r(CX - bw / 2, top, bw, bh, CARD, 28, LINE, 2)
+        o += r(CX - bw / 2 + 40, top + bh / 2 + 22, bw - 80, 6, NAVY, 3)
+        o += t(CX, top + bh / 2 + 4, "?", 72, 700, NAVY, anchor="middle")
+    elif s.get("type", "ox") == "ox":
         sz = min(200, BODY_BOT - top)
         for k, (cx, lab) in enumerate(((CX - 24 - sz / 2, s.get("o_label", "그렇다")), (CX + 24 + sz / 2, s.get("x_label", "아니다")))):
             o += r(cx - sz / 2, top, sz, sz - 44, CARD, 28, LINE, 2)
@@ -738,7 +815,7 @@ def L_quiz(s):
         if not 2 <= len(opts) <= 4:
             raise FitError("choice quiz takes 2–4 options")
         rh = min(76, (BODY_BOT - top - 12 * (len(opts) - 1)) / len(opts))
-        if rh < 60:
+        if rh < 56:
             raise FitError("too many/long options for the body area — shorten the question or options")
         for i, op_ in enumerate(opts):
             y = top + i * (rh + 12)
@@ -799,6 +876,7 @@ LAYOUTS = {
     "stat": (L_stat, False, "evidence", "data", "body", "metric_cards"),
     "case": (L_case, False, "example", "visual", "body", "image"),
     "screen": (L_screen, False, "example", "visual", "body", "image"),
+    "photo": (L_photo, False, "example", "visual", "body", "image"),
     "quiz": (L_quiz, False, "exercise", "compare", "body", "infographic"),
     "answer": (L_answer, False, "exercise", "insight", "body", "callout"),
     "summary": (L_summary, False, "recap", "structure", "body", "icon_group"),

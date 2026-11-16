@@ -37,8 +37,12 @@ if not FINAL.is_dir():
 PAGES = {Path(p).name.split("_")[0]: p for p in sorted(glob.glob(str(FINAL / "*.svg")))}
 
 
-def slide_svg(num, width, silhouette=False):
+def slide_svg(num, width, silhouette=False, palette=None):
     s = open(PAGES[f"{num:02d}"], encoding="utf-8").read()
+    if palette:
+        base, cur = ev.PALETTES["navy"], ev.PALETTES[palette]
+        for k in base:
+            s = s.replace(base[k], cur[k])
     s = re.sub(r"<\?xml[^>]*>\s*", "", s)
 
     def fix(m):  # PPTX keeps icon strokes at 2px regardless of scale — mirror that in the preview
@@ -70,7 +74,7 @@ def page(label, title, body, n, dark=False, cls=""):
     return f'''<section class="pg {'dark' if dark else ''} {cls}">
   <header>{f'<span class="lab">{label}</span>' if label else ''}<h1>{title}</h1></header>
   <div class="body">{body}</div>
-  <footer><span>Insightlearning · 교육 영상 배경 PPT 디자인 시스템 {VERSION}</span><span>{n:02d}</span></footer>
+  <footer><span>Insightlearning · 교육 영상 배경 PPT 디자인 시스템 {VERSION}</span><span>{len(P) + 1:02d}</span></footer>
 </section>'''
 
 
@@ -164,6 +168,18 @@ P.append(page("04 · 컬러", "네이비 하나만 액센트로 — 모든 글�
               f'<div class="sws">{sws}</div><h3 class="h3">글자 · 배경 대비 (WCAG)</h3><div class="cps">{cps}</div>'
               '<p class="small">모든 글자가 21pt 이상이라 WCAG의 \'큰 텍스트\'에 해당합니다. AAA 기준(4.5 : 1)을 모두 넘습니다. 그라디언트, 글로우, 그림자, 테마 밖 색(초록 등)은 쓰지 않습니다.</p>', 5))
 
+# 5b palettes
+pal_use = {"navy": "기본 · 회사 소개", "teal": "인권 · 포용 · 인식개선", "purple": "보안 · 개인정보 · IT",
+           "green": "안전 · 환경 · 건강", "wine": "윤리 · 리더십"}
+cols = ""
+for name, pv in ev.PALETTES.items():
+    chips = "".join(f'<span class="pchip" style="background:{c}"></span>' for c in (pv["accent"], pv["soft"], pv["sky"]))
+    cols += (f'<div class="pcol"><div class="frame">{slide_svg(1, 214, palette=name)}</div>'
+             f'<div class="frame">{slide_svg(6, 214, palette=name)}</div>'
+             f'<div class="pname"><b>{name}</b>{chips}</div><code>{pv["accent"]}</code><span>{pal_use[name]}</span></div>')
+P.append(page("04 · 컬러 테마", "덱마다 색을 바꿔도 규칙은 같습니다 — <code>palette:</code>",
+              f'<div class="pcols">{cols}</div><p class="small" style="margin-top:14px">어떤 테마든 액센트는 하나입니다. 액센트 대 흰 배경 10:1 이상, 셸 글자 대 액센트 7:1 이상을 지킵니다. 레이아웃 · 아이콘 · 일러스트가 모두 테마를 따릅니다.</p>', 6))
+
 # 6 accessibility
 acc = [("A1", "모든 글자 28px(21pt) 이상, 본문 32px(24pt) 이상", "자동 검사"), ("A2", "글자와 배경 대비 6.6 : 1 이상", "토큰으로 보장"),
        ("A3", "색으로만 뜻을 전하지 않습니다. 강조는 굵게 + 네이비 + 하이라이트, O/X는 모양으로 구분", "레이아웃 내장"),
@@ -215,7 +231,7 @@ cat = [(1, "cover", "과정·차시 표지", "eyebrow · title(2줄) · sub · m
 for pi in range(3):
     chunk = cat[pi * 6:(pi + 1) * 6]
     cs = "".join(f'<div class="lc"><div class="frame sm">{slide_svg(n, 344)}</div><div class="lc-t"><b>{nm}</b><span>{d}</span></div><code>{f}</code></div>' for n, nm, d, f in chunk)
-    P.append(page(f"07 · 레이아웃 {pi + 1}/3", "레이아웃 17종 — 견본 덱 ‘개인정보보호 기본 교육’", f'<div class="lcg">{cs}</div>', 9 + pi, cls="tight"))
+    P.append(page(f"07 · 레이아웃 {pi + 1}/3", "레이아웃 — 견본 덱 ‘개인정보보호 기본 교육’", f'<div class="lcg">{cs}</div>', 9 + pi, cls="tight"))
 
 # 12 workflow
 yaml_snip = html.escape("""- layout: concept
@@ -308,6 +324,12 @@ code {{ background: #F8F8F8; padding: 2px 6px; border-radius: 4px; font-size: 14
 .cp {{ border-radius: 12px; padding: 14px 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; }}
 .cp b {{ font-size: 22px; }}
 .cp span {{ font-size: 14px; font-weight: 700; }}
+.pcols {{ display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }}
+.pcol {{ display: flex; flex-direction: column; gap: 8px; font-size: 14px; }}
+.pname {{ display: flex; align-items: center; gap: 6px; font-size: 17px; }}
+.pname b {{ margin-right: auto; }}
+.pchip {{ width: 18px; height: 18px; border-radius: 5px; border: 1px solid #DFDFDF; display: inline-block; }}
+.pcol span {{ color: #595959; }}
 .ilg {{ display: grid; grid-template-columns: repeat(10, 1fr); gap: 18px 6px; }}
 .il {{ display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px; }}
 .il svg {{ width: 108px; height: 108px; }}

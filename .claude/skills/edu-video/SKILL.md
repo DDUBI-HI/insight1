@@ -22,7 +22,7 @@ description: >
 - 오른쪽 30%(x ≥ 896)는 **강사 영역**이다. 비워 두고 `stage: tint`이면 연한 네이비 면을 깐다.
 - 하단 y 644–720은 **자막 안전 영역**이다. 그래서 GM(핵심 한 줄)은 y 568–628 띠에 둔다. 빌더가 `<project>/.gm_band`를 써서 verify_deck이 이 띠를 인식한다.
 - **글자 크기 하한은 28px(21pt)이다** (저시력 학습자 배려). 본문 32px, 제목 44px.
-- SVG는 Claude가 손으로 그리지 않는다. `scripts/build_deck.py`가 YAML에서 레이아웃 17종을 결정적으로 생성한다. 메인 에이전트가 직렬로 실행하므로 "sub-agent 위임 금지" 규칙을 지킨다.
+- SVG는 Claude가 손으로 그리지 않는다. `scripts/build_deck.py`가 YAML에서 레이아웃 18종을 결정적으로 생성한다. 메인 에이전트가 직렬로 실행하므로 "sub-agent 위임 금지" 규칙을 지킨다.
 
 ## 절차
 
@@ -36,6 +36,8 @@ pip install -r .claude/skills/slide/requirements.txt
 - 화면마다 레이아웃을 고른다(`design-system.md §7`). 같은 계열이 3장 넘게 이어지지 않게 섞는다.
 - 기존 강의 덱(PDF·PPTX)을 고칠 때는 `pdftotext -layout`으로 글을 뽑고 페이지 그림을 함께 본다. 원문 문장은 그대로 쓰고, 큰 글씨에 다 들어가지 않으면 화면을 나눈다(예: 사례 = 상황 → 판단 두 화면). 보도·법령 출처는 `cite`로 옮긴다.
 - `key`(핵심 한 줄)는 반드시 쓴다. 제목을 반복하지 않는 so-what으로 쓴다. `say`(강의 원고 → 노트)에는 화면의 핵심 문구를 넣는다.
+- 덱마다 색을 달리하라는 요청이면 `palette:`로 테마를 고른다(navy·teal·purple·green·wine). 액센트는 덱마다 하나다.
+- 원본 사진이 교육 내용이면 `photo` 레이아웃에 넣는다. PPTX 원본은 python-pptx로 슬라이드별 그림을 뽑아 `output/<project>/src_img/`에 두고, GIF는 PNG로 바꾼다. 분위기용 스톡·옛 클립아트는 일러스트로 바꾼다.
 - 원고에 퀴즈가 없으면 만들지 않는다. 사용자가 원하면 `quiz` + `answer`를 쓴다.
 - 일러스트는 화면 주제에 맞춰 라이브러리에서 고른다. 원본의 스톡 사진·클립아트·회색 목업은 쓰지 않고 교체한다(`design-system.md §6`). 사용자가 준 시스템 캡처만 `screen.image`로 넣는다.
 - 저장 위치: `output/<project>/content.yaml` (output/은 git 무시 대상 — 고객 원고 보호).
@@ -79,9 +81,9 @@ pip install -r .claude/skills/slide/requirements.txt
 | `references/content-format.md` | YAML 입력 형식 |
 | `design-system.pdf` | 디자인 시스템 PDF (사람이 보는 판) |
 | `scripts/build_deck.py` | YAML → SVG + plan + notes |
-| `scripts/evkit/ev.py` | 토큰 · 줄바꿈 · 셸 · 레이아웃 17종 |
+| `scripts/evkit/ev.py` | 토큰 · 컬러 테마 5종 · 줄바꿈 · 셸 · 레이아웃 18종 |
 | `scripts/evkit/illust.py` | 라인 일러스트 라이브러리 20종 (네이티브 셰이프, 라이트/네이비) |
 | `scripts/evkit/evcheck.py` | 강사 영역·자막 영역 침범, 28px 하한 검사 |
 | `scripts/finish.py` | verify → 렌더 → 납품 |
 | `scripts/make_design_pdf.py` | 견본 덱 + 규칙 → `design-system.pdf` |
-| `examples/privacy_basics.yaml` | 견본 21장 (레이아웃 17종 전부) |
+| `examples/privacy_basics.yaml` | 견본 21장 (photo를 뺀 레이아웃 17종) |

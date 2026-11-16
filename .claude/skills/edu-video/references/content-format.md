@@ -1,7 +1,7 @@
 # 콘텐츠 입력 형식 (content YAML)
 
 사용자가 원고(텍스트·워드·PDF·기존 PPT 등 어떤 형태든)를 주면 Claude가 이 YAML로 옮긴다. 사용자가 직접 써도 된다.
-견본: `examples/privacy_basics.yaml` (17종 레이아웃을 모두 쓴 21장 덱).
+견본: `examples/privacy_basics.yaml` (photo를 뺀 17종 레이아웃을 쓴 21장 덱).
 
 ## 덱 설정
 
@@ -9,6 +9,7 @@
 project: edu_video_privacy_1        # output/<project>/ (영문·숫자·_ 만)
 deliver: 개인정보보호_1차시.pptx      # 납품 파일명
 title: 개인정보보호 기본 교육          # 선택 (기본: 표지 제목)
+palette: navy                        # navy | teal | purple | green | wine (design-system.md §5)
 stage: tint                          # tint(강사 영역 연한 네이비) | plain(흰색)
 logo: true                           # 표지·엔딩 Insightlearning 로고
 slides: [...]
@@ -18,7 +19,7 @@ slides: [...]
 
 | 필드 | 필수 | 설명 |
 |---|---|---|
-| `layout` | ✓ | 아래 17종 중 하나 |
+| `layout` | ✓ | 아래 18종 중 하나 |
 | `label` | | 라벨 pill — 차시 번호·소단원 (`1-1. 개인정보 정의`) |
 | `title` | ✓ | 제목 한 줄 (한글 약 17자) |
 | `key` | ✓ | 핵심 한 줄 (GM, 한글 약 22자) — 제목을 반복하지 않는 so-what |
@@ -106,8 +107,14 @@ slides: [...]
   image: shots/login.png # 선택 — YAML 기준 상대 경로. 없으면 깔끔한 UI 자리표시
   steps: [접근 권한은 필요한 사람만, 내려받은 파일은 암호화]   # 1–4개
 
+- layout: photo          # 교육 내용인 사진 1–4장
+  images: [img/ramp1.jpg, img/ramp2.jpg]   # YAML 기준 상대 경로
+  fit: slice             # slice(채우기, 기본) | meet(잘리지 않게 — 도표·그림·글자 있는 사진)
+  caption: 경사로 하나로 길이 열립니다     # 선택 — 한 줄
+  points: [점형 블록 — 위치를 알립니다]     # 선택 — 옆 설명 1–4개 (넣으면 사진 영역이 왼쪽 440px)
+
 - layout: quiz
-  type: ox               # ox | choice
+  type: ox               # ox | choice | blank(빈칸 — question에 ○ 표시)
   question: 회사(법인)의 대표 전화번호는 개인정보이다.
   # type: choice → options: [보기1, 보기2, 보기3, 보기4]
 
