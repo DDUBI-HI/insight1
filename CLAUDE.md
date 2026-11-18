@@ -6,6 +6,7 @@
 |------|--------|------|
 | `/cardnews` | `"카드뉴스 만들어줘"` | `.claude/skills/cardnews/SKILL.md` |
 | `/generic-redesign` | `"범용으로 바꿔"`, `"범용 과정으로 만들어"`, `"고객사 이름 빼고 리디자인"` | `.claude/skills/generic-redesign/SKILL.md` — 고객사 제안서 → 범용 과정 PPTX |
+| `/program-page` | `"상세페이지로 만들어줘"`, `"프로그램 소개 이미지"`, `"이 형태로 바꿔줘"` | `.claude/skills/program-page/SKILL.md` — 제안서·프로그램 파일 → 홈페이지 프로그램 상세 이미지 PNG (교육 유형별 섹션 구성) |
 | `/slide` · `/slide-plan` | `"슬라이드 만들어"`, `"기획부터"` | `.claude/skills/slide/SKILL.md`, `.claude/skills/slide-plan/SKILL.md` |
 
 > ⚠️ **이 저장소는 공개 저장소다.** 고객사 원본·생성된 덱(`output/`)·담당자 연락처(`contacts.local.txt`)는 커밋하지 않는다 (`.gitignore` 처리됨). 결과 파일은 세션의 파일 전달로 사용자에게 넘긴다.

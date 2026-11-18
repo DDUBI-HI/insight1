@@ -1,0 +1,12 @@
+{
+  "name": "insightlearning-program-page",
+  "private": true,
+  "type": "module",
+  "description": "page.json → HTML → Playwright 캡처로 교육 프로그램 상세페이지 PNG 출력",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}

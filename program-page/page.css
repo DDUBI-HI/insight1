@@ -1,0 +1,198 @@
+/*
+ * Insightlearning 교육 프로그램 상세페이지 디자인 시스템
+ * ------------------------------------------------------------
+ * 원본: 홈페이지 프로그램 상세 이미지 5종 (690px 폭, 세로로 길어짐)
+ * 모든 수치는 1x(690px 폭) 기준 CSS px 입니다.
+ * scripts/build.mjs 가 deviceScaleFactor 2 로 캡처해 1380px 폭 PNG 를 만듭니다.
+ *
+ * 블록
+ *   .pp-head       카테고리(영문 대문자) + 과정명(네이비)
+ *   .pp-info       알약 정보칸 2–3개 (아이콘 | 라벨 | 값). 칸 폭은 서로 같음
+ *   .pp-rule       회색 구분선
+ *   .pp-sec        섹션: 영문 라벨 + 한글 제목 + 본문
+ *     .pp-checks     네이비 체크 목록 (교육 목표 · 추천 대상 · 기획 의도)
+ *     .pp-bullets    회색 상자 + 점 목록 (핵심 실습)
+ *     .pp-modules    회색 상자 + 제목/설명 행, 행 사이 구분선 (교육 내용 · 프로그램 구성)
+ *     .pp-quotes     후기 인용 + 사진 + 캡션 (참고자료)
+ *     .pp-images     이미지 격자 (진단지 · 워크시트 샘플)
+ */
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("__FONT_URL__") format("woff2-variations"),
+       url("__FONT_URL__") format("woff2");
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: block;
+}
+
+:root {
+  --pp-w: 690px;
+  --pp-navy: #000783;        /* 과정명 */
+  --pp-check: #00317d;       /* 체크 아이콘 · 체크 목록 글자 */
+  --pp-ink: #000000;         /* 상자 안 제목 */
+  --pp-body: #1f1f1f;        /* 상자 안 설명 */
+  --pp-head: #363636;        /* 섹션 한글 제목 · 알약 글자 */
+  --pp-muted: #5f5f5f;       /* 카테고리 · 영문 라벨 · 알약 테두리 */
+  --pp-bar: #878787;         /* 알약 안 세로 막대 */
+  --pp-rule: #c2c2c2;        /* 구분선 */
+  --pp-box: #f8f8f8;         /* 회색 상자 */
+  --pp-quote: #f66d29;       /* 후기 강조 (참고자료 인용에서만) */
+  --pp-caption: #8a8a8a;
+  --pp-side: 58px;           /* 본문 왼쪽 여백 */
+  --pp-box-side: 32px;       /* 회색 상자 좌우 여백 */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { background: #ffffff; }
+
+body {
+  font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  color: var(--pp-body);
+  -webkit-font-smoothing: antialiased;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.pp {
+  width: var(--pp-w);
+  background: #ffffff;
+  padding: 76px 0 64px;
+  position: relative;
+}
+
+/* ── 머리 ─────────────────────────────── */
+.pp-head { padding: 0 40px 0 69px; }
+.pp-eyebrow {
+  font-size: 16px; line-height: 20px; font-weight: 400;
+  color: var(--pp-muted); letter-spacing: 0; text-transform: uppercase;
+}
+.pp-title {
+  margin-top: 4px;
+  font-size: 32px; line-height: 40px; font-weight: 700;
+  color: var(--pp-navy); letter-spacing: 0;
+}
+
+/* ── 알약 정보칸 ─────────────────────── */
+.pp-info {
+  margin: 33px 0 0 var(--pp-side);
+  display: inline-grid;
+  grid-template-columns: auto auto auto 1fr;
+  min-width: 408px;
+  row-gap: 12px;
+}
+.pp-pill {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: subgrid;
+  align-items: center;
+  height: 40px;
+  padding: 0 26px 0 23px;
+  border: 1.5px solid var(--pp-muted);
+  border-radius: 20px;
+  font-size: 16px; line-height: 20px; color: #2b2b2b;
+  white-space: nowrap;
+}
+.pp-pill svg { width: 20px; height: 20px; color: #2b2b2b; margin-right: 6px; display: block; stroke-width: 1.6; }
+.pp-pill .lab { padding-right: 12px; }
+.pp-pill .bar { width: 2px; height: 20px; background: #6e6e6e; margin-right: 15px; }
+.pp-pill .val { }
+.pp-pill .note { color: var(--pp-head); }
+
+.pp-rule {
+  border: 0; height: 2px; background: var(--pp-rule);
+  margin: 35px 65px 0 65px;
+}
+
+/* ── 섹션 ─────────────────────────────── */
+.pp-sec { margin-top: 36px; padding: 0 var(--pp-side); }
+.pp-sec + .pp-sec { margin-top: 38px; }
+.pp-sec:has(.pp-box) + .pp-sec { margin-top: 34px; }
+.pp-en {
+  font-size: 12px; line-height: 14px; font-weight: 400;
+  color: var(--pp-muted); text-transform: uppercase; letter-spacing: 0;
+}
+.pp-h2 {
+  margin-top: 0;
+  font-size: 20px; line-height: 24px; font-weight: 700; color: var(--pp-head);
+  letter-spacing: -0.01em;
+}
+
+/* 체크 목록 */
+.pp-checks { list-style: none; margin-top: 8px; padding-left: 13px; }
+.pp-checks li {
+  display: flex; align-items: flex-start; gap: 7px;
+  font-size: 16px; line-height: 28px; color: var(--pp-check); font-weight: 400;
+}
+.pp-checks li + li { }
+.pp-checks li .t { flex: 1; line-height: 22px; padding: 3px 0; }
+.pp-checks svg { flex: none; width: 15px; height: 15px; margin-top: 6.5px; }
+
+/* 회색 상자 */
+.pp-box {
+  margin: 16px calc(var(--pp-box-side) - var(--pp-side)) 0;
+  background: var(--pp-box);
+  border-radius: 20px;
+  padding: 14px 26px 21px;
+}
+
+/* 점 목록 */
+.pp-bullets { list-style: none; padding: 4px 0 4px 9px; }
+.pp-bullets li {
+  position: relative; padding-left: 15px;
+  font-size: 15px; line-height: 25px; font-weight: 600; color: var(--pp-ink);
+}
+.pp-bullets li::before {
+  content: ""; position: absolute; left: 0; top: 11px;
+  width: 4px; height: 4px; border-radius: 50%; background: var(--pp-ink);
+}
+
+/* 모듈 행 */
+.pp-modules { list-style: none; }
+.pp-modules li { padding: 4px 0 11px; }
+.pp-modules li + li { border-top: 2px solid #c0c0c0; padding-top: 12px; }
+.pp-modules li:last-child { padding-bottom: 0; }
+.pp-modules .mt { font-size: 16px; line-height: 22px; font-weight: 700; color: var(--pp-ink); }
+.pp-modules .mt .code { margin-right: 8px; }
+.pp-modules .mt .code.dot { margin-right: 5px; }
+.pp-modules .md { font-size: 16px; line-height: 22px; font-weight: 400; color: var(--pp-body); }
+
+/* 후기 인용 */
+.pp-quotes {
+  display: grid; grid-template-columns: repeat(var(--cols, 4), 1fr);
+  column-gap: 14px; margin: 22px 0 0 18px;
+}
+.pp-quote { display: flex; flex-direction: column; }
+.pp-quote .qm { width: 13px; height: 10px; color: #b5b5b5; margin-bottom: 5px; }
+.pp-quote .qt {
+  font-size: 12px; line-height: 18px; font-weight: 600; color: var(--pp-body);
+  letter-spacing: -0.02em; flex: 1;
+}
+.pp-quote .qt em { font-style: normal; color: var(--pp-quote); }
+.pp-quote .ph {
+  margin: 10px 8px 0 8px; aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden;
+  background: #e6e6e6;
+}
+.pp-quote .cap { margin-top: 6px; text-align: center; font-size: 10px; line-height: 14px; color: var(--pp-caption); }
+
+/* 이미지 격자 */
+.pp-images {
+  display: grid; grid-template-columns: repeat(var(--cols, 3), 1fr);
+  gap: 18px 14px; margin-top: 24px;
+}
+.pp-img { display: flex; flex-direction: column; }
+.pp-img .ph { position: relative; aspect-ratio: var(--ratio, 3 / 4); overflow: hidden; background: #e6e6e6; border: 1px solid #d9d9d9; }
+.pp-img .cap { margin-top: 6px; text-align: center; font-size: 11px; line-height: 15px; color: var(--pp-caption); }
+
+.ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ph.contain img { object-fit: contain; background: #ffffff; }
+.ph.missing { display: flex; align-items: center; justify-content: center; color: #9a9a9a; font-size: 12px; }
+
+/* SAMPLE 도장 */
+.stamp {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%) rotate(-18deg);
+  padding: 2px 8px; border: 3px solid #e2262b; border-radius: 4px;
+  color: #e2262b; font-size: 22px; line-height: 26px; font-weight: 800; letter-spacing: 0.02em;
+  background: rgba(255, 255, 255, 0.55);
+}
