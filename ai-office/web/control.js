@@ -51,6 +51,7 @@
   const KIND = {
     "proposal.draft.confirm": { ok: "초안 만들기 시작", no: "만들지 않음" },
     "chief.dispatch": { ok: "실행 승인", no: "실행 안 함" },
+    "chief.reply": { ok: "확인", no: "닫기", revise: "답장 보내기" },
     "proposal.review": { ok: "검토 완료", no: "반려(다시 검토)" },
     "design.review": { ok: "확인 완료", no: "반려" },
     "instructor.update": { ok: "강사풀에 반영", no: "반영 안 함" },

@@ -36,6 +36,13 @@ export async function decide(approval, decision, note, { cfg, paths, postN8n }) 
     return approve ? { outcome: '맞춤 초안 작업을 시작합니다', enqueue: [{ type: 'proposal.draft', params: { inquiryJobId: approval.data.inquiryJobId } }] }
       : { outcome: '맞춤 초안을 만들지 않기로 했습니다' };
   }
+  if (k === 'chief.reply') {
+    if (decision === 'revise' && note) {
+      const text = `${approval.data?.text || ''}\n\n[사용자 보충] ${note}`.slice(0, 3000);
+      return { outcome: '답장을 비서실장에게 보냈습니다', enqueue: [{ type: 'chief.request', params: { text } }] };
+    }
+    return { outcome: '확인했습니다' };
+  }
   if (k === 'chief.dispatch') {
     return approve ? { outcome: '비서실장 제안 작업을 시작합니다', enqueue: [{ type: approval.data.type, params: approval.data.params }] }
       : { outcome: '실행하지 않기로 했습니다' };

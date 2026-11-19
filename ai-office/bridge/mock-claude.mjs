@@ -63,7 +63,10 @@ async function run() {
     tool('Bash', { command: '.claude/skills/slide/scripts/_py.sh ...', description: 'PPTX 만들기(데모)' });
     await sleep(speed * 2);
   }
-  const result = (RESULTS[tag] || (() => '데모 작업을 마쳤습니다.'))();
+  let result = (RESULTS[tag] || (() => '데모 작업을 마쳤습니다.'))();
+  if (tag === 'chief.request' && prompt.includes('[질문만]') && !prompt.includes('[사용자 보충]')) {
+    result = '```json\n' + JSON.stringify({ reply: '어떤 파일을 정리할까요? 파일 경로를 알려 주세요.', actions: [] }) + '\n```';
+  }
   text('정리했습니다.');
   await sleep(speed / 2);
   say({ type: 'result', subtype: 'success', is_error: false, session_id: sessionId, result, permission_denials: [], num_turns: 4 });

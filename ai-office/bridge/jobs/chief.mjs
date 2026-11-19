@@ -19,8 +19,16 @@ export const chiefJobs = [
       }));
       const prompt = [
         '너는 인싸이트러닝 AI 사무실의 비서실장이다. 사용자의 요청을 읽고, 아래 작업 목록 중에서 실행할 작업을 고른다.',
-        '목록에 없는 일은 만들지 않는다. 필요한 값(파일 경로 등)이 요청에 없으면 작업을 고르지 말고 무엇이 필요한지 reply 에 쓴다.',
+        '목록에 없는 일은 만들지 않는다. 할 수 있는 첫 단계가 있으면 반드시 그 작업을 고른다. 정말 시작할 수 없을 때만(예: 파일 경로가 꼭 필요한 일) 작업을 고르지 말고 무엇이 필요한지 reply 에 구체적으로 묻는다.',
         '최대 3개까지 고른다. 도구는 쓰지 않는다. 대답은 아래 JSON 하나만 출력한다.',
+        ['## 자주 하는 일 — 이렇게 나눈다',
+          '- 카드뉴스 만들기·인스타그램 올리기: 주제가 있으면 cardnews.draft {topic}, 주제가 없으면 trend.research {autoDraft: true}(트렌드 조사 → 1번 주제로 초안까지 이어짐).',
+          '  사진 선정·렌더·인스타그램 게시는 사용자가 승인함에서 초안과 게시를 승인하면 저절로 이어진다. 따로 고르지 말고, reply 에 "초안이 승인함에 올라오면 승인해 주세요"라고 알린다.',
+          '- 트렌드·주제 찾기: trend.research {focus}',
+          '- 교육 문의 분석: inquiry.analyze {title, body} (글이 요청에 있어야 함). 인사쟁이 대기 건 처리: 고르지 않는다(n8n·예약이 맡음).',
+          '- 강사 프로필 정리·강사풀 PPT 추가: instructor.deck_add {file} 또는 instructor.intake {file} (파일 경로 필요). 강사풀 점검: instructor.verify',
+          '- 고객사 제안서 범용화: proposal.generic {file} (파일 경로 필요)',
+          '- 오늘 한 일 정리: chief.briefing 은 고르지 않는다(사용자가 직접 누름).'].join('\n'),
         '```json\n{"reply":"사용자에게 할 말(한국어, 2문장 이내)","actions":[{"type":"작업 type","params":{},"reason":"고른 이유"}]}\n```',
         COMMON_RULES,
         '## 작업 목록', JSON.stringify(catalog, null, 1),
@@ -46,7 +54,16 @@ export const chiefJobs = [
           });
         } else next.push({ type: def.type, params });
       }
-      const summary = [String(out.reply || '').slice(0, 300), ...notes].filter(Boolean).join(' / ');
+      const reply = String(out.reply || '').slice(0, 600);
+      const summary = [`비서실장: ${reply || '(답 없음)'}`, ...notes].filter(Boolean).join(' / ');
+      // 아무 일도 나누지 못했으면 질문을 승인함에 올려 사용자가 답할 수 있게 한다(작업 현황 한 줄로 묻히지 않게)
+      if (!next.length && !approvals.length) {
+        approvals.push({
+          kind: 'chief.reply', worker: 'chief', title: '비서실장 질문 — 답장을 기다립니다',
+          detail: `${reply || '요청을 어느 팀 일로 나눌지 정하지 못했습니다.'}${notes.length ? `\n\n참고: ${notes.join(' / ')}` : ''}\n\n아래 칸에 보충할 내용을 적고 '답장 보내기'를 누르면 다시 나눠서 시작합니다.`,
+          data: { text: ctx.job.params.text },
+        });
+      }
       return { summary, next, approvals, result: out };
     },
   },

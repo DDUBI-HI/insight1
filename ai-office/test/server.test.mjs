@@ -141,6 +141,19 @@ test('비서실장: 요청을 허용된 팀 작업으로 나눈다', async () =>
   assert.ok(list.some((x) => x.type === 'trend.research' && x.parentId === j.json.id));
 });
 
+test('비서실장: 일을 나누지 못하면 질문을 승인함에 올리고, 답장하면 다시 나눈다', async () => {
+  const j = await call('POST', '/api/jobs', { type: 'chief.request', params: { text: '[질문만] 강사 프로필 정리해줘' } });
+  const done = await jobDone(j.json.id);
+  assert.match(done.summary, /^비서실장: /);
+  const q = await approvalOf('chief.reply');
+  assert.match(q.detail, /파일 경로/);
+  const r = await call('POST', `/api/approvals/${q.id}`, { decision: 'revise', note: '트렌드 조사부터 해줘' });
+  assert.match(r.json.outcome, /답장/);
+  const again = await until(async () => (await call('GET', '/api/jobs?limit=100')).json.find((x) => x.type === 'chief.request' && x.id !== j.json.id && x.parentId === j.json.id));
+  const d2 = await jobDone(again.id);
+  assert.equal(d2.status, 'done');
+});
+
 test('3D 화면 스냅샷: 직원 7명, CONTRACT 형식', async () => {
   const r = await call('GET', '/api/office');
   assert.equal(r.json.version, 1);
