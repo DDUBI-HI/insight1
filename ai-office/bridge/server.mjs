@@ -151,6 +151,11 @@ export function createApp(cfgIn) {
       if (!ID_RE.test(mm[1]) || !store.jobs.has(mm[1])) return send(res, 404, { error: '작업이 없습니다' });
       return send(res, 200, publicJob(store.jobs.get(mm[1]), true));
     }
+    mm = m(/^\/api\/jobs\/([^/]+)\/retry$/);
+    if (mm && method === 'POST') {
+      if (!ID_RE.test(mm[1]) || !store.jobs.has(mm[1])) return send(res, 404, { error: '작업이 없습니다' });
+      return send(res, 201, publicJob(runner.retry(mm[1])));
+    }
     mm = m(/^\/api\/jobs\/([^/]+)\/cancel$/);
     if (mm && method === 'POST') {
       if (!ID_RE.test(mm[1]) || !store.jobs.has(mm[1])) return send(res, 404, { error: '작업이 없습니다' });

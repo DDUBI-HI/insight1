@@ -173,4 +173,8 @@ test('작업 취소: 대기 중인 작업은 바로 취소된다', async () => {
   process.env.AI_OFFICE_MOCK_MS = '5';
   assert.equal(c.json.status, 'canceled');
   await jobDone(a.json.id);
+  const r = await call('POST', `/api/jobs/${b.json.id}/retry`);
+  assert.equal(r.status, 201, '취소한 작업을 다시 요청');
+  assert.equal(r.json.type, 'chief.briefing');
+  assert.equal((await jobDone(r.json.id)).status, 'done');
 });

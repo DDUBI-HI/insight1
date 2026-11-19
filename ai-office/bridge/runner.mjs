@@ -25,6 +25,14 @@ export class Runner {
     return job;
   }
 
+  /** 끝난(실패·취소·완료) 작업을 같은 내용으로 다시 요청 */
+  retry(id) {
+    const j = this.store.jobs.get(id);
+    if (!j) throw new InputError('작업이 없습니다');
+    if (j.status === 'queued' || j.status === 'running') throw new InputError('아직 진행 중인 작업입니다');
+    return this.enqueue(j.type, j.params, { source: 'panel', parentId: j.parentId });
+  }
+
   cancel(id) {
     const j = this.store.jobs.get(id);
     if (!j) return null;
@@ -97,7 +105,12 @@ export class Runner {
       this.store.event(job.worker, 'text', `완료: ${patch.summary}`);
       this.notify('job.done', job.id);
     } catch (e) {
-      const msg = String(e?.message || e).slice(0, 600);
+      let msg = String(e?.message || e).slice(0, 600);
+      if (/OAuth|authenticat|not logged in|log ?in|401|invalid api key/i.test(msg)) {
+        msg = `Claude 로그인이 만료됐거나 풀렸습니다 — PowerShell 에서 'claude' 를 실행해 로그인(/login)한 뒤 [다시 요청]을 누르세요. (원문: ${msg.slice(0, 200)})`;
+      } else if (/usage limit|rate limit|quota|overloaded|429/i.test(msg)) {
+        msg = `Claude 사용량 한도에 걸렸습니다 — 몇 시간 뒤 [다시 요청]을 누르세요. (원문: ${msg.slice(0, 200)})`;
+      }
       ctx.log(`실패: ${msg}`);
       this.store.updateJob(job.id, { status: this.current?.canceled ? 'canceled' : 'failed', finishedAt: new Date().toISOString(), error: msg });
       this.store.event(job.worker, 'text', `실패: ${msg.slice(0, 50)}`);

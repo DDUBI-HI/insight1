@@ -188,6 +188,7 @@
       const kids = [];
       if (j.outputs?.length) kids.push(el("p", { class: "meta", text: "결과 파일" }), fileList(j.outputs, (i) => ({ jobId: j.id, index: i })));
       if (j.status === "queued" || j.status === "running") kids.push(el("button", { class: "btn bad", type: "button", text: "작업 취소", onclick: async () => { try { await api("POST", `/api/jobs/${id}/cancel`); flash("취소를 요청했습니다"); S.jobSig = ""; loadJobs(); } catch (e) { flash(e.message, true); } } }));
+      if (j.status === "failed" || j.status === "canceled") kids.push(el("button", { class: "btn", type: "button", text: "다시 요청", onclick: async () => { try { const n = await api("POST", `/api/jobs/${id}/retry`); flash(`다시 접수했습니다 — ${n.title}`); S.jobSig = ""; loadJobs(); } catch (e) { flash(e.message, true); } } }));
       kids.push(el("pre", { class: "detail", text: (j.log || []).map((l) => `${when(l.at)}  ${l.line}`).join("\n") || "기록 없음" }));
       box.replaceChildren(...kids);
     } catch (e) { box.replaceChildren(el("p", { class: "meta", text: e.message })); }
