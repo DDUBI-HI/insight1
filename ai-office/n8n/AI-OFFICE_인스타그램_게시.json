@@ -1,0 +1,300 @@
+{
+  "name": "AI-OFFICE | 인스타그램 게시",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# AI-OFFICE · 인스타그램 게시\nAI 사무실 승인함에서 [게시 승인]을 누르면 AI 사무실이 카드를 4:5 JPEG 로 바꿔 GitHub 공개 주소에 올리고 이 웹훅을 부릅니다. 이 워크플로는 사진마다 컨테이너를 만들고 → 캐러셀로 묶고 → 60초 기다린 뒤 → 게시하고 → 게시물 주소를 AI 사무실에 돌려줍니다.\n\n## 처음 한 번 할 일\n0. **설정 (주소·계정 번호)** 노드를 열고 `IG_ID` 에 인스타그램 계정 번호(개발자 화면 계정 이름 아래 1784… 숫자)를 넣습니다. 토큰이 `IG…` 로 시작하면 노드 안 설명대로 바꿉니다.\n1. **Webhook 노드** → Credential → Create New → **Header Auth**\n   - Name: `X-Office-Secret` / Value: `COPY-TOKEN.bat n8n` 으로 복사한 값 (작업 알림 워크플로와 같은 자격증명을 골라도 됩니다)\n2. **HTTP 노드 4개** → Credential → Create New → **Query Auth** (하나 만들고 나머지는 고르기만)\n   - Name: `access_token` / Value: 인스타그램 액세스 토큰 그대로(`Bearer` 없이, 앞뒤 빈칸 없이)\n   - 자격증명 이름: `Instagram 토큰 (주소 방식)`\n3. 저장 후 오른쪽 위 **Publish(Active)** 를 켜고, Webhook 노드의 **Production URL** 을 AI 사무실 `config.json` 의 `n8n.webhooks.instagramPublish` 에 넣습니다(`set-config.mjs --instagram <주소>`).\n\n⚠ 실제 공개 게시입니다. 토큰 확인 도구(developers.facebook.com/tools/debug/accesstoken)에서 만료일을 확인하세요. '안 함'이 아니면 만료 전에 새로 받아 바꿔 넣어야 합니다.",
+        "height": 560,
+        "width": 600
+      },
+      "id": "da8803be-4bfd-4d59-9ca8-5763d97465f3",
+      "name": "설명",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        -620
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-office-instagram",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "c021f79c-add7-45d2-b60e-91b7d4a1a7e5",
+      "name": "AI 사무실 게시 요청",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "03bfc837-6636-4681-9ce9-824ecf6fb783"
+    },
+    {
+      "parameters": {
+        "jsCode": "const b = $json.body || {};\nconst urls = Array.isArray(b.image_urls) ? b.image_urls.filter(u => /^https:\\/\\//.test(u)) : [];\nif (urls.length < 2 || urls.length > 10) throw new Error('사진은 2~10장이어야 합니다 (받은 수: ' + urls.length + ')');\nif (typeof b.caption !== 'string' || !b.caption.trim() || b.caption.length > 2200) throw new Error('문구가 비었거나 2,200자를 넘습니다');\nreturn urls.map(u => ({ json: { image_url: u, caption: b.caption, slug: b.slug } }));"
+      },
+      "id": "fca647da-8a11-4f95-b338-7b077ebcd37a",
+      "name": "사진 목록 확인",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('설정 (주소·계정 번호)').first().json.base }}/{{ $('설정 (주소·계정 번호)').first().json.igId }}/media",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "options": {
+          "timeout": 60000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ image_url: $json.image_url, is_carousel_item: true }) }}"
+      },
+      "id": "85d834b8-73d4-4e8e-a8f0-98fdd0106813",
+      "name": "사진마다 컨테이너 만들기",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const ids = $input.all().map(i => i.json.id).filter(Boolean);\nconst first = $('사진 목록 확인').first().json;\nif (ids.length !== $('사진 목록 확인').all().length) throw new Error('컨테이너를 다 만들지 못했습니다');\nreturn [{ json: { children: ids.join(','), caption: first.caption } }];"
+      },
+      "id": "151b1e7d-468c-486f-9f4d-d157a92737aa",
+      "name": "캐러셀 묶음 준비",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('설정 (주소·계정 번호)').first().json.base }}/{{ $('설정 (주소·계정 번호)').first().json.igId }}/media",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "options": {
+          "timeout": 60000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ media_type: 'CAROUSEL', children: $json.children, caption: $json.caption }) }}"
+      },
+      "id": "77401d98-d691-4e8d-8092-3277999353f6",
+      "name": "캐러셀 만들기",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 60,
+        "unit": "seconds"
+      },
+      "id": "80fdc8ce-6735-40d3-b660-d60295394f86",
+      "name": "처리 기다리기 (60초)",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1100,
+        0
+      ],
+      "webhookId": "ea0b9b0b-2f33-49c5-a9ff-42f633f2f88b"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('설정 (주소·계정 번호)').first().json.base }}/{{ $('설정 (주소·계정 번호)').first().json.igId }}/media_publish",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "options": {
+          "timeout": 60000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ creation_id: $('캐러셀 만들기').first().json.id }) }}"
+      },
+      "id": "d95d0b29-75f6-46fe-99e1-6a350da2db5f",
+      "name": "게시하기",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1320,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $('설정 (주소·계정 번호)').first().json.base }}/{{ $json.id }}?fields=permalink",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "464ad193-6ba0-450d-a7d9-dc06d1ba5199",
+      "name": "게시물 주소 받기",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1540,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, id: $('게시하기').first().json.id, permalink: $json.permalink }) }}",
+        "options": {}
+      },
+      "id": "e3716a3e-efc5-4589-bbfe-dcf77492e7c5",
+      "name": "결과 돌려주기",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1760,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ▼ 여기 두 줄만 바꿉니다\n// 토큰이 EA… 로 시작하면(통합 로그인·페이스북 방식·시스템 사용자 토큰): BASE = 'https://graph.facebook.com/v23.0', IG_ID = 인스타그램 계정 번호(1784… 숫자)\n// 토큰이 IG… 로 시작하면(인스타그램 로그인 방식): BASE = 'https://graph.instagram.com/v23.0', IG_ID = 'me'\n// 확인 방법: HTTP 노드에서 BASE/IG_ID?fields=id,username 을 실행해 username 이 나오면 맞다\nconst BASE = 'https://graph.facebook.com/v23.0';\nconst IG_ID = '여기에_인스타그램_계정_번호';\n// ▲\nif (!/^(me|\\d{6,})$/.test(IG_ID)) throw new Error('설정 노드의 IG_ID 에 인스타그램 계정 번호(숫자)를 넣어 주세요');\nreturn $input.all().map(i => ({ json: { ...i.json, base: BASE, igId: IG_ID } }));"
+      },
+      "id": "62570b15-facb-4fd0-a43d-6df0c324eedb",
+      "name": "설정 (주소·계정 번호)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        110,
+        180
+      ]
+    }
+  ],
+  "connections": {
+    "AI 사무실 게시 요청": {
+      "main": [
+        [
+          {
+            "node": "설정 (주소·계정 번호)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "사진 목록 확인": {
+      "main": [
+        [
+          {
+            "node": "사진마다 컨테이너 만들기",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "사진마다 컨테이너 만들기": {
+      "main": [
+        [
+          {
+            "node": "캐러셀 묶음 준비",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "캐러셀 묶음 준비": {
+      "main": [
+        [
+          {
+            "node": "캐러셀 만들기",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "캐러셀 만들기": {
+      "main": [
+        [
+          {
+            "node": "처리 기다리기 (60초)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "처리 기다리기 (60초)": {
+      "main": [
+        [
+          {
+            "node": "게시하기",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "게시하기": {
+      "main": [
+        [
+          {
+            "node": "게시물 주소 받기",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "게시물 주소 받기": {
+      "main": [
+        [
+          {
+            "node": "결과 돌려주기",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "설정 (주소·계정 번호)": {
+      "main": [
+        [
+          {
+            "node": "사진 목록 확인",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Seoul"
+  },
+  "pinData": {},
+  "tags": []
+}

@@ -1,0 +1,14 @@
+{
+  "name": "insightlearning-ai-office",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "인싸이트러닝 AI 가상 사무실 — 3D 사무실 화면 + n8n·Claude Code 로컬 브리지 (외부 의존성 없음)",
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node bridge/server.mjs",
+    "demo": "node bridge/server.mjs --demo --port 8766",
+    "test": "node --test test/*.test.mjs"
+  }
+}

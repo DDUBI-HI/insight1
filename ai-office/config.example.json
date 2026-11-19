@@ -1,0 +1,28 @@
+{
+  "_설명": "설치 스크립트(SETUP-AI-OFFICE.bat)가 이 파일을 config.json 으로 복사하고 경로를 채웁니다. 토큰·비밀번호는 여기에 쓰지 않습니다.",
+  "port": 8765,
+  "bindHost": "127.0.0.1",
+  "dataDir": "C:\\AI-OFFICE\\office-data",
+  "claudePath": "claude",
+  "agents": {
+    "slideSvg": "C:\\AI-OFFICE\\agents\\slide-svg",
+    "cardnews": "C:\\AI-OFFICE\\agents\\insight1-cardnews"
+  },
+  "inputRoots": ["C:\\AI-OFFICE"],
+  "instructorDeck": "",
+  "watch": [],
+  "n8n": {
+    "baseUrl": "http://localhost:5678",
+    "webhooks": {
+      "events": "",
+      "instagramPublish": ""
+    }
+  },
+  "instagram": { "enabled": false },
+  "limits": { "jobTimeoutMinutes": 90, "lightJobTimeoutMinutes": 20 },
+  "schedule": [
+    { "enabled": false, "type": "trend.research", "params": { "autoDraft": true }, "days": ["MON", "WED", "FRI"], "time": "08:40" },
+    { "enabled": false, "type": "chief.briefing", "params": {}, "days": ["MON", "TUE", "WED", "THU", "FRI"], "time": "17:50" }
+  ],
+  "lang": "ko"
+}
