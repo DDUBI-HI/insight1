@@ -1,0 +1,54 @@
+{
+  "width": 1600,
+  "images": [
+    {
+      "file": "cover.jpg",
+      "card": "01-cover",
+      "query": "office worker using laptop with ai chatbot screen",
+      "unsplash": "VgJH4ulEzMQ",
+      "page": "https://unsplash.com/photos/person-typing-on-laptop-with-ai-gateway-logo-VgJH4ulEzMQ"
+    },
+    {
+      "file": "intro.jpg",
+      "card": "02-intro",
+      "query": "modern office ceiling wall minimal",
+      "unsplash": "X5fKoF2LUVs",
+      "page": "https://unsplash.com/photos/modern-building-interior-with-glass-ceiling-and-concrete-structure-X5fKoF2LUVs"
+    },
+    {
+      "file": "area1-usage.jpg",
+      "card": "05-area1-usage",
+      "query": "team looking at analytics dashboard on screen",
+      "unsplash": "EL16ACtwLxg",
+      "page": "https://unsplash.com/photos/someone-analyzes-financial-data-on-a-tablet-EL16ACtwLxg"
+    },
+    {
+      "file": "area2-role-skills.jpg",
+      "card": "06-area2-role-skills",
+      "query": "diverse professionals working in office departments",
+      "unsplash": "NK2PfIZOQkA",
+      "page": "https://unsplash.com/photos/diverse-team-collaborating-in-workspace-NK2PfIZOQkA"
+    },
+    {
+      "file": "area3-apply.jpg",
+      "card": "07-area3-apply",
+      "query": "person writing report on laptop at desk",
+      "unsplash": "jdS1UfbbIA8",
+      "page": "https://unsplash.com/photos/a-person-typing-on-a-laptop-at-a-desk-jdS1UfbbIA8"
+    },
+    {
+      "file": "faq.jpg",
+      "card": "11-faq",
+      "query": "two colleagues discussing plan at desk office",
+      "unsplash": "UOalOTfpzlE",
+      "page": "https://unsplash.com/photos/two-colleagues-discussing-work-at-a-desk-UOalOTfpzlE"
+    },
+    {
+      "file": "closing.jpg",
+      "card": "13-closing",
+      "query": "modern glass office building sky view",
+      "unsplash": "oW66SyCnoLs",
+      "page": "https://unsplash.com/photos/glass-building-looking-up-towards-the-sky-oW66SyCnoLs"
+    }
+  ]
+}

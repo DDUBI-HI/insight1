@@ -1,0 +1,159 @@
+{
+  "slug": "2026-11-ai-skill-gap-self-check",
+  "title": "우리 회사 AI 스킬 격차 자가진단",
+  "topic": "우리 회사 AI 스킬 격차 자가진단 체크리스트",
+  "audience": "기업 HR·HRD 담당자",
+  "sources": [],
+  "caption": {
+    "body": [
+      "우리 회사 AI 스킬, 지금 어디까지 왔을까요?",
+      "",
+      "AI 교육을 돌리기 전에 격차부터 봐야 합니다.",
+      "무엇을 모르는지 알아야 맞는 교육을 설계할 수 있습니다.",
+      "",
+      "카드뉴스로 정리한 AI 스킬 격차 자가진단 5가지 영역입니다.",
+      "",
+      "01 활용 현황 — 누가 어디서 AI를 쓰는지 파악하고 있는가",
+      "02 직무별 역량 — 직무마다 필요한 AI 스킬을 정의했는가",
+      "03 실무 적용 — 업무 결과물에 실제로 쓰고 있는가",
+      "04 데이터·보안 — 안전하게 쓰는 기준이 마련돼 있는가",
+      "05 지속 학습 — 한 번으로 끝나지 않는 체계가 있는가",
+      "",
+      "10번째 장의 셀프 점검으로 우리 회사 격차도 확인해 보세요.",
+      "",
+      "AI 스킬 격차 진단과 교육 설계가 필요하시다면 인싸이트러닝이 함께합니다.",
+      "문의는 프로필 링크에서 남겨 주세요."
+    ],
+    "hashtags": [
+      "AI교육",
+      "AI역량",
+      "AI스킬",
+      "기업교육",
+      "HRD",
+      "직무교육",
+      "격차진단",
+      "사내교육",
+      "디지털전환",
+      "인사담당자",
+      "교육담당자",
+      "인싸이트러닝"
+    ]
+  },
+  "cards": [
+    {
+      "template": "cn-cover", "name": "cover",
+      "pill": "HR·HRD 담당자 필독",
+      "title": ["우리 회사 AI 스킬", "어디까지 왔을까요"],
+      "subtitle": "스스로 점검하는 AI 스킬 격차 진단",
+      "photo": { "unsplash": "VgJH4ulEzMQ", "query": "office worker using laptop with ai chatbot screen", "page": "https://unsplash.com/photos/person-typing-on-laptop-with-ai-gateway-logo-VgJH4ulEzMQ", "alt": "노트북으로 AI 화면을 보며 일하는 직장인" }
+    },
+    {
+      "template": "cn-intro", "name": "intro",
+      "eyebrow": "AI 스킬 격차 자가진단",
+      "title": ["교육보다 먼저", "격차를 봅니다"],
+      "point": "무엇을 모르는지 알아야 교육이 맞습니다",
+      "photo": { "unsplash": "X5fKoF2LUVs", "query": "modern office ceiling wall minimal", "page": "https://unsplash.com/photos/modern-building-interior-with-glass-ceiling-and-concrete-structure-X5fKoF2LUVs", "alt": "유리 천장과 콘크리트 구조가 보이는 단순한 실내" }
+    },
+    {
+      "template": "cn-compare", "name": "before-after",
+      "kicker": "WHAT'S CHANGED",
+      "title": ["AI 교육, 돌리기 전에", "진단이 먼저입니다"],
+      "rows": [
+        { "before": ["전 직원", "같은 AI 교육"], "after": ["직무별", "격차 기반 교육"] },
+        { "before": ["교육 이수율로", "관리"], "after": ["직무 적용으로", "확인"] },
+        { "before": "일회성 특강", "after": "지속 학습 체계" },
+        { "before": ["막연한", "불안감"], "after": ["구체적인", "격차 지도"] }
+      ]
+    },
+    {
+      "template": "cn-summary", "name": "five-areas", "label": "한눈에 보기",
+      "kicker": "5 AREAS",
+      "title": ["AI 스킬 격차,", "5가지 영역으로"],
+      "rows": [
+        { "title": "활용 현황", "desc": "누가 어디서 AI를 쓰는지 파악하고 있는가" },
+        { "title": "직무별 역량", "desc": "직무마다 필요한 AI 스킬을 정의했는가" },
+        { "title": "실무 적용", "desc": "업무 결과물에 실제로 쓰고 있는가" },
+        { "title": "데이터·보안", "desc": "안전하게 쓰는 기준이 마련돼 있는가" },
+        { "title": "지속 학습", "desc": "한 번으로 끝나지 않는 체계가 있는가" }
+      ]
+    },
+    {
+      "template": "cn-feature", "name": "area1-usage", "label": "AREA 01",
+      "kicker": "AREA 01",
+      "title": ["누가 어디서 쓰는지", "*현황부터 파악*"],
+      "desc": ["부서별·직무별 활용 수준을", "먼저 그려 봅니다"],
+      "photo": { "unsplash": "EL16ACtwLxg", "query": "team looking at analytics dashboard on screen", "page": "https://unsplash.com/photos/someone-analyzes-financial-data-on-a-tablet-EL16ACtwLxg", "alt": "태블릿으로 현황 지표를 살펴보는 모습" }
+    },
+    {
+      "template": "cn-story", "name": "area2-role-skills", "label": "AREA 02",
+      "eyebrow": "AREA 02",
+      "title": "직무별 필요 역량 정의",
+      "body": "같은 AI 스킬이라도 직무마다 쓰임이 다릅니다. 기획·영업·개발이 필요로 하는 역량을 나눠 정의하면, 누구에게 어떤 교육이 필요한지 분명해집니다.",
+      "photo": { "unsplash": "NK2PfIZOQkA", "query": "diverse professionals working in office departments", "page": "https://unsplash.com/photos/diverse-team-collaborating-in-workspace-NK2PfIZOQkA", "alt": "서로 다른 직무로 함께 일하는 사무실의 동료들" }
+    },
+    {
+      "template": "cn-split", "name": "area3-apply", "label": "AREA 03",
+      "kicker": "AREA 03",
+      "title": ["배우는 데서 그치지 않고", "*실무에 쓰는가*"],
+      "checks": [
+        "실제 업무 결과물에 AI를 적용합니다",
+        "직무 과제로 활용 사례를 쌓습니다",
+        "적용 전후의 업무 변화를 확인합니다"
+      ],
+      "photo": { "unsplash": "jdS1UfbbIA8", "query": "person writing report on laptop at desk", "page": "https://unsplash.com/photos/a-person-typing-on-a-laptop-at-a-desk-jdS1UfbbIA8", "alt": "책상에서 노트북으로 업무 결과물을 작성하는 사람" }
+    },
+    {
+      "template": "cn-grid", "name": "area4-governance", "label": "AREA 04",
+      "kicker": "AREA 04",
+      "title": ["안전하게 쓰는", "기준이 있는가"],
+      "sub": "데이터 · 보안 · 윤리 점검 항목",
+      "tiles": [
+        { "title": "데이터 보호", "desc": "민감정보 입력 기준" },
+        { "title": "저작권", "desc": "결과물 사용 범위" },
+        { "title": "사실 검증", "desc": "환각을 거르는 절차", "point": true },
+        { "title": "사용 규정", "desc": "직원이 지킬 기준", "point": true }
+      ],
+      "note": "도구 도입보다 **안전한 사용 기준**이 먼저입니다"
+    },
+    {
+      "template": "cn-steps", "name": "area5-continuous", "label": "AREA 05",
+      "kicker": "AREA 05",
+      "title": ["한 번으로 끝내지 않는", "*지속 학습 체계*"],
+      "steps": [
+        { "label": "STEP 1 · 진단", "title": "격차 진단", "desc": "현재 수준과 목표의 차이를 확인합니다" },
+        { "label": "STEP 2 · 설계", "title": "맞춤 설계", "desc": "직무별 격차에 맞춰 과정을 설계합니다", "point": true },
+        { "label": "STEP 3 · 적용", "title": "현업 적용", "desc": "배운 내용을 실제 업무에 적용합니다" },
+        { "label": "STEP 4 · 점검", "title": "재진단", "desc": "일정 주기로 다시 진단해 조정합니다" }
+      ]
+    },
+    {
+      "template": "cn-checklist", "name": "self-check", "label": "셀프 점검",
+      "title": "지금 바로 점검해 보세요",
+      "items": [
+        { "num": "Q1", "title": "직무별 격차를 아나요?", "desc": ["전 직원 공통 교육만으로는 직무별", "격차를 좁히기 어렵습니다"] },
+        { "num": "Q2", "title": "안전한 사용 기준이 있나요?", "desc": ["도구부터 도입하기 전에 지킬 기준을", "먼저 정해야 합니다"] },
+        { "num": "Q3", "title": "진단을 반복하나요?", "desc": ["한 번의 교육보다 주기적인 재진단이", "격차를 좁힙니다"] }
+      ]
+    },
+    {
+      "template": "cn-faq", "name": "faq",
+      "title": ["HR 담당자가 가장 많이", "묻는 질문"],
+      "question": ["AI 스킬 진단, 어디서부터", "시작해야 하나요?"],
+      "answer": ["직무별 역량 기준을 세우고", "현황을 진단하는 것부터입니다"],
+      "photo": { "unsplash": "UOalOTfpzlE", "query": "two colleagues discussing plan at desk office", "page": "https://unsplash.com/photos/two-colleagues-discussing-work-at-a-desk-UOalOTfpzlE", "alt": "책상에서 함께 논의하는 두 동료" }
+    },
+    {
+      "template": "cn-statement", "name": "statement",
+      "kicker": "KEY MESSAGE",
+      "title": ["AI 스킬은", "교육 이수가 아니라", "*직무 역량*입니다"],
+      "desc": ["이수 시간이 아니라 현업의 적용으로", "격차를 확인합니다"],
+      "foot": "INSIGHT LEARNING"
+    },
+    {
+      "template": "cn-closing", "name": "closing",
+      "lead": ["우리 회사 AI 스킬 격차,", "진단부터 시작하신다면"],
+      "title": "인싸이트러닝이 함께합니다",
+      "photo": { "unsplash": "oW66SyCnoLs", "query": "modern glass office building sky view", "page": "https://unsplash.com/photos/glass-building-looking-up-towards-the-sky-oW66SyCnoLs", "alt": "하늘을 향해 올려다본 유리 외벽의 사무실 건물" }
+    }
+  ]
+}
