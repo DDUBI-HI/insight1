@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { IS_WIN } from './config.mjs';
+import { IS_WIN, dataPaths } from './config.mjs';
 import { UUID_RE, writeJsonAtomic } from './util.mjs';
 
 const MOCK = path.join(path.dirname(fileURLToPath(import.meta.url)), 'mock-claude.mjs');
@@ -33,6 +33,15 @@ export function toolAct(name, input = {}) {
       if (String(name).startsWith('mcp__')) return { k: 'mcp', a: String(name).split('__').pop() };
       return { k: 'tool', a: short(name, 24) };
   }
+}
+
+/** <dataDir>/secret/claude-oauth-token.txt (SET-CLAUDE-TOKEN.bat 이 만든다). 화면·로그에 출력하지 않는다 */
+export function readLongToken(cfg) {
+  if (cfg.demo) return '';
+  try {
+    const t = fs.readFileSync(path.join(dataPaths(cfg).secret, 'claude-oauth-token.txt'), 'utf8').trim();
+    return /^[A-Za-z0-9._\-]{20,}$/.test(t) ? t : '';
+  } catch { return ''; }
 }
 
 /** claude 실행 파일 찾기: 설정값 그대로 → Windows 면 where.exe 로 실제 경로 */
@@ -112,6 +121,9 @@ export function runClaude(cfg, opts) {
     }
 
     const env = { ...process.env, ...(opts.env || {}), PYTHONIOENCODING: 'utf-8', AI_OFFICE_JOB: '1' };
+    // 자동화용 장기 토큰(claude setup-token)이 있으면 그것으로 로그인한다 — 로그인 만료로 작업이 멈추지 않게
+    const longToken = readLongToken(cfg);
+    if (longToken) env.CLAUDE_CODE_OAUTH_TOKEN = longToken;
     if (cfg.demo && opts.mockTag) env.AI_OFFICE_MOCK_TAG = opts.mockTag;
     let child;
     try {

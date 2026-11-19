@@ -20,7 +20,7 @@ import { cardnewsState, slideSvgState, TEAMS, WORKERS } from './jobs/common.mjs'
 import { officeSnapshot } from './office.mjs';
 import { startWatch } from './watch.mjs';
 import { currentDeck } from './jobs/team2.mjs';
-import { claudeVersion } from './claude.mjs';
+import { claudeVersion, readLongToken } from './claude.mjs';
 import { ID_RE, InputError, isInside } from './util.mjs';
 
 const WEB = path.join(ROOT, 'web');
@@ -125,7 +125,7 @@ export function createApp(cfgIn) {
       const cur = runner.current ? store.jobs.get(runner.current.jobId) : null;
       return send(res, 200, {
         app: APP, version: VERSION, demo: !!cfg.demo, dataDir: paths.root, configFile: cfg.configFile, uptimeSec: Math.round((Date.now() - started) / 1000),
-        claude: info.claude,
+        claude: { ...info.claude, longToken: !!readLongToken(cfg) },
         agents: { slideSvg: slideSvgState(cfg), cardnews: cardnewsState(cfg) },
         n8n: { baseUrl: cfg.n8n.baseUrl, reachable: await n8nReachable(), lastRequestFromDocker: info.lastDocker },
         webhooks: { events: !!cfg.n8n.webhooks?.events, instagramPublish: !!cfg.n8n.webhooks?.instagramPublish },

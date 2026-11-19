@@ -214,6 +214,7 @@
       const rows = [
         ["실행 모드", s.demo ? ["warn", "데모 — 가짜 Claude 로 화면과 흐름만 시험합니다"] : ["ok", "실제 업무 모드"]],
         ["Claude Code (claude -p)", s.claude?.ok ? ["ok", `연결됨 · ${s.claude.version}`] : ["bad", "찾지 못함 — 설치·로그인 확인, 설정 claudePath"]],
+        ["Claude 로그인 방식", s.claude?.longToken ? ["ok", "장기 토큰(SET-CLAUDE-TOKEN) — 로그인 만료로 멈추지 않음"] : ["warn", "일반 로그인 — 가끔 만료되면 claude 를 실행해 다시 로그인 (SET-CLAUDE-TOKEN.bat 으로 장기 토큰 설정 가능)"]],
         ["PPT 디자인 에이전트 (slide-svg 복사본)", s.agents.slideSvg.ok ? ["ok", `사용 가능 · ${s.agents.slideSvg.msg}`] : [s.demo ? "warn" : "bad", s.agents.slideSvg.msg]],
         ["카드뉴스 에이전트 (insight1 복사본)", s.agents.cardnews.ok ? ["ok", `사용 가능 · ${s.agents.cardnews.msg}`] : [s.demo ? "warn" : "bad", s.agents.cardnews.msg]],
         ["n8n (이 PC → n8n)", s.n8n.reachable ? ["ok", `연결됨 · ${s.n8n.baseUrl}`] : ["bad", `응답 없음 · ${s.n8n.baseUrl}`]],
