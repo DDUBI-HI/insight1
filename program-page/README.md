@@ -8,7 +8,10 @@ node program-page/scripts/build.mjs <page.json>            # 렌더 → <name>.p
 node program-page/scripts/build.mjs <page.json> --check    # 구조만 검사
 node program-page/scripts/build.mjs <page.json> --scale 1  # 690px 폭 PNG
 node program-page/scripts/build.mjs <page.json> --strict   # 경고도 실패 처리
+node program-page/scripts/cover.mjs <page.json>            # 표지만 다시 렌더
 ```
+
+`page.json` 에 `cover` 가 있으면 1:1 표지 카드(`<name>_표지.png`, 1080 × 1080)도 함께 만든다. 위 사진 + 아래 흰 바탕에 제목 2줄·부제 2줄·화살표 원.
 
 Playwright 가 필요하다. 클라우드 세션에는 설치돼 있고, 로컬에서는 `cd program-page && npm install`.
 
@@ -16,6 +19,7 @@ Playwright 가 필요하다. 클라우드 세션에는 설치돼 있고, 로컬�
 | 경로 | 내용 |
 |---|---|
 | `page.css` | 디자인 시스템 (색·간격·블록). 원본 이미지와 1px 이내로 맞춤 |
+| `cover.css` · `scripts/cover.mjs` | 1:1 표지 카드. 홈페이지 과정 목록 썸네일과 2px 이내로 맞춤 |
 | `scripts/build.mjs` | 검사 → HTML → PNG, 렌더 뒤 줄 꺾임·폭 넘침·이미지 누락 경고 |
 | `examples/*.json` | 유형별 예시 5종 (참고자료 이미지는 비어 있어 회색 자리 표시로 렌더됨) |
 
@@ -31,7 +35,13 @@ Playwright 가 필요하다. 클라우드 세션에는 설치돼 있고, 로컬�
     { "icon": "user",  "label": "추천 대상", "value": "전 사원" },
     { "icon": "clock", "label": "교육 시간", "value": "8시간 (이론+실습+점검)" }
   ],
-  "sections": [ /* 아래 5종 */ ]
+  "sections": [ /* 아래 5종 */ ],
+  "cover": {                                 // 선택: 1:1 표지 카드
+    "title": "Claude 기반\nAI Agent 실무 활용 과정", // 2줄 이내, 생략하면 위 title
+    "subtitle": "실무에 적용하는 Live Data 기반\nAI Agent 활용 과정", // 2줄 이내
+    "image": "img/cover.jpg",                // 위쪽 사진 (가로로 넓게 잘림, 약 1.8:1)
+    "position": "center 35%"                 // 선택: 사진 자르는 기준점
+  }
 }
 ```
 

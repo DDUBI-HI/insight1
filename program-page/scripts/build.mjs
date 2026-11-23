@@ -10,12 +10,14 @@
 //   --strict          줄 꺾임·이미지 누락 경고도 실패로 처리
 //
 // 결과: <out>/index.html, <out>/<name>.png (name 이 없으면 page)
+//       cover 가 있으면 <out>/<name>_표지.png (1:1, scripts/cover.mjs)
 // 스키마와 섹션 고르는 법: program-page/README.md, .claude/skills/program-page/references/section-guide.md
 
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { createRequire } from "node:module";
+import { renderCover } from "./cover.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const PP = path.resolve(HERE, "..");
@@ -233,6 +235,12 @@ try {
   await el.screenshot({ path: pngPath });
   const box = await el.boundingBox();
   console.log(`✓ ${path.relative(process.cwd(), pngPath)}  (${Math.round(box.width * opt.scale)} × ${Math.round(box.height * opt.scale)}px)`);
+
+  if (spec.cover) {
+    const cv = await renderCover({ browser, spec, specDir, outDir, scale: opt.scale });
+    console.log(`✓ ${path.relative(process.cwd(), cv.pngPath)}  (${cv.size} × ${cv.size}px)`);
+    warns.push(...cv.warns);
+  }
 } finally {
   await browser.close();
 }

@@ -1,0 +1,60 @@
+/*
+ * 교육 프로그램 표지 카드 (1:1)
+ * ------------------------------------------------------------
+ * 원본: 홈페이지 과정 목록 썸네일 (523 × 523, 위 사진 + 아래 흰 바탕 제목)
+ * 1x 540 × 540 CSS px 로 짜고 scripts/cover.mjs 가 2배(1080 × 1080) PNG 로 캡처합니다.
+ */
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("__FONT_URL__") format("woff2-variations"),
+       url("__FONT_URL__") format("woff2");
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: block;
+}
+
+:root {
+  --cv-size: 540px;
+  --cv-photo-h: 302px;      /* 원본 292 / 523 */
+  --cv-ink: #303755;        /* 제목 · 화살표 원 */
+  --cv-sub: #595959;        /* 부제 */
+  --cv-side: 32px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #ffffff; }
+body {
+  font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  word-break: keep-all;
+}
+
+.cv {
+  position: relative;
+  width: var(--cv-size); height: var(--cv-size);
+  overflow: hidden; background: #ffffff;
+}
+.cv-photo {
+  position: absolute; left: 0; top: 0; right: 0;
+  height: var(--cv-photo-h); background: #d9dde6; overflow: hidden;
+}
+.cv-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cv-photo.missing { display: flex; align-items: center; justify-content: center; color: #8a8f9c; font-size: 14px; }
+
+.cv-title {
+  position: absolute; left: var(--cv-side); right: var(--cv-side); top: 324px;
+  font-size: 42px; line-height: 57px; font-weight: 800; color: var(--cv-ink);
+  letter-spacing: -0.01em;
+}
+.cv-sub {
+  position: absolute; left: var(--cv-side); right: 110px; top: 449px;
+  font-size: 25px; line-height: 34px; font-weight: 400; color: var(--cv-sub);
+  letter-spacing: -0.01em;
+}
+.cv-go {
+  position: absolute; right: 31px; bottom: 24px;
+  width: 41px; height: 41px; border-radius: 50%; background: var(--cv-ink);
+  display: flex; align-items: center; justify-content: center;
+}
+.cv-go svg { width: 28px; height: 28px; }

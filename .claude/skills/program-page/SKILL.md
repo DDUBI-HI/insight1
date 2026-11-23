@@ -47,11 +47,18 @@ pip install -r .claude/skills/slide/requirements.txt
 
 원본 하나에 과정이 여럿이면 과정마다 slug 를 따로 만든다.
 
+### 2-1. 표지 카드 (사용자가 표지·썸네일을 원할 때)
+- `page.json` 에 `cover` 를 넣는다 (스키마: `program-page/README.md`). 상세페이지와 같은 명령으로 `<name>_표지.png`(1080 × 1080)가 함께 나온다.
+- 제목은 과정명을 2줄로 끊고 끝에 "과정"을 붙인다 ("Claude 기반\nAI Agent 실무 활용 과정"). 한 줄 11자 안팎.
+- 부제는 원본의 한 줄 소개(표지 태그라인)를 2줄로. 한 줄 16자 안팎.
+- 사진: 원본 속 과정 대표 사진·삽화를 먼저 쓴다. 없으면 사용자에게 사진을 받거나 Unsplash 무료 사진을 제안한다 (cardnews 스킬의 사진 규칙). 과정끼리 같은 사진을 쓰지 않는다.
+- 사진의 인물 얼굴이 위로 잘리면 `position` 을 조정한다 (예 `"center 20%"`).
+
 ### 3. 렌더 + 검사
 ```bash
 node program-page/scripts/build.mjs output/program-page/<slug>/page.json
 ```
-- 결과: `output/program-page/<slug>/<name>.png` (1380px 폭), `index.html`.
+- 결과: `output/program-page/<slug>/<name>.png` (1380px 폭), `index.html`, cover 가 있으면 `<name>_표지.png`.
 - `△` 경고(줄 꺾임, 빈 이미지, 폭 넘침)는 모두 처리한다: 문구를 줄이거나 `\n` 으로 의미 단위로 끊고, 이미지가 없으면 섹션을 뺀다. 경고 0이 될 때까지 반복 (`--strict` 로 확인 가능).
 - **PNG 를 직접 열어 본다**: 줄 바꿈 위치가 어색하지 않은가, 섹션 간격이 고른가, 목표·대상 문장의 끝맺음이 통일됐는가, 고객사 흔적이 남지 않았는가.
 
