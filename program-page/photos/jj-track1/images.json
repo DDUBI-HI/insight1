@@ -1,15 +1,92 @@
 {
   "width": 1600,
   "images": [
-    { "card": "01 신입사원 입문·온보딩", "file": "cover-01.jpg", "unsplash": "", "query": "new employees team office welcome" },
-    { "card": "02 신임·현장관리자 리더십", "file": "cover-02.jpg", "unsplash": "SvYifX5HkeQ", "page": "https://unsplash.com/photos/SvYifX5HkeQ" },
-    { "card": "03 초격차 리더십", "file": "cover-03.jpg", "unsplash": "6CfjB_bQ_FY", "page": "https://unsplash.com/photos/6CfjB_bQ_FY" },
-    { "card": "04 멘토링·코칭 스킬", "file": "cover-04.jpg", "unsplash": "", "query": "mentor colleague conversation office" },
-    { "card": "05 CS 고객 서비스·고객여정지도", "file": "cover-05.jpg", "unsplash": "LSOIjuBiIuQ", "page": "https://unsplash.com/photos/LSOIjuBiIuQ" },
-    { "card": "06 비즈니스 매너·에티켓", "file": "cover-06.jpg", "unsplash": "", "query": "business handshake meeting" },
-    { "card": "07 스트레스 관리·회복탄력성", "file": "cover-07.jpg", "unsplash": "", "query": "calm woman relaxing office" },
-    { "card": "08 보직장 리더십", "file": "cover-08.jpg", "unsplash": "", "query": "team leader whiteboard strategy meeting" },
-    { "card": "09 셀프리더십 & 팔로워십", "file": "cover-09.jpg", "unsplash": "", "query": "young professionals teamwork laptop" },
-    { "card": "10 갈등관리 & 변화관리 리더십", "file": "cover-10.jpg", "unsplash": "", "query": "colleagues discussion disagreement meeting" }
+    {
+      "card": "01 신입사원 입문·온보딩",
+      "file": "cover-01.jpg",
+      "unsplash": "jPLvaZ06uy0",
+      "query": "new employees team office welcome",
+      "page": "https://unsplash.com/photos/jPLvaZ06uy0",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
+    },
+    {
+      "card": "02 신임·현장관리자 리더십",
+      "file": "cover-02.jpg",
+      "unsplash": "SvYifX5HkeQ",
+      "page": "https://unsplash.com/photos/SvYifX5HkeQ",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
+    },
+    {
+      "card": "03 초격차 리더십",
+      "file": "cover-03.jpg",
+      "unsplash": "6CfjB_bQ_FY",
+      "page": "https://unsplash.com/photos/6CfjB_bQ_FY",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
+    },
+    {
+      "card": "04 멘토링·코칭 스킬",
+      "file": "cover-04.jpg",
+      "unsplash": "M2lMs1qK54g",
+      "query": "mentor colleague conversation office",
+      "page": "https://unsplash.com/photos/M2lMs1qK54g",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
+    },
+    {
+      "card": "05 CS 고객 서비스·고객여정지도",
+      "file": "cover-05.jpg",
+      "unsplash": "LSOIjuBiIuQ",
+      "page": "https://unsplash.com/photos/LSOIjuBiIuQ",
+      "author": "Vagaro",
+      "author_url": "https://unsplash.com/@vagaro"
+    },
+    {
+      "card": "06 비즈니스 매너·에티켓",
+      "file": "cover-06.jpg",
+      "unsplash": "_XeQ8XEWb4Q",
+      "query": "business handshake meeting",
+      "page": "https://unsplash.com/photos/_XeQ8XEWb4Q",
+      "author": "Radission US",
+      "author_url": "https://unsplash.com/@radission"
+    },
+    {
+      "card": "07 스트레스 관리·회복탄력성",
+      "file": "cover-07.jpg",
+      "unsplash": "_PXvNHH7Bf4",
+      "query": "calm woman relaxing office",
+      "page": "https://unsplash.com/photos/_PXvNHH7Bf4",
+      "author": "Vitaly Gariev",
+      "author_url": "https://unsplash.com/@silverkblack"
+    },
+    {
+      "card": "08 보직장 리더십",
+      "file": "cover-08.jpg",
+      "unsplash": "26MJGnCM0Wc",
+      "query": "team leader whiteboard strategy meeting",
+      "page": "https://unsplash.com/photos/26MJGnCM0Wc",
+      "author": "Kaleidico",
+      "author_url": "https://unsplash.com/@kaleidico"
+    },
+    {
+      "card": "09 셀프리더십 & 팔로워십",
+      "file": "cover-09.jpg",
+      "unsplash": "XkKCui44iM0",
+      "query": "young professionals teamwork laptop",
+      "page": "https://unsplash.com/photos/XkKCui44iM0",
+      "author": "Priscilla Du Preez 🇨🇦",
+      "author_url": "https://unsplash.com/@priscilladupreez"
+    },
+    {
+      "card": "10 갈등관리 & 변화관리 리더십",
+      "file": "cover-10.jpg",
+      "unsplash": "5QgIuuBxKwM",
+      "query": "colleagues discussion disagreement meeting",
+      "page": "https://unsplash.com/photos/5QgIuuBxKwM",
+      "author": "Headway",
+      "author_url": "https://unsplash.com/@headwayio"
+    }
   ]
 }
