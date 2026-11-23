@@ -6,7 +6,7 @@
 |---|---|---|---|
 | 01 신입사원 입문·온보딩 | `cover-01.jpg` | [Vitaly Gariev](https://unsplash.com/@silverkblack) | [Unsplash](https://unsplash.com/photos/jPLvaZ06uy0) |
 | 02 신임·현장관리자 리더십 | `cover-02.jpg` | [Vitaly Gariev](https://unsplash.com/@silverkblack) | [Unsplash](https://unsplash.com/photos/SvYifX5HkeQ) |
-| 03 초격차 리더십 | `cover-03.jpg` | [Christina @ wocintechchat.com M](https://unsplash.com/@wocintechchat) | [Unsplash](https://unsplash.com/photos/Q80LYxv_Tbs) |
+| 03 초격차 리더십 | `cover-03b.jpg` | [Christina @ wocintechchat.com M](https://unsplash.com/@wocintechchat) | [Unsplash](https://unsplash.com/photos/Q80LYxv_Tbs) |
 | 04 멘토링·코칭 스킬 | `cover-04.jpg` | [Vitaly Gariev](https://unsplash.com/@silverkblack) | [Unsplash](https://unsplash.com/photos/M2lMs1qK54g) |
 | 05 CS 고객 서비스·고객여정지도 | `cover-05.jpg` | [Vagaro](https://unsplash.com/@vagaro) | [Unsplash](https://unsplash.com/photos/LSOIjuBiIuQ) |
 | 06 비즈니스 매너·에티켓 | `cover-06.jpg` | [Radission US](https://unsplash.com/@radission) | [Unsplash](https://unsplash.com/photos/_XeQ8XEWb4Q) |
