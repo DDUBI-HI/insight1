@@ -6,7 +6,7 @@
 |---|---|---|---|
 | 01-cover | `cover.jpg` | [Vitaly Gariev](https://unsplash.com/@silverkblack) | [Unsplash](https://unsplash.com/photos/team-collaborating-around-a-computer-in-an-office-UikYLDQj9_I) |
 | 02-intro | `intro.jpg` | [Craig Lovelidge](https://unsplash.com/@craigology) | [Unsplash](https://unsplash.com/photos/an-empty-conference-room-with-desks-and-chairs-bV5dFLEYecM) |
-| 05-trend1-preboarding | `trend1-preboarding.jpg` | [Yen Vu](https://unsplash.com/@yenvu2410) | [Unsplash](https://unsplash.com/photos/notebook-and-laptop-sit-on-a-work-desk-TdgfSyDoWBE) |
+| 05-trend1-preboarding | `trend1-preboarding.jpg` | [Yen Vu - 烟雨](https://unsplash.com/@yenvu2410) | [Unsplash](https://unsplash.com/photos/notebook-and-laptop-sit-on-a-work-desk-TdgfSyDoWBE) |
 | 07-trend3-buddy | `trend3-buddy.jpg` | [Vitaly Gariev](https://unsplash.com/@silverkblack) | [Unsplash](https://unsplash.com/photos/colleagues-collaborating-at-a-modern-office-desk-0iTp1WNlMGc) |
 | 08-trend4-leader | `trend4-leader.jpg` | [Vitaly Gariev](https://unsplash.com/@silverkblack) | [Unsplash](https://unsplash.com/photos/two-colleagues-discussing-work-at-their-desks-so2ol7Wv0D0) |
 | 11-faq | `faq.jpg` | [Vitaly Gariev](https://unsplash.com/@silverkblack) | [Unsplash](https://unsplash.com/photos/two-professionals-shaking-hands-across-a-table-jEpZNyFSQwQ) |
