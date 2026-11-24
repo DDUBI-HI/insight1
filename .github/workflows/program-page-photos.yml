@@ -9,6 +9,7 @@ on:
   push:
     paths:
       - "program-page/photos/*/images.json"
+      - ".github/workflows/program-page-photos.yml"
   workflow_dispatch:
 
 concurrency:
@@ -30,7 +31,10 @@ jobs:
           node-version: "22"
 
       # 이미 받은 사진(사진가 정보가 기록된 항목)은 건너뛰므로 API 요청은 새 사진에만 씁니다.
+      # 요청 한도(데모 키 50회/시간, 사진 1장에 약 3회)에 걸려도 받은 사진은 커밋하고 마지막에 실패로 알립니다.
       - name: Unsplash 사진 받기
+        id: fetch
+        continue-on-error: true
         env:
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
         run: node cardnews/scripts/fetch-images.mjs program-page/photos/*/
@@ -50,4 +54,10 @@ jobs:
             git pull --rebase || { git rebase --abort; echo "::error::브랜치가 바뀌어 push 하지 못했습니다. 다시 실행하세요."; exit 1; }
           done
           echo "::error::사진을 push 하지 못했습니다."
+          exit 1
+
+      - name: 받지 못한 사진 알림
+        if: steps.fetch.outcome == 'failure'
+        run: |
+          echo "::error::받지 못한 사진이 있습니다. 요청 한도 초과면 1시간 뒤 images.json 을 다시 push 하거나 이 워크플로를 다시 실행하세요."
           exit 1
