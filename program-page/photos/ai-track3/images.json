@@ -1,0 +1,107 @@
+{
+  "width": 1600,
+  "images": [
+    {
+      "card": "01 AI 활용법 특강",
+      "file": "cover-01.jpg",
+      "unsplash": "",
+      "query": "conference speaker audience presentation"
+    },
+    {
+      "card": "02 AI 리터러시",
+      "file": "cover-02.jpg",
+      "unsplash": "",
+      "query": "woman using laptop chatbot office"
+    },
+    {
+      "card": "03 직무별 AI 실전",
+      "file": "cover-03.jpg",
+      "unsplash": "",
+      "query": "office worker laptop report desk"
+    },
+    {
+      "card": "04 ChatGPT 보고서·문서·PPT",
+      "file": "cover-04.jpg",
+      "unsplash": "",
+      "query": "business presentation slides laptop"
+    },
+    {
+      "card": "05 ChatGPT 데이터 처리·분석",
+      "file": "cover-05.jpg",
+      "unsplash": "",
+      "query": "data analytics charts laptop screen"
+    },
+    {
+      "card": "06 ChatGPT 업무활용",
+      "file": "cover-06.jpg",
+      "unsplash": "",
+      "query": "typing laptop artificial intelligence"
+    },
+    {
+      "card": "07 Gemini·Google Workspace",
+      "file": "cover-07.jpg",
+      "unsplash": "",
+      "query": "colleagues shared documents laptop collaboration"
+    },
+    {
+      "card": "08 Claude 업무활용",
+      "file": "cover-08.jpg",
+      "unsplash": "",
+      "query": "reading documents paperwork office"
+    },
+    {
+      "card": "09 MS Copilot·M365",
+      "file": "cover-09.jpg",
+      "unsplash": "",
+      "query": "spreadsheet excel laptop office"
+    },
+    {
+      "card": "10 AI 에이전트·AX 특강",
+      "file": "cover-10.jpg",
+      "unsplash": "",
+      "query": "technology seminar audience"
+    },
+    {
+      "card": "11 AI 에이전트 업무 자동화",
+      "file": "cover-11.jpg",
+      "unsplash": "",
+      "query": "robot artificial intelligence"
+    },
+    {
+      "card": "12 AI 바이브코딩 웹앱",
+      "file": "cover-12.jpg",
+      "unsplash": "",
+      "query": "code on laptop screen"
+    },
+    {
+      "card": "13 노코드 자동화",
+      "file": "cover-13.jpg",
+      "unsplash": "",
+      "query": "workflow automation diagram"
+    },
+    {
+      "card": "14 HR/HRD AI Agent",
+      "file": "cover-14.jpg",
+      "unsplash": "",
+      "query": "human resources team meeting"
+    },
+    {
+      "card": "15 AI 해커톤",
+      "file": "cover-15.jpg",
+      "unsplash": "",
+      "query": "hackathon team laptops"
+    },
+    {
+      "card": "16 AI 프로토타입 워크샵",
+      "file": "cover-16.jpg",
+      "unsplash": "",
+      "query": "team workshop sticky notes"
+    },
+    {
+      "card": "17 AX 리더",
+      "file": "cover-17.jpg",
+      "unsplash": "",
+      "query": "executives boardroom strategy meeting"
+    }
+  ]
+}
