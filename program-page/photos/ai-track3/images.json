@@ -5,104 +5,155 @@
     {
       "card": "01 AI 활용법 특강",
       "file": "cover-01.jpg",
-      "unsplash": "",
-      "query": "conference speaker audience presentation"
+      "unsplash": "F2KRf_QfCqw",
+      "query": "conference speaker audience presentation",
+      "page": "https://unsplash.com/photos/F2KRf_QfCqw",
+      "author": "Headway",
+      "author_url": "https://unsplash.com/@headwayio"
     },
     {
       "card": "02 AI 리터러시",
       "file": "cover-02.jpg",
-      "unsplash": "",
-      "query": "woman using laptop chatbot office"
+      "unsplash": "9yCYGgPe5Kg",
+      "query": "woman using laptop chatbot office",
+      "page": "https://unsplash.com/photos/9yCYGgPe5Kg",
+      "author": "Luke Southern",
+      "author_url": "https://unsplash.com/@lukesouthern"
     },
     {
       "card": "03 직무별 AI 실전",
       "file": "cover-03.jpg",
-      "unsplash": "",
-      "query": "office worker laptop report desk"
+      "unsplash": "jdS1UfbbIA8",
+      "query": "office worker laptop report desk",
+      "page": "https://unsplash.com/photos/jdS1UfbbIA8",
+      "author": "Mina Rad",
+      "author_url": "https://unsplash.com/@miinrad"
     },
     {
       "card": "04 ChatGPT 보고서·문서·PPT",
       "file": "cover-04.jpg",
-      "unsplash": "",
-      "query": "business presentation slides laptop"
+      "unsplash": "Im7lZjxeLhg",
+      "query": "business presentation slides laptop",
+      "page": "https://unsplash.com/photos/Im7lZjxeLhg",
+      "author": "Ales Nesetril",
+      "author_url": "https://unsplash.com/@alesnesetril"
     },
     {
       "card": "05 ChatGPT 데이터 처리·분석",
       "file": "cover-05.jpg",
-      "unsplash": "",
-      "query": "data analytics charts laptop screen"
+      "unsplash": "9PwLeZA-RGc",
+      "query": "data analytics charts laptop screen",
+      "page": "https://unsplash.com/photos/9PwLeZA-RGc",
+      "author": "Jakub Żerdzicki",
+      "author_url": "https://unsplash.com/@jakubzerdzicki"
     },
     {
       "card": "06 ChatGPT 업무활용",
       "file": "cover-06.jpg",
-      "unsplash": "",
-      "query": "typing laptop artificial intelligence"
+      "unsplash": "npxXWgQ33ZQ",
+      "query": "typing laptop artificial intelligence",
+      "page": "https://unsplash.com/photos/npxXWgQ33ZQ",
+      "author": "Glenn Carstens-Peters",
+      "author_url": "https://unsplash.com/@glenncarstenspeters"
     },
     {
       "card": "07 Gemini·Google Workspace",
       "file": "cover-07.jpg",
-      "unsplash": "",
-      "query": "colleagues shared documents laptop collaboration"
+      "unsplash": "g1Kr4Ozfoac",
+      "query": "colleagues shared documents laptop collaboration",
+      "page": "https://unsplash.com/photos/g1Kr4Ozfoac",
+      "author": "Brooke Cagle",
+      "author_url": "https://unsplash.com/@brookecagle"
     },
     {
       "card": "08 Claude 업무활용",
       "file": "cover-08.jpg",
-      "unsplash": "",
-      "query": "reading documents paperwork office"
+      "unsplash": "ecHGTPfjNfA",
+      "query": "reading documents paperwork office",
+      "page": "https://unsplash.com/photos/ecHGTPfjNfA",
+      "author": "Anastassia Anufrieva",
+      "author_url": "https://unsplash.com/@antoie"
     },
     {
       "card": "09 MS Copilot·M365",
       "file": "cover-09.jpg",
-      "unsplash": "",
-      "query": "spreadsheet excel laptop office"
+      "unsplash": "9fZuqBYlV1w",
+      "query": "spreadsheet excel laptop office",
+      "page": "https://unsplash.com/photos/9fZuqBYlV1w",
+      "author": "Gorilla ROI Data Connector",
+      "author_url": "https://unsplash.com/@gorillaroi"
     },
     {
       "card": "10 AI 에이전트·AX 특강",
       "file": "cover-10.jpg",
-      "unsplash": "",
-      "query": "technology seminar audience"
+      "unsplash": "F2KRf_QfCqw",
+      "query": "technology seminar audience",
+      "page": "https://unsplash.com/photos/F2KRf_QfCqw",
+      "author": "Headway",
+      "author_url": "https://unsplash.com/@headwayio"
     },
     {
       "card": "11 AI 에이전트 업무 자동화",
       "file": "cover-11.jpg",
-      "unsplash": "",
-      "query": "robot artificial intelligence"
+      "unsplash": "CjWsslYVnPI",
+      "query": "robot artificial intelligence",
+      "page": "https://unsplash.com/photos/CjWsslYVnPI",
+      "author": "Gabriele Malaspina",
+      "author_url": "https://unsplash.com/@gabrielemalaspina"
     },
     {
       "card": "12 AI 바이브코딩 웹앱",
       "file": "cover-12.jpg",
-      "unsplash": "",
-      "query": "code on laptop screen"
+      "unsplash": "ieic5Tq8YMk",
+      "query": "code on laptop screen",
+      "page": "https://unsplash.com/photos/ieic5Tq8YMk",
+      "author": "Chris Ried",
+      "author_url": "https://unsplash.com/@cdr6934"
     },
     {
       "card": "13 노코드 자동화",
       "file": "cover-13.jpg",
-      "unsplash": "",
-      "query": "workflow automation diagram"
+      "unsplash": "pLZBLmfL5-I",
+      "query": "workflow automation diagram",
+      "page": "https://unsplash.com/photos/pLZBLmfL5-I",
+      "author": "Amélie Mourichon",
+      "author_url": "https://unsplash.com/@amayli"
     },
     {
       "card": "14 HR/HRD AI Agent",
       "file": "cover-14.jpg",
-      "unsplash": "",
-      "query": "human resources team meeting"
+      "unsplash": "KdeqA3aTnBY",
+      "query": "human resources team meeting",
+      "page": "https://unsplash.com/photos/KdeqA3aTnBY",
+      "author": "Dylan Gillis",
+      "author_url": "https://unsplash.com/@mainermedia"
     },
     {
       "card": "15 AI 해커톤",
       "file": "cover-15.jpg",
-      "unsplash": "",
-      "query": "hackathon team laptops"
+      "unsplash": "SYTO3xs06fU",
+      "query": "hackathon team laptops",
+      "page": "https://unsplash.com/photos/SYTO3xs06fU",
+      "author": "Marvin Meyer",
+      "author_url": "https://unsplash.com/@marvelous"
     },
     {
       "card": "16 AI 프로토타입 워크샵",
       "file": "cover-16.jpg",
-      "unsplash": "",
-      "query": "team workshop sticky notes"
+      "unsplash": "MDu-53qRVr4",
+      "query": "team workshop sticky notes",
+      "page": "https://unsplash.com/photos/MDu-53qRVr4",
+      "author": "FORTYTWO",
+      "author_url": "https://unsplash.com/@byfortytwo"
     },
     {
       "card": "17 AX 리더",
       "file": "cover-17.jpg",
-      "unsplash": "",
-      "query": "executives boardroom strategy meeting"
+      "unsplash": "Q80LYxv_Tbs",
+      "query": "executives boardroom strategy meeting",
+      "page": "https://unsplash.com/photos/Q80LYxv_Tbs",
+      "author": "Christina @ wocintechchat.com M",
+      "author_url": "https://unsplash.com/@wocintechchat"
     }
   ]
 }
