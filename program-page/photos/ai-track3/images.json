@@ -22,12 +22,9 @@
     },
     {
       "card": "03 직무별 AI 실전",
-      "file": "cover-03.jpg",
-      "unsplash": "jdS1UfbbIA8",
-      "query": "office worker laptop report desk",
-      "page": "https://unsplash.com/photos/jdS1UfbbIA8",
-      "author": "Mina Rad",
-      "author_url": "https://unsplash.com/@miinrad"
+      "file": "cover-03b.jpg",
+      "unsplash": "",
+      "query": "team analyzing documents together office"
     },
     {
       "card": "04 ChatGPT 보고서·문서·PPT",
@@ -49,12 +46,9 @@
     },
     {
       "card": "06 ChatGPT 업무활용",
-      "file": "cover-06.jpg",
-      "unsplash": "npxXWgQ33ZQ",
-      "query": "typing laptop artificial intelligence",
-      "page": "https://unsplash.com/photos/npxXWgQ33ZQ",
-      "author": "Glenn Carstens-Peters",
-      "author_url": "https://unsplash.com/@glenncarstenspeters"
+      "file": "cover-06b.jpg",
+      "unsplash": "",
+      "query": "woman working laptop home office plants"
     },
     {
       "card": "07 Gemini·Google Workspace",
@@ -85,12 +79,9 @@
     },
     {
       "card": "10 AI 에이전트·AX 특강",
-      "file": "cover-10.jpg",
-      "unsplash": "F2KRf_QfCqw",
-      "query": "technology seminar audience",
-      "page": "https://unsplash.com/photos/F2KRf_QfCqw",
-      "author": "Headway",
-      "author_url": "https://unsplash.com/@headwayio"
+      "file": "cover-10b.jpg",
+      "unsplash": "",
+      "query": "speaker on stage technology conference"
     },
     {
       "card": "11 AI 에이전트 업무 자동화",
@@ -148,12 +139,9 @@
     },
     {
       "card": "17 AX 리더",
-      "file": "cover-17.jpg",
-      "unsplash": "Q80LYxv_Tbs",
-      "query": "executives boardroom strategy meeting",
-      "page": "https://unsplash.com/photos/Q80LYxv_Tbs",
-      "author": "Christina @ wocintechchat.com M",
-      "author_url": "https://unsplash.com/@wocintechchat"
+      "file": "cover-17b.jpg",
+      "unsplash": "",
+      "query": "senior executive leading meeting"
     }
   ]
 }
