@@ -105,7 +105,9 @@ for (const deck of decks) {
     const onDisk = await fs.stat(dest).then(() => true, () => false);
     // ID 가 정해진 사진은 같은 ID 로 받은 파일만 "있음" 으로 봅니다.
     const exists = onDisk && (!item.unsplash || !fetched[item.file] || fetched[item.file] === item.unsplash);
-    if (exists && !force && item.author) {
+    // unsplash 를 비우고 query 만 둔 항목은 새로 검색해야 하므로, 파일이 있어도 건너뛰지 않습니다.
+    const needsSearch = !item.unsplash && Boolean(item.query);
+    if (exists && !force && item.author && !needsSearch) {
       console.log(`  · ${item.file} (이미 있음)`);
       continue;
     }
@@ -116,19 +118,22 @@ for (const deck of decks) {
     }
     if (!KEY) {
       // 사진은 이미 있고 사진가 정보만 비어 있으면 그대로 두고 넘어갑니다. 받을 사진이 있을 때만 키가 필요합니다.
-      if (exists && !force) { console.log(`  · ${item.file} (이미 있음, 키가 없어 사진가 정보는 건너뜀)`); continue; }
+      if (exists && !force && !needsSearch) { console.log(`  · ${item.file} (이미 있음, 키가 없어 사진가 정보는 건너뜀)`); continue; }
       keyMissing = true;
       failed++;
       console.error(`  ✗ ${item.file}: 사진을 받으려면 UNSPLASH_ACCESS_KEY 가 필요합니다`);
       continue;
     }
     try {
+      let searched = false;
       if (!item.unsplash) {
         item.unsplash = await searchId(item.query);
         item.page = `https://unsplash.com/photos/${item.unsplash}`;
+        searched = true;
       }
       const info = await resolve(item.unsplash, width);
-      if (!exists || force) {
+      // exists 는 검색 전에 계산한 값이라, 검색으로 고른 사진이 지금 파일(받은 기록)과 다르면 덮어써야 합니다.
+      if (!exists || force || (searched && fetched[item.file] !== item.unsplash)) {
         const res = await get(info.url);
         const type = res.headers.get("content-type") || "";
         const buf = Buffer.from(await res.arrayBuffer());
