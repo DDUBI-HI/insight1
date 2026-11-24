@@ -23,8 +23,11 @@
     {
       "card": "03 직무별 AI 실전",
       "file": "cover-03b.jpg",
-      "unsplash": "",
-      "query": "team analyzing documents together office"
+      "unsplash": "MhqUBTxQ3Hw",
+      "query": "team analyzing documents together office",
+      "page": "https://unsplash.com/photos/MhqUBTxQ3Hw",
+      "author": "Olena Kholina",
+      "author_url": "https://unsplash.com/@sixtynice"
     },
     {
       "card": "04 ChatGPT 보고서·문서·PPT",
@@ -47,8 +50,11 @@
     {
       "card": "06 ChatGPT 업무활용",
       "file": "cover-06b.jpg",
-      "unsplash": "",
-      "query": "woman working laptop home office plants"
+      "unsplash": "N9zoS5-DzkY",
+      "query": "woman working laptop home office plants",
+      "page": "https://unsplash.com/photos/N9zoS5-DzkY",
+      "author": "Ryan H.",
+      "author_url": "https://unsplash.com/@alekseyryan"
     },
     {
       "card": "07 Gemini·Google Workspace",
@@ -80,8 +86,11 @@
     {
       "card": "10 AI 에이전트·AX 특강",
       "file": "cover-10b.jpg",
-      "unsplash": "",
-      "query": "speaker on stage technology conference"
+      "unsplash": "6vAjp0pscX0",
+      "query": "speaker on stage technology conference",
+      "page": "https://unsplash.com/photos/6vAjp0pscX0",
+      "author": "Alexandre Pellaes",
+      "author_url": "https://unsplash.com/@apellaes"
     },
     {
       "card": "11 AI 에이전트 업무 자동화",
@@ -140,8 +149,11 @@
     {
       "card": "17 AX 리더",
       "file": "cover-17b.jpg",
-      "unsplash": "",
-      "query": "senior executive leading meeting"
+      "unsplash": "gMsnXqILjp4",
+      "query": "senior executive leading meeting",
+      "page": "https://unsplash.com/photos/gMsnXqILjp4",
+      "author": "Campaign Creators",
+      "author_url": "https://unsplash.com/@campaign_creators"
     }
   ]
 }
