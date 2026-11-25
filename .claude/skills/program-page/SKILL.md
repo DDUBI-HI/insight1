@@ -64,6 +64,10 @@ node program-page/scripts/build.mjs output/program-page/<slug>/page.json
 
 ### 4. 전달
 - PNG 를 사용자에게 보낸다 (여러 과정이면 모두). `output/` 은 커밋하지 않는다 (공개 저장소).
+- 여러 장을 묶어 보낼 때는 `output/_deliver/<이름>.zip` 으로 압축하되 **셸 `zip` 명령을 쓰지 않는다**: 한글 파일명에 UTF-8 표시가 빠져 Windows 탐색기에서 빈 압축 파일처럼 보인다. Python `zipfile` 로 묶는다 (한글 이름이면 UTF-8 표시가 자동으로 붙는다):
+  ```bash
+  python3 -c "import zipfile,sys,os; z=zipfile.ZipFile(sys.argv[1],'w',zipfile.ZIP_DEFLATED); [z.write(f,os.path.basename(f)) for f in sys.argv[2:]]" output/_deliver/<이름>.zip <파일들…>
+  ```
 - 함께 알릴 것:
   - 유형 판별 결과와 고른 섹션 구성 (한 줄)
   - 원본에서 바꾸거나 묶은 것: 모듈 묶음, 지운 고객사 정보, 줄인 문구
