@@ -63,12 +63,13 @@ async function searchId(query) {
   // Unsplash+ (유료) 사진은 건너뛰고 무료 사진 중 첫 번째를 고릅니다.
   const free = (json.results || []).find((p) => !p.premium && !p.plus);
   if (!free) throw new Error(`"${query}": 무료 사진 검색 결과 없음`);
-  return free.id;
+  return free;
 }
 
 // 공식 Unsplash API 로 사진 정보를 가져옵니다 → { url, author, authorUrl }
-async function resolve(id, width) {
-  const p = await (await get(`https://api.unsplash.com/photos/${encodeURIComponent(id)}`)).json();
+// 검색 결과에 이미 사진 정보가 있으면(searched) 다시 묻지 않아 요청 한도를 아낍니다.
+async function resolve(id, width, searched = null) {
+  const p = searched || await (await get(`https://api.unsplash.com/photos/${encodeURIComponent(id)}`)).json();
   // API 가이드라인: 사진을 쓸 때 download_location 을 호출해 다운로드를 집계합니다.
   await get(p.links.download_location).catch(() => {});
   return { url: sized(p.urls.raw, width), author: p.user?.name, authorUrl: p.user?.links?.html };
@@ -123,11 +124,13 @@ for (const deck of decks) {
       continue;
     }
     try {
+      let searched = null;
       if (!item.unsplash) {
-        item.unsplash = await searchId(item.query);
+        searched = await searchId(item.query);
+        item.unsplash = searched.id;
         item.page = `https://unsplash.com/photos/${item.unsplash}`;
       }
-      const info = await resolve(item.unsplash, width);
+      const info = await resolve(item.unsplash, width, searched);
       if (!exists || force) {
         const res = await get(info.url);
         const type = res.headers.get("content-type") || "";

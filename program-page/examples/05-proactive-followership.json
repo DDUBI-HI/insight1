@@ -1,0 +1,39 @@
+{
+  "name": "성과를만드는_프로액티브팔로워십",
+  "type": "solution",
+  "category": "SOLUTION PROGRAM",
+  "title": "성과를 만드는 프로액티브 팔로워십",
+  "info": [
+    { "icon": "user", "label": "추천 대상", "value": "신입 · 주니어를 포함한 전 구성원" },
+    { "icon": "clock", "label": "교육 시간", "value": "4시간" }
+  ],
+  "sections": [
+    {
+      "type": "checks", "en": "EDUCATION GOAL", "title": "교육 목표",
+      "items": [
+        "효과적인 리더로 성장하기 위한 팔로워십의 중요성을 인지한다",
+        "부하직원으로서 바람직한 모범형 팔로워로의 행동변화를 유도한다",
+        "상사의 커뮤니케이션 스타일, 강점과 약점 및 사원의 이해를 바탕으로\n효과적인 세대간 소통의 핵심역할을 수행한다"
+      ]
+    },
+    {
+      "type": "modules", "en": "PROGRAM", "title": "교육 내용",
+      "items": [
+        { "title": "팔로워십의 이해", "desc": "조직의 역할 기대 및 팔로워의 역할과 역량 이해" },
+        { "title": "나의 팔로워십 유형 이해 및 개발", "desc": "팔로워십의 중요성과 유형 진단 | 바람직한 팔로워십 발휘를 위한 행동 전략" },
+        { "title": "상사 행동 유형별 대응 (업무/관계)", "desc": "DISC 행동 유형 이해 | 유형별 상사 대응" }
+      ]
+    },
+    {
+      "type": "images", "en": "EXAMPLE", "title": "참고자료", "columns": 3,
+      "items": [
+        { "image": "", "sample": true },
+        { "image": "", "sample": true },
+        { "image": "", "sample": true },
+        { "image": "" },
+        { "image": "" },
+        { "image": "" }
+      ]
+    }
+  ]
+}
