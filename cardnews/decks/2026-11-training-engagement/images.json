@@ -1,0 +1,54 @@
+{
+  "width": 1600,
+  "images": [
+    {
+      "file": "cover.jpg",
+      "card": "01-cover",
+      "query": "empty training room chairs projector screen",
+      "unsplash": "slLtsFgd8Z4",
+      "page": "https://unsplash.com/photos/a-large-screen-in-an-empty-room-with-chairs-slLtsFgd8Z4"
+    },
+    {
+      "file": "intro.jpg",
+      "card": "02-intro",
+      "query": "woman using laptop calendar planning desk",
+      "unsplash": "Oi2MLu1vf94",
+      "page": "https://unsplash.com/photos/woman-using-laptop-with-october-2025-calendar-displayed-Oi2MLu1vf94"
+    },
+    {
+      "file": "time.jpg",
+      "card": "05-lever1-time",
+      "query": "round analog wall clock office desk",
+      "unsplash": "_cyiFJpDQuY",
+      "page": "https://unsplash.com/photos/round-black-and-white-analog-wall-clock-_cyiFJpDQuY"
+    },
+    {
+      "file": "relevance.jpg",
+      "card": "06-lever2-relevance",
+      "query": "employee focused working at computer workplace",
+      "unsplash": "NOZETh4j2FE",
+      "page": "https://unsplash.com/photos/a-man-sitting-in-front-of-a-laptop-computer-NOZETh4j2FE"
+    },
+    {
+      "file": "active.jpg",
+      "card": "07-lever3-active",
+      "query": "workshop participants collaborating group discussion",
+      "unsplash": "oiqFyLx_KDU",
+      "page": "https://unsplash.com/photos/diverse-team-collaborating-around-a-table-in-office-oiqFyLx_KDU"
+    },
+    {
+      "file": "faq.jpg",
+      "card": "11-faq",
+      "query": "two colleagues discussing plan at office desk",
+      "unsplash": "UOalOTfpzlE",
+      "page": "https://unsplash.com/photos/two-colleagues-discussing-work-at-a-desk-UOalOTfpzlE"
+    },
+    {
+      "file": "closing.jpg",
+      "card": "13-closing",
+      "query": "bright modern office lobby entrance people walking",
+      "unsplash": "fhD2TTSWfG0",
+      "page": "https://unsplash.com/photos/modern-building-entrance-with-people-walking-inside-fhD2TTSWfG0"
+    }
+  ]
+}

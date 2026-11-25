@@ -1,0 +1,161 @@
+{
+  "slug": "2026-11-training-engagement",
+  "title": "왜 직원들은 교육에 오지 않을까",
+  "topic": "직원 교육 참여율 - 참여를 높이는 5가지 설계",
+  "audience": "기업 HRD·교육기획 담당자",
+  "sources": [],
+  "caption": {
+    "body": [
+      "왜 공들여 만든 교육에 직원들은 오지 않을까요?",
+      "",
+      "참여율이 낮은 건 직원 탓이 아닙니다.",
+      "안 오는 이유는 대개 교육 설계에 있습니다.",
+      "",
+      "직원 교육 참여를 높이는 5가지 설계입니다.",
+      "",
+      "01 시간을 확보한다 — 교육을 업무 시간에 공식 일정으로 배정합니다",
+      "02 직무와 연결한다 — 내 일에 바로 쓸 내용으로 설계합니다",
+      "03 참여형으로 바꾼다 — 듣기만 하지 않고 직접 해보게 설계합니다",
+      "04 리더를 움직인다 — 팀장이 교육을 보내고 함께 챙기게 합니다",
+      "05 쓰고 인정한다 — 배운 것을 적용하고 성과를 인정합니다",
+      "",
+      "10번째 장의 셀프 점검으로 우리 회사 교육을 확인해 보세요.",
+      "",
+      "직원이 스스로 찾아오는 교육을 설계하고 싶으시다면 인싸이트러닝이 함께합니다.",
+      "문의는 프로필 링크에서 남겨 주세요."
+    ],
+    "hashtags": [
+      "기업교육",
+      "HRD",
+      "교육기획",
+      "교육참여",
+      "학습몰입",
+      "교육설계",
+      "직원교육",
+      "인재개발",
+      "조직문화",
+      "인사담당자",
+      "교육담당자",
+      "인싸이트러닝"
+    ]
+  },
+  "cards": [
+    {
+      "template": "cn-cover", "name": "cover",
+      "pill": "HRD 담당자 필독",
+      "title": ["왜 직원들은", "교육에 안 올까"],
+      "subtitle": "참여를 높이는 5가지 설계",
+      "photo": { "file": "cover.jpg", "unsplash": "slLtsFgd8Z4", "page": "https://unsplash.com/photos/a-large-screen-in-an-empty-room-with-chairs-slLtsFgd8Z4", "query": "empty training room chairs projector screen", "alt": "빈 의자가 놓인 교육장과 스크린" }
+    },
+    {
+      "template": "cn-intro", "name": "intro",
+      "eyebrow": "교육 참여의 문제",
+      "title": ["참여율이 낮은 건", "직원 탓이 아닙니다"],
+      "point": "안 오는 이유는 대개 설계에 있습니다",
+      "photo": { "file": "intro.jpg", "unsplash": "Oi2MLu1vf94", "page": "https://unsplash.com/photos/woman-using-laptop-with-october-2025-calendar-displayed-Oi2MLu1vf94", "query": "woman using laptop calendar planning desk", "alt": "노트북으로 일정을 계획하는 모습" }
+    },
+    {
+      "template": "cn-compare", "name": "skip-vs-show",
+      "kicker": "WHY THEY SKIP",
+      "title": ["안 오는 교육과", "오고 싶은 교육"],
+      "before_label": "안 오는 교육",
+      "after_label": "오고 싶은 교육",
+      "rows": [
+        { "before": ["바쁜데 알아서", "들으라고"], "after": ["업무 시간에", "공식 배정"] },
+        { "before": ["전 직원", "같은 내용"], "after": ["내 직무에", "쓸 내용"] },
+        { "before": ["앉아서 강의", "듣기만"], "after": ["직접 해보는", "실습 중심"] },
+        { "before": ["팀장은", "뒷짐"], "after": ["리더가 함께", "챙김"] }
+      ]
+    },
+    {
+      "template": "cn-summary", "name": "five-levers", "label": "한눈에 보기",
+      "kicker": "5 LEVERS",
+      "title": ["참여를 높이는", "5가지 설계"],
+      "rows": [
+        { "title": "시간을 확보한다", "desc": "교육을 업무 시간에 공식 일정으로 배정합니다" },
+        { "title": "직무와 연결한다", "desc": "내 일에 바로 쓸 내용으로 설계합니다" },
+        { "title": "참여형으로 바꾼다", "desc": "듣기만 하지 않고 직접 해보게 설계합니다" },
+        { "title": "리더를 움직인다", "desc": "팀장이 교육을 보내고 함께 챙기게 합니다" },
+        { "title": "쓰고 인정한다", "desc": "배운 것을 적용하고 성과를 인정합니다" }
+      ]
+    },
+    {
+      "template": "cn-feature", "name": "lever1-time", "label": "LEVER 01",
+      "kicker": "LEVER 01",
+      "title": ["교육 시간은", "*업무 시간입니다*"],
+      "desc": ["따로 내는 시간이 아니라", "공식 일정으로 배정합니다"],
+      "photo": { "file": "time.jpg", "unsplash": "_cyiFJpDQuY", "page": "https://unsplash.com/photos/round-black-and-white-analog-wall-clock-_cyiFJpDQuY", "query": "round analog wall clock office desk", "alt": "사무실 책상 위의 아날로그 벽시계" }
+    },
+    {
+      "template": "cn-story", "name": "lever2-relevance", "label": "LEVER 02",
+      "eyebrow": "LEVER 02",
+      "title": "쓸 데 있어야 옵니다",
+      "body": "전 직원에게 같은 내용을 전하면 대부분은 내 일과 멀다고 느낍니다. 직무와 역할에 맞춰 내용을 고르고 지금 겪는 과제를 다룰 때, 직원은 시간을 내서라도 참여합니다.",
+      "photo": { "file": "relevance.jpg", "unsplash": "NOZETh4j2FE", "page": "https://unsplash.com/photos/a-man-sitting-in-front-of-a-laptop-computer-NOZETh4j2FE", "query": "employee focused working at computer workplace", "alt": "컴퓨터 앞에서 업무에 집중하는 직원" }
+    },
+    {
+      "template": "cn-split", "name": "lever3-active", "label": "LEVER 03",
+      "kicker": "LEVER 03",
+      "title": ["듣기만 하는 교육은", "*기억에 남지 않습니다*"],
+      "checks": [
+        "사전 과제로 미리 생각해 옵니다",
+        "실습과 토론으로 직접 해봅니다",
+        "현업 사례로 바로 적용해 봅니다"
+      ],
+      "photo": { "file": "active.jpg", "unsplash": "oiqFyLx_KDU", "page": "https://unsplash.com/photos/diverse-team-collaborating-around-a-table-in-office-oiqFyLx_KDU", "query": "workshop participants collaborating group discussion", "alt": "그룹으로 토론하며 참여하는 워크숍 참가자들" }
+    },
+    {
+      "template": "cn-grid", "name": "lever4-leader", "label": "LEVER 04",
+      "kicker": "LEVER 04",
+      "title": ["참여는 팀장에서", "갈립니다"],
+      "sub": "리더가 하는 4가지",
+      "tiles": [
+        { "title": "일정 보호", "desc": "교육 시간을 지켜 줍니다" },
+        { "title": "참여 독려", "desc": "왜 필요한지 설명합니다" },
+        { "title": "함께 학습", "desc": "리더도 같이 배웁니다", "point": true },
+        { "title": "적용 점검", "desc": "복귀 후 적용을 챙깁니다", "point": true }
+      ],
+      "note": "교육 참여는 **리더의 지원**에서 시작합니다"
+    },
+    {
+      "template": "cn-steps", "name": "lever5-apply", "label": "LEVER 05",
+      "kicker": "LEVER 05",
+      "title": ["배우고 끝이 아니라", "*쓰고 인정받게*"],
+      "steps": [
+        { "label": "STEP 1 · 적용", "title": "적용 기회", "desc": "배운 것을 현업에 바로 써 봅니다" },
+        { "label": "STEP 2 · 공유", "title": "경험 공유", "desc": "적용 경험을 팀과 나눕니다" },
+        { "label": "STEP 3 · 인정", "title": "성과 인정", "desc": "달라진 점을 찾아 인정합니다", "point": true },
+        { "label": "STEP 4 · 반영", "title": "다음 설계", "desc": "반응을 다음 교육에 반영합니다" }
+      ]
+    },
+    {
+      "template": "cn-checklist", "name": "self-check", "label": "셀프 점검",
+      "title": "우리 교육, 왜 안 올까요",
+      "items": [
+        { "num": "Q1", "title": "시간을 보장하나요?", "desc": ["알아서 시간 내라고 하나요,", "업무 시간에 배정하나요"] },
+        { "num": "Q2", "title": "내 일과 연결되나요?", "desc": ["전 직원 같은 내용인가요,", "직무에 맞춘 내용인가요"] },
+        { "num": "Q3", "title": "리더가 챙기나요?", "desc": ["팀장은 뒷짐인가요,", "함께 보내고 챙기나요"] }
+      ]
+    },
+    {
+      "template": "cn-faq", "name": "faq",
+      "title": ["교육기획 담당자가", "자주 묻는 질문"],
+      "question": ["참여를 강제하지 않고", "높일 수 있나요?"],
+      "answer": ["강제보다 시간·직무·리더를", "설계하면 자연히 높아집니다"],
+      "photo": { "file": "faq.jpg", "unsplash": "UOalOTfpzlE", "page": "https://unsplash.com/photos/two-colleagues-discussing-work-at-a-desk-UOalOTfpzlE", "query": "two colleagues discussing plan at office desk", "alt": "사무실 책상에서 계획을 논의하는 두 동료" }
+    },
+    {
+      "template": "cn-statement", "name": "statement",
+      "kicker": "KEY MESSAGE",
+      "title": ["안 오는 건", "직원 탓이 아니라", "*설계 탓*입니다"],
+      "desc": ["시간·직무·방식·리더·인정을", "설계하면 직원은 옵니다"],
+      "foot": "INSIGHT LEARNING"
+    },
+    {
+      "template": "cn-closing", "name": "closing",
+      "lead": ["직원이 스스로", "찾아오는 교육으로"],
+      "title": "인싸이트러닝이 함께합니다",
+      "photo": { "file": "closing.jpg", "unsplash": "fhD2TTSWfG0", "page": "https://unsplash.com/photos/modern-building-entrance-with-people-walking-inside-fhD2TTSWfG0", "query": "bright modern office lobby entrance people walking", "alt": "사람들이 오가는 밝은 사무실 로비" }
+    }
+  ]
+}
